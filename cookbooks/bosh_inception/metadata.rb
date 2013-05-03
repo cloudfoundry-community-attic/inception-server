@@ -6,3 +6,4 @@ long_description  IO.read(File.expand_path('../README.md', __FILE__))
 depends "apt"
 depends "user"
 depends "sudo"
+depends "rvm"
