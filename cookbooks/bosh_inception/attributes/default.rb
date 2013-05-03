@@ -8,6 +8,7 @@ default["rvm"]["global_gems"] = [
   { "name"    => "rake" },
   { "name"    => "jazor" },
   { "name"    => "yaml_command" },
+  { "name"    => "chef" },
   { "name"    => "rubygems-bundler",
     "action"  => "remove"
   }
