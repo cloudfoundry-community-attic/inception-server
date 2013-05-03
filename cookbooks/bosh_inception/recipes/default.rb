@@ -1,1 +1,2 @@
-include_recipe "bosh_inception::create_vcap_user"
+include_recipe "bosh_inception::vcap_user"
+include_recipe "bosh_inception::useful_dirs"
