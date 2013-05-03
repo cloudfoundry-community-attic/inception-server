@@ -14,3 +14,10 @@
   run sudo grep "%vcap  ALL=(vcap) ALL" /etc/sudoers.d/vcap
   [ "$status" -eq 0 ]
 }
+
+@test "~vcap/.bosh_cache symlink" {
+  run readlink ~vcap/.bosh_cache
+  [ "${lines[0]}" = "/var/vcap/store/bosh_cache" ]
+}
+
+

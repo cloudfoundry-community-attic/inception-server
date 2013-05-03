@@ -7,3 +7,7 @@
     action :create
   end
 end
+
+link "/home/vcap/.bosh_cache" do
+  to "/var/vcap/store/bosh_cache"
+end
