@@ -1,3 +1,12 @@
+#
+# Cookbook Name:: bosh_inception
+# Recipe:: git_config
+#
+# Copyright (c) 2013 Dr Nic Williams, Stark & Wayne, LLC
+#
+# MIT License
+#
+
 execute "git config user.name" do
   command "git config --global user.name #{node.git.name}"
   user "vcap"
