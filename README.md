@@ -14,6 +14,15 @@ This tool is distributed as a RubyGem. It requires Ruby 1.9+.
 
 TODO: Write usage instructions here
 
+## Development
+
+One half of the functionality is in a Chef cookbook `bosh_inception`. To load this cookbook into a Vagrant VM and run a series of integration tests (via `test-kitchen`):
+
+```
+$ bundle
+$ kitchen test
+```
+
 ## Contributing
 
 1. Fork it
