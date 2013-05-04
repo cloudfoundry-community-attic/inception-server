@@ -10,3 +10,8 @@
   run git config -f ~vcap/.gitconfig user.email
   [ "${lines[0]}" = "nobody@in-the-house.com" ]
 }
+
+@test "hub installed" {
+  run hub
+  [ "$status" -eq 0 ]
+}
