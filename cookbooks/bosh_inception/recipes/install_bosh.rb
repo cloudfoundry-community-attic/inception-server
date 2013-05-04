@@ -1,6 +1,25 @@
-rvm_gem "bosh_cli_plugin_micro" do
-  ruby_string node.rvm.default_ruby
-  version "~> 1.5.0.pre"
-  source  "https://s3.amazonaws.com/bosh-jenkins-gems/"
-  action  :install
+cookbook_file "/var/vcap/store/microboshes/Gemfile" do
+  source "Gemfile.micro"
+  owner "vcap"
+  group "vcap"
+  mode "0644"
+end
+
+execute "install bosh micro" do
+  command "bundle install"
+  cwd "/var/vcap/store/microboshes"
+  action :run
+end
+
+cookbook_file "/var/vcap/store/systems/Gemfile" do
+  source "Gemfile.cf"
+  owner "vcap"
+  group "vcap"
+  mode "0644"
+end
+
+execute "install bosh cf" do
+  command "bundle install"
+  cwd "/var/vcap/store/systems"
+  action :run
 end
