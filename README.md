@@ -20,7 +20,8 @@ One half of the functionality is in a Chef cookbook `bosh_inception`. To load th
 
 ```
 $ bundle
-$ kitchen test
+$ kitchen test virtualbox
+$ kitchen test vmware # if you have vagrant vmware plugin
 ```
 
 ## Contributing

@@ -2,7 +2,7 @@
 driver_plugin: vagrant
 
 platforms:
-- name: precise64
+- name: precise64_virtualbox
   driver_config:
     provider: virtualbox
     box: precise64
