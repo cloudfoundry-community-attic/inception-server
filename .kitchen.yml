@@ -2,7 +2,13 @@
 driver_plugin: vagrant
 
 platforms:
-- name: canonical-ubuntu-12.04
+- name: precise64
+  driver_config:
+    provider: virtualbox
+    box: precise64
+    box_url: http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
+    require_chef_omnibus: true
+- name: precise64_vmware_fusion
   driver_config:
     provider: vmware_fusion
     box: precise64
