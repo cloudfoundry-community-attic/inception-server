@@ -23,7 +23,7 @@ This project includes both a standalone CLI to create an Inception VM or transfo
 To create a remote Inception VM, normally in the IaaS/region that you will be working with BOSH:
 
 ```
-$ bosh-inception create
+$ bosh-inception deploy
 
 Stage 1: Choose infrastructure
 
@@ -73,8 +73,10 @@ Running: knife solo bootstrap...
 
 ### CLI usage - upgrade existing remote Inception VM
 
+You can upgrade your remote Inception VM at any time by re-running the `deploy` command.
+
 ```
-$ bosh-inception upgrade
+$ bosh-inception deploy
 ... lots of chef output ...
 ```
 
