@@ -210,8 +210,10 @@ class Bosh::Providers::AWS < Bosh::Providers::FogProvider
     end
 
     server.save
-    server.wait_for { ready? }
-    server.setup(:keys => [private_key_path])
+    unless Fog.mocking?
+      server.wait_for { ready? }
+      server.setup(:keys => [private_key_path])
+    end
     server
   end
 

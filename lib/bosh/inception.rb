@@ -5,3 +5,6 @@ module Bosh
     # Your code goes here...
   end
 end
+
+require "bosh/providers"
+require "bosh/inception/inception_server"

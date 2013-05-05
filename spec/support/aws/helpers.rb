@@ -10,7 +10,7 @@ module AwsHelpers
   end
 
   def fog
-    @fog ||= connection = Fog::Compute.new(fog_credentials.merge(:region => region))
+    @fog ||= Fog::Compute.new(fog_credentials.merge(:region => region))
   end
 
   def fog_credentials
