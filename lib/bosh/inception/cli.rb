@@ -33,10 +33,24 @@ module Bosh::Inception
       If a command is supplied, it will be run, otherwise a session will be opened.
     DESC
     def ssh(cmd=nil)
-      error "Not implemented yet"
+      migrate_old_settings
+      run_ssh_command_or_open_tunnel(cmd)
+    end
+
+    desc "tmux", "Open an ssh (with tmux) session to the inception VM [do nothing if local machine is inception VM]"
+    long_desc <<-DESC
+      Opens a connection using ssh and attaches to the most recent tmux session;
+      giving you persistance across disconnects.
+    DESC
+    def tmux
+      migrate_old_settings
+      run_ssh_command_or_open_tunnel(["-t", "tmux attach || tmux new-session"])
     end
 
     no_tasks do
+      def run_ssh_command_or_open_tunnel(*args)
+        error "Method not implemented: Cli#run_ssh_command_or_open_tunnel"
+      end
     end
   end
 end
