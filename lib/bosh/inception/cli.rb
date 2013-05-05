@@ -8,24 +8,23 @@ require "rake/file_utils"
 
 require "escape"
 require "bosh/inception/cli_helpers/display"
+require "bosh/inception/cli_helpers/settings"
 
 module Bosh::Inception
   class Cli < Thor
     include Thor::Actions
     include Bosh::Inception::CliHelpers::Display
+    include Bosh::Inception::CliHelpers::Settings
 
-    desc "create", "Create a Bosh Inception VM"
-    def create
-      error "Not implemented yet"
-    end
-
-    desc "upgrade", "Upgrade target Bosh Inception VM"
-    def upgrade
+    desc "deploy", "Create/upgrade a Bosh Inception VM"
+    def deploy
+      migrate_old_settings
       error "Not implemented yet"
     end
 
     desc "destroy", "Destroy target Bosh Inception VM"
     def destroy
+      migrate_old_settings
       error "Not implemented yet"
     end
 

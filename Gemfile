@@ -5,3 +5,5 @@ gemspec
 gem 'test-kitchen', :group => :integration
 gem 'kitchen-vagrant', github: 'intoximeters/kitchen-vagrant', branch: 'add-vmware-support'
 # gem 'kitchen-vagrant', :group => :integration
+
+gem "settingslogic", github: "drnic/settingslogic", branch: "integration"
