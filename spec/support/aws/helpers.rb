@@ -1,4 +1,18 @@
 module AwsHelpers
+  include SettingsHelper
+
+  def keep_after_test?
+    ENV['KEEP_AFTER_TEST']
+  end
+
+  def region
+    @region ||= "us-west-2"
+  end
+
+  def fog
+    @fog ||= connection = Fog::Compute.new(fog_credentials.merge(:region => region))
+  end
+
   def fog_credentials
     @fog_credentials ||= begin
       access_key = ENV['AWS_ACCESS_KEY_ID']
@@ -14,25 +28,12 @@ module AwsHelpers
     end
   end
 
-  def keep_after_test?
-    ENV['KEEP_AFTER_TEST']
-  end
-
-  def fog
-    @fog ||= connection = Fog::Compute.new(fog_credentials.merge(:region => aws_region))
-  end
-
   def cmd
     @cmd ||= Bosh::Inception::Cli.new
   end
 
   def provider
     cmd.provider
-  end
-
-  # used by +SettingsSetter+ to access the settings
-  def settings
-    cmd.settings
   end
 
   def prepare_aws(spec_name, aws_region)
@@ -51,7 +52,7 @@ module AwsHelpers
     credentials = options.delete(:credentials) || fog_credentials.stringify_keys
     setting "provider.name", "aws"
     setting "provider.credentials", credentials
-    setting "provider.region", aws_region
+    setting "provider.region", region
     setting "git.name", "Dr Nic Williams"
     setting "git.email", "drnicwilliams@gmail.com"
     options.each { |key, value| setting(key, value) }
