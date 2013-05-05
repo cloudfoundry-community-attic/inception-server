@@ -8,7 +8,7 @@ module Bosh::Inception::CliHelpers
     # Defaults to ~/.bosh_inception; and can be overridden with either:
     # * $SETTINGS - to a folder (supported method)
     def settings_dir
-      @settings_dir ||= (ENV["SETTINGS"] || "~/.bosh_inception")
+      @settings_dir ||= File.expand_path(ENV["SETTINGS"] || "~/.bosh_inception")
     end
 
     def settings_path
