@@ -2,7 +2,7 @@ module Bosh::Inception::CliHelpers
   module Provider
     def provider_client
       @provider_client ||= begin
-        Bosh::Providers.for_bosh_provider(settings.provider.name, settings.provider.credentials)
+        Bosh::Providers.for_bosh_provider(settings.provider.name, settings.provider.region, settings.provider.credentials)
       end
     end
 

@@ -7,8 +7,12 @@ module Bosh::Providers
 
   # returns a BOSH provider (CPI) specific object
   # with helpers related to that provider
-  def for_bosh_provider(provider_name, credentials)
-    fog_compute = Fog::Compute.new(credentials.merge(provider: fog_provider_for(provider_name)))
+  def for_bosh_provider(provider_name, provider_region, credentials)
+    provider = {
+      provider: fog_provider_for(provider_name),
+      region: provider_region
+    }
+    fog_compute = Fog::Compute.new(credentials.merge(provider))
     case provider_name.to_sym
     when :aws
       require "bosh/providers/aws"
