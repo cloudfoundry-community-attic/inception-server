@@ -25,7 +25,11 @@ module Bosh::Inception::CliHelpers
       end
     end
 
+    # Saves current nested Settingslogic into pure Hash-based YAML file
+    # Recreates accessors on Settingslogic object (since something has changed)
     def save_settings!
+      File.open(settings_path, "w") { |f| f << settings.to_nested_hash.to_yaml }
+      settings.create_accessors!
     end
 
     def migrate_old_settings
