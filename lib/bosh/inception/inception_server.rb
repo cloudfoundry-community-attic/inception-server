@@ -173,7 +173,7 @@ module Bosh::Inception
 
     def attach_persistent_disk
       unless Fog.mocking?
-        Fog.wait_for(60) { server.sshable? }
+        Fog.wait_for(60) { fog_server.sshable?(ssh_options) }
       end
 
       unless @provider_client.find_server_device(fog_server, disk_device)
@@ -182,9 +182,15 @@ module Bosh::Inception
       end
     end
 
+    def ssh_options
+      {
+        keys: [private_key_path]
+      }
+    end
+
     def fog_server
       @fog_server ||= begin
-        if server_id = provisioned.exists?("server_id")
+        if server_id = provisioned["server_id"]
           @provider_client.fog_compute.servers.get(server_id)
         end
       end
