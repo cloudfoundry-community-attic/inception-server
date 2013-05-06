@@ -24,6 +24,7 @@ module Bosh::Inception
       migrate_old_settings
       prepare_deploy_settings
       validate_deploy_settings
+      perform_deploy
     end
 
     desc "destroy", "Destroy target Bosh Inception VM"
@@ -136,6 +137,15 @@ module Bosh::Inception
         rescue Settingslogic::MissingSetting => e
           error "Wooh there, we need inception.ip_address, inception.key_pair.name, & inception.key_pair.private_key in settings.yml to proceed."
         end
+      end
+
+      def perform_deploy
+        server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
+        server.create
+      ensure
+        # after any error handling, still save the current InceptionServer state back into settings.inception
+        settings["inception"] = server.attributes
+        save_settings!
       end
 
       def run_ssh_command_or_open_tunnel(*args)

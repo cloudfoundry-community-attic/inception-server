@@ -37,17 +37,33 @@ module Bosh::Inception
       @provider_client = provider_client
       @ssh_dir = ssh_dir
       @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
+      provisioned # trigger initializer if +attributes.provisioned+ missing
       raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
     end
 
     # Create the underlying server, with key pair & security groups, unless it is already created
+    #
+    # The @attributes hash is updated with a `provisioned` key during/after creation.
+    # When saved as YAML it might look like:
+    #   inception:
+    #     provisioned:
+    #       image_id: ami-123456
+    #       server_id: i-e7f005d2
+    #       security_groups:
+    #         - ssh
+    #         - mosh
+    #       username: ubuntu
+    #       disk_device: /dev/sdi
+    #       host: ec2-54-214-15-178.us-west-2.compute.amazonaws.com
+    #       validated: true
+    #       converged: true
     def create
       validate_attributes_for_bootstrap
       ensure_local_private_key
       ensure_required_security_groups
       create_missing_default_security_groups
-      @attributes.create_accessors!
-      @provider_client.bootstrap(fog_attributes)
+      bootstrap_vm
+      attach_persistent_disk
     end
 
     def security_groups
@@ -85,6 +101,21 @@ module Bosh::Inception
     # persistent disk.
     def provisioned
       @attributes["provisioned"] ||= {}
+    end
+
+    def disk_device
+      provisioned["disk_device"] ||= default_disk_device
+    end
+
+    def default_disk_device
+      case @provider_client
+      when Bosh::Providers::AWS
+        "/dev/sdi"
+      when Bosh::Providers::OpenStack
+        "/dev/vdc"
+      else
+        raise "Please implement InceptionServer#default_disk_device for #{@provider_client.class}"
+      end
     end
 
     protected
@@ -131,5 +162,26 @@ module Bosh::Inception
       @provider_client.create_security_group("ssh", "ssh", {ssh: 22})
     end
 
+    def bootstrap_vm
+      @fog_server = @provider_client.bootstrap(fog_attributes)
+      provisioned["server_id"] = fog_server.id
+      provisioned["host"] = fog_server.dns_name || fog_server.public_ip_address
+      provisioned["username"] = fog_attributes[:username]
+    end
+
+    def attach_persistent_disk
+      unless Fog.mocking?
+        Fog.wait_for(60) { server.sshable? }
+      end
+
+      unless @provider_client.find_server_device(fog_server, disk_device)
+        # say "Provisioning #{disk_size}Gb persistent disk for inception VM..."
+        @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, disk_device)
+      end
+    end
+
+    def fog_server
+      @fog_server ||= @provider_client.fog_compute.servers.get(provisioned.server_id)
+    end
   end
 end

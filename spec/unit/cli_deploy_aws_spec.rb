@@ -47,5 +47,18 @@ describe "AWS deployment" do
       File.read(local_private_key).should == settings.inception.key_pair.private_key
     end
 
+    it "provisions inception VM" do
+      settings.inception.flavor.should == "m1.small"
+      settings.inception.disk_size.should == 16
+      settings.inception.image_id.should == "ami-bf1d8a8f" # us-west-2 13.04 AMI
+      settings.inception.security_groups.should == ["ssh"]
+
+      settings.inception.provisioned.username.should == "ubuntu"
+      settings.inception.provisioned.host.should_not be_nil
+      settings.inception.provisioned.server_id.should_not be_nil
+
+      settings.inception.provisioned.disk_device.should == "/dev/sdi"
+    end
+
   end
 end

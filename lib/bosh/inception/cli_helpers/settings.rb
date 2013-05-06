@@ -11,6 +11,10 @@ module Bosh::Inception::CliHelpers
       @settings_dir ||= File.expand_path(ENV["SETTINGS"] || "~/.bosh_inception")
     end
 
+    def settings_ssh_dir
+      File.join(settings_dir, "ssh")
+    end
+
     def settings_path
       @settings_path ||= File.join(settings_dir, "settings.yml")
     end
