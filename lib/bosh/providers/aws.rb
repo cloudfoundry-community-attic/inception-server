@@ -155,7 +155,8 @@ class Bosh::Providers::AWS < Bosh::Providers::FogProvider
   end
 
   # Ubuntu 13.04
-  def raring_image_id(region)
+  def raring_image_id(region=nil)
+    region = fog_compute.region
     # http://cloud-images.ubuntu.com/locator/ec2/
     image_id = case region.to_s
     when "ap-northeast-1"
@@ -179,9 +180,7 @@ class Bosh::Providers::AWS < Bosh::Providers::FogProvider
   end
 
   def bootstrap(new_attributes = {})
-    if new_attributes.delete(:quantal)
-      new_attributes[:image_id] ||= raring_image_id(fog_compute.region)
-    end
+    new_attributes[:image_id] ||= raring_image_id(fog_compute.region)
     vpc = new_attributes[:subnet_id]
 
     server = fog_compute.servers.new(new_attributes)

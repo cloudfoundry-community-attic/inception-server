@@ -77,6 +77,10 @@ module Bosh::Inception
       @attributes.ip_address
     end
 
+    def image_id
+      @attributes["image_id"] ||= @provider_client.raring_image_id
+    end
+
     # The progresive/final attributes of the provisioned Inception server &
     # persistent disk.
     def provisioned
@@ -86,6 +90,7 @@ module Bosh::Inception
     protected
     def fog_attributes
       {
+        :image_id => image_id,
         :groups => security_groups,
         :key_name => key_name,
         :private_key_path => private_key_path,
