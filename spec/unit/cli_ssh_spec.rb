@@ -50,20 +50,8 @@ describe Bosh::Inception do
     end
 
     describe "mosh" do
-      before do
-        @cmd.settings['bosh_provider'] = 'aws'
-        Fog.mock!
-        fog_compute = Fog::Compute.new(
-          :provider  => 'AWS', 
-          :aws_access_key_id  => 'MOCK_AWS_ACCESS_KEY_ID',
-          :aws_secret_access_key  => 'MOCK_AWS_SECRET_ACCESS_KEY')
-        @cmd.stub!(:provider).and_return(Bosh::Providers.for_bosh_provider_name('aws', fog_compute))
-        @cmd.stub!(:fog_compute).and_return(fog_compute)
-        @cmd.fog_compute.stub!(:servers).and_return(double(:get => double(:groups => ['default'])))
-      end
-      after do
-        Fog.unmock!
-      end
+      before { Fog.mock! }
+      after { Fog.unmock! }
       xit "should check whether mosh is installed" do
          @cmd.should_receive(:system).
           with("mosh --version")
