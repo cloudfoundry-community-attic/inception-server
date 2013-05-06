@@ -36,6 +36,7 @@ module Bosh::Providers
   # with helpers related to that provider
   # @deprecated - use for_bosh_provider instead
   def for_bosh_provider_name(provider_name, fog_compute)
+    puts "DEPRECATED: Bosh::Providers.for_bosh_provider_name"
     case provider_name.to_sym
     when :aws
       require "bosh/providers/aws"
