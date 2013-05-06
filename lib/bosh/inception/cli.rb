@@ -19,7 +19,8 @@ module Bosh::Inception
     desc "deploy", "Create/upgrade a Bosh Inception VM"
     def deploy
       migrate_old_settings
-      error "Not implemented yet"
+      load_deploy_options
+      validate_deploy_settings
     end
 
     desc "destroy", "Destroy target Bosh Inception VM"
@@ -48,6 +49,28 @@ module Bosh::Inception
     end
 
     no_tasks do
+      # if git.name/git.email not provided, load it in from local ~/.gitconfig
+      def load_deploy_options
+        gitconfig = File.expand_path("~/.gitconfig")
+        if File.exists?(gitconfig)
+          settings.set_default("git.name", `git config -f #{gitconfig} user.name`.strip)
+          settings.set_default("git.email", `git config -f #{gitconfig} user.email`.strip)
+        end
+      end
+
+      # Required settings:
+      # * git.name
+      # * git.email
+      def validate_deploy_settings
+        begin
+          settings.git.name
+          settings.git.email
+        rescue MissingSetting => e
+          error "Please setup local git user.name & user.email config; or specify git.name & git.email in settings.yml"
+        end
+        
+      end
+
       def run_ssh_command_or_open_tunnel(*args)
         error "Method not implemented: Cli#run_ssh_command_or_open_tunnel"
       end

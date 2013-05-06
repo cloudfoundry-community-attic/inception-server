@@ -10,6 +10,7 @@ describe "AWS deployment" do
   include AwsHelpers
 
   before do
+    setup_home_dir
     Fog.mock!
     Fog::Mock.reset
     @cmd = Bosh::Inception::Cli.new
@@ -19,8 +20,14 @@ describe "AWS deployment" do
     create_manifest(credentials: credentials)
   end
 
+  it "populates settings with git.name & git.email from ~/.gitconfig" do
+    cmd.deploy
+    settings.git.name.should == "Dr Nic Williams"
+    settings.git.email.should == "drnicwilliams@gmail.com"
+  end
+
   xit "creates an EC2 inception VM  with the associated resources" do
-    @cmd.deploy
+    cmd.deploy
   end
 
 end

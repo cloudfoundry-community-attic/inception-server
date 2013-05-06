@@ -53,8 +53,6 @@ module AwsHelpers
     setting "provider.name", "aws"
     setting "provider.credentials", credentials
     setting "provider.region", region
-    setting "git.name", "Dr Nic Williams"
-    setting "git.email", "drnicwilliams@gmail.com"
     options.each { |key, value| setting(key, value) }
     cmd.save_settings!
   end

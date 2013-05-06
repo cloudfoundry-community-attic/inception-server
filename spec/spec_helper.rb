@@ -41,7 +41,7 @@ def home_file(*path)
 end
 
 RSpec.configure do |c|
-  c.before(:each) do
+  c.before do
     setup_home_dir
   end
 
