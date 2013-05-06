@@ -15,14 +15,13 @@ describe "AWS deployment" do
     Fog.mock!
     Fog::Mock.reset
     @cmd = Bosh::Inception::Cli.new
+    @credentials = {aws_access_key_id: "ACCESS", aws_secret_access_key: "SECRET"}
+    @fog_credentials = @credentials.merge(provider: "AWS")
   end
 
   describe "with simple manifest" do
     before do
-      credentials = {aws_access_key_id: "ACCESS", aws_secret_access_key: "SECRET"}
-      @fog_credentials = credentials.merge(provider: "AWS")
-      create_manifest(credentials: credentials)
-
+      create_manifest(credentials: @credentials)
       capture_stdout { cmd.deploy }
       # cmd.deploy
     end
@@ -60,5 +59,13 @@ describe "AWS deployment" do
       settings.inception.provisioned.disk_device.should == "/dev/sdi"
     end
 
+  end
+
+  describe "converge inception VM if it fails midway" do
+    it "does not provision another IP address if already allocated" do
+      create_manifest(credentials: @credentials, "inception.ip_address" => "1.2.3.4")
+      capture_stdout { cmd.deploy }
+      settings.inception.ip_address.should == "1.2.3.4"
+    end
   end
 end
