@@ -58,6 +58,7 @@ module Bosh::Inception
         if File.exists?(gitconfig)
           settings.set_default("git.name", `git config -f #{gitconfig} user.name`.strip)
           settings.set_default("git.email", `git config -f #{gitconfig} user.email`.strip)
+          save_settings!
         end
 
         unless settings.exists?("inception.ip_address")
@@ -70,8 +71,15 @@ module Bosh::Inception
       # to a server; else error. The user needs to go get more
       # public IP addresses in this region.
       def provision_or_reuse_public_ip_address_for_inception
-        public_ip = provider_client.provision_or_reuse_public_ip_address
-        settings.set("inception.ip_address", public_ip)
+        say "Acquiring a public IP address... "
+        if public_ip = provider_client.provision_or_reuse_public_ip_address
+          say public_ip
+          settings.set("inception.ip_address", public_ip)
+          save_settings!
+        else
+          say "none available.", :red
+          error "Please rustle up at least one public IP address and try again."
+        end
       end
 
       # Required settings:

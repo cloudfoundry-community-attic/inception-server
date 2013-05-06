@@ -6,6 +6,7 @@ require "active_support/core_ext/hash/keys"
 
 describe "AWS deployment" do
   include FileUtils
+  include StdoutCapture
   include SettingsHelper
   include AwsHelpers
 
@@ -14,20 +15,25 @@ describe "AWS deployment" do
     Fog.mock!
     Fog::Mock.reset
     @cmd = Bosh::Inception::Cli.new
-
-    credentials = {aws_access_key_id: "ACCESS", aws_secret_access_key: "SECRET"}
-    @fog_credentials = credentials.merge(provider: "AWS")
-    create_manifest(credentials: credentials)
   end
 
-  it "populates settings with git.name & git.email from ~/.gitconfig" do
-    cmd.deploy
-    settings.git.name.should == "Dr Nic Williams"
-    settings.git.email.should == "drnicwilliams@gmail.com"
-  end
+  describe "with simple manifest" do
+    before do
+      credentials = {aws_access_key_id: "ACCESS", aws_secret_access_key: "SECRET"}
+      @fog_credentials = credentials.merge(provider: "AWS")
+      create_manifest(credentials: credentials)
 
-  xit "creates an EC2 inception VM  with the associated resources" do
-    cmd.deploy
-  end
+      capture_stdout { cmd.deploy }
+    end
 
+    it "populates settings with git.name & git.email from ~/.gitconfig" do
+      settings.git.name.should == "Dr Nic Williams"
+      settings.git.email.should == "drnicwilliams@gmail.com"
+    end
+
+    it "creates an elastic IP automatically and assigns to settings.inception.ip_address" do
+      settings.inception.ip_address.should_not be_nil
+    end
+
+  end
 end
