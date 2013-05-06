@@ -41,7 +41,7 @@ describe Bosh::Inception do
     end
 
     describe "tmux" do
-      xit "launches ssh session" do
+      it "launches ssh session" do
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
           with("ssh -i #{private_key_path} vcap@5.5.5.5 -t 'tmux attach || tmux new-session'")
