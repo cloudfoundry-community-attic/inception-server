@@ -3,8 +3,11 @@ require "fog"
 module Bosh::Inception
   class InceptionServer
 
-    DEFAULT_SIZE = "m1.small"
+    DEFAULT_FLAVOR = "m1.small"
+    DEFAULT_DISK_SIZE = 16
     DEFAULT_SECURITY_GROUPS = ["ssh"]
+
+    attr_reader :attributes
 
     # @provider_client [Bosh::Providers::FogProvider] - interact with IaaS
     # @attributes [Settingslogic]
@@ -23,13 +26,12 @@ module Bosh::Inception
     #   {
     #     "ip_address" => "54.214.15.178",
     #     "security_groups" => ["ssh"],
-    #     "size" => "m1.small",
+    #     "flavor" => "m1.small",
     #     "key_pair" => {
     #       "name" => "inception",
     #       "private_key" => "private_key",
     #       "public_key" => "public_key"
     #     }
-    #     "local_private_key_path" => "~/.bosh_inception/ssh/inception"
     #   }
     def initialize(provider_client, attributes, ssh_dir)
       @provider_client = provider_client
@@ -57,15 +59,28 @@ module Bosh::Inception
     end
 
     def private_key_path
-      @attributes["local_private_key_path"] ||= File.join(@ssh_dir, key_name)
+      @private_key_path ||= File.join(@ssh_dir, key_name)
     end
 
-    def size
-      @attributes["size"] ||= DEFAULT_SIZE
+    # Flavor/instance type of the server to be provisioned
+    # TODO: DEFAULT_FLAVOR should become IaaS/provider specific
+    def flavor
+      @attributes["flavor"] ||= DEFAULT_FLAVOR
+    end
+
+    # Size of attached persistent disk for the inception VM
+    def disk_size
+      @attributes["disk_size"] ||= DEFAULT_DISK_SIZE
     end
 
     def ip_address
       @attributes.ip_address
+    end
+
+    # The progresive/final attributes of the provisioned Inception server &
+    # persistent disk.
+    def provisioned
+      @attributes["provisioned"] ||= {}
     end
 
     protected
@@ -74,7 +89,7 @@ module Bosh::Inception
         :groups => security_groups,
         :key_name => key_name,
         :private_key_path => private_key_path,
-        :flavor_id => size,
+        :flavor_id => flavor,
         :public_ip_address => ip_address,
         :bits => 64,
         :username => "ubuntu",

@@ -35,8 +35,12 @@ describe Bosh::Inception::InceptionServer do
       fog_compute.security_groups.get("ssh").should_not be_nil
     end
 
-    it "has default size" do
-      subject.size.should == "m1.small"
+    it "has default flavor" do
+      subject.flavor.should == "m1.small"
+    end
+
+    it "has default disk size" do
+      subject.disk_size.should == 16
     end
 
     xit "is created" do
