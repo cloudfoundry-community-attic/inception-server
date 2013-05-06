@@ -8,12 +8,14 @@ require "rake/file_utils"
 
 require "escape"
 require "bosh/inception/cli_helpers/display"
+require "bosh/inception/cli_helpers/provider"
 require "bosh/inception/cli_helpers/settings"
 
 module Bosh::Inception
   class Cli < Thor
     include Thor::Actions
     include Bosh::Inception::CliHelpers::Display
+    include Bosh::Inception::CliHelpers::Provider
     include Bosh::Inception::CliHelpers::Settings
 
     desc "deploy", "Create/upgrade a Bosh Inception VM"
@@ -50,12 +52,26 @@ module Bosh::Inception
 
     no_tasks do
       # if git.name/git.email not provided, load it in from local ~/.gitconfig
+      # provision public IP address for inception VM if not allocated one
       def prepare_deploy_settings
         gitconfig = File.expand_path("~/.gitconfig")
         if File.exists?(gitconfig)
           settings.set_default("git.name", `git config -f #{gitconfig} user.name`.strip)
           settings.set_default("git.email", `git config -f #{gitconfig} user.email`.strip)
         end
+
+        unless settings.exists?("inception.ip_address")
+          provision_or_reuse_public_ip_address_for_inception
+        end
+      end
+
+      # Attempt to provision a new public IP; if none available,
+      # then look for a pre-provisioned public IP that's not assigned
+      # to a server; else error. The user needs to go get more
+      # public IP addresses in this region.
+      def provision_or_reuse_public_ip_address_for_inception
+        public_ip = provider_client.provision_or_reuse_public_ip_address
+        settings.set("inception.ip_address", public_ip)
       end
 
       # Required settings:

@@ -46,4 +46,14 @@ class Bosh::Providers::FogProvider
     end
     [protocol, port_range, ip_range]
   end
+
+  def provision_or_reuse_public_ip_address(options={})
+    provision_public_ip_address(options) || find_unused_public_ip_address(options)
+  end
+
+  def find_unused_public_ip_address(options={})
+    if address = fog_compute.addresses.find { |s| s.server_id.nil? }
+      address.public_ip
+    end
+  end
 end

@@ -1,11 +1,9 @@
 ## CLI
 
-* create CLI action stubs
-* setup unit tests & integration tests
 * integration test - create VM, use busser (?) to run remote SSH bats tests, destroy VM
 * port bosh-bootstrap helpers across
-* CLI create
-* CLI update
+* CLI deploy
+* CLI ssh
 
 ## Cookbooks
 
