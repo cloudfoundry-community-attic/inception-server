@@ -14,6 +14,7 @@ require "bosh/inception/cli_helpers/settings"
 module Bosh::Inception
   class Cli < Thor
     include Thor::Actions
+    include FileUtils
     include Bosh::Inception::CliHelpers::Display
     include Bosh::Inception::CliHelpers::Provider
     include Bosh::Inception::CliHelpers::Settings
@@ -68,6 +69,7 @@ module Bosh::Inception
         unless settings.exists?("inception.key_pair.private_key")
           recreate_key_pair_for_inception
         end
+        recreate_private_key_file_for_inception
       end
 
       # Attempt to provision a new public IP; if none available,
@@ -96,7 +98,20 @@ module Bosh::Inception
         settings.set("inception.key_pair.fingerprint", key_pair.fingerprint)
         save_settings!
       end
-      
+
+      def private_key_path_for_inception
+        @private_key_path_for_inception ||= File.join(settings_dir, "ssh", settings.inception.key_pair.name)
+      end
+
+      # The keys for the inception VM originate from the provider and are cached in
+      # the manifest. The private key is stored locally; the public key is placed
+      # on the inception VM.
+      def recreate_private_key_file_for_inception
+        mkdir_p(File.dirname(private_key_path_for_inception))
+        File.chmod(0700, File.dirname(private_key_path_for_inception))
+        File.open(private_key_path_for_inception, "w") { |file| file << settings.inception.key_pair.private_key }
+        File.chmod(0600, private_key_path_for_inception)
+      end
 
       # Required settings:
       # * git.name

@@ -41,5 +41,11 @@ describe "AWS deployment" do
       settings.inception.key_pair.private_key.should_not be_nil
     end
 
+    it "stores private key in local file" do
+      local_private_key = File.expand_path("~/.bosh_inception/ssh/inception")
+      File.should be_exist(local_private_key)
+      File.read(local_private_key).should == settings.inception.key_pair.private_key
+    end
+
   end
 end
