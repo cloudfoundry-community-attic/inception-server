@@ -20,6 +20,7 @@ describe Bosh::Inception do
     setting "inception.key_pair.name", "inception"
     setting "inception.key_pair.private_key", "PRIVATE"
     setting "inception.provisioned.host", "5.5.5.5"
+    setting "inception.provisioned.username", "vcap"
   end
 
   describe "ssh" do

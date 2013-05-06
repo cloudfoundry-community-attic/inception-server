@@ -152,8 +152,8 @@ module Bosh::Inception
           exit "Inception VM has not finished launching; run to complete: bosh-inception deploy"
         end
 
-        username = "vcap"
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
+        username = settings.inception.provisioned.username
         host = settings.inception.provisioned.host
         result = system Escape.shell_command(["ssh", "-i", server.private_key_path, "#{username}@#{host}", cmd].flatten.compact)
         exit result
