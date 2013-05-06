@@ -53,6 +53,9 @@ module AwsHelpers
     setting "provider.name", "aws"
     setting "provider.credentials", credentials
     setting "provider.region", region
+    setting "inception.ip_address", "1.2.3.4"
+    setting "inception.key_pair.name", "inception"
+    setting "inception.key_pair.private_key", "sadfsdfa"
     options.each { |key, value| setting(key, value) }
     cmd.save_settings!
   end

@@ -65,7 +65,7 @@ module Bosh::Inception
         begin
           settings.git.name
           settings.git.email
-        rescue MissingSetting => e
+        rescue Settingslogic::MissingSetting => e
           error "Please setup local git user.name & user.email config; or specify git.name & git.email in settings.yml"
         end
 
@@ -73,8 +73,16 @@ module Bosh::Inception
           settings.provider.name
           settings.provider.region
           settings.provider.credentials
-        rescue MissingSetting => e
+        rescue Settingslogic::MissingSetting => e
           error "Wooh there, we need provider.name, provider.region, provider.credentials in settings.yml to proceed."
+        end
+
+        begin
+          settings.inception.ip_address
+          settings.inception.key_pair.name
+          settings.inception.key_pair.private_key
+        rescue Settingslogic::MissingSetting => e
+          error "Wooh there, we need inception.ip_address, inception.key_pair.name, & inception.key_pair.private_key in settings.yml to proceed."
         end
       end
 

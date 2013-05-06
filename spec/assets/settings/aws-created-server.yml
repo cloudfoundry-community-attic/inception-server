@@ -13,7 +13,6 @@ inception:
   key_pair:
     name: inception
     private_key: private_key
-    public_key: public_key
   extensions:
     - mosh
   size: m1.small
