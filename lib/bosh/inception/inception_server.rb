@@ -99,9 +99,7 @@ module Bosh::Inception
     def validate_attributes_for_bootstrap
       missing_attributes = []
       missing_attributes << "ip_address" unless @attributes["ip_address"]
-      missing_attributes << "key_pair" unless @attributes["key_pair"]
-      missing_attributes << "key_pair.private_key" if @attributes["key_pair"]["private_key"].empty?
-      missing_attributes << "key_pair.public_key" if @attributes["key_pair"]["public_key"].empty?
+      missing_attributes << "key_pair.private_key" unless @attributes.exists?("key_pair.private_key")
       if missing_attributes.size > 0
         raise "Missing InceptionServer attributes: #{missing_attributes.join(', ')}"
       end
