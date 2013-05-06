@@ -1,0 +1,18 @@
+---
+provider:
+  name: aws
+  region: us-west-2
+  credentials:
+    aws_access_key_id: MOCK_AWS_ACCESS_KEY_ID
+    aws_secret_access_key: MOCK_AWS_SECRET_ACCESS_KEY
+git:
+  name: Dr Nic Williams
+  email: drnicwilliams@gmail.com
+inception:
+  ip_address: 54.214.15.178
+  key_pair:
+    name: inception
+    private_key: private_key
+    public_key: public_key
+  extensions:
+    - mosh
