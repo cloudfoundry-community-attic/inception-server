@@ -39,7 +39,6 @@ module Bosh::Inception
     DESC
     def ssh(cmd=nil)
       migrate_old_settings
-      recreate_private_key_file_for_inception
       run_ssh_command_or_open_tunnel(cmd)
     end
 
@@ -50,7 +49,6 @@ module Bosh::Inception
     DESC
     def tmux
       migrate_old_settings
-      recreate_private_key_file_for_inception
       run_ssh_command_or_open_tunnel(["-t", "tmux attach || tmux new-session"])
     end
 
@@ -148,8 +146,17 @@ module Bosh::Inception
         save_settings!
       end
 
-      def run_ssh_command_or_open_tunnel(*args)
-        error "Method not implemented: Cli#run_ssh_command_or_open_tunnel"
+      def run_ssh_command_or_open_tunnel(cmd)
+        recreate_private_key_file_for_inception
+        unless settings.exists?("inception.provisioned.host")
+          exit "Inception VM has not finished launching; run to complete: bosh-inception deploy"
+        end
+
+        username = "vcap"
+        server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
+        host = settings.inception.provisioned.host
+        result = system Escape.shell_command(["ssh", "-i", server.private_key_path, "#{username}@#{host}", cmd].flatten.compact)
+        exit result
       end
     end
   end
