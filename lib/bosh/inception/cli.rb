@@ -68,7 +68,14 @@ module Bosh::Inception
         rescue MissingSetting => e
           error "Please setup local git user.name & user.email config; or specify git.name & git.email in settings.yml"
         end
-        
+
+        begin
+          settings.provider.name
+          settings.provider.region
+          settings.provider.credentials
+        rescue MissingSetting => e
+          error "Wooh there, we need provider.name, provider.region, provider.credentials in settings.yml to proceed."
+        end
       end
 
       def run_ssh_command_or_open_tunnel(*args)
