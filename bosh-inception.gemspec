@@ -26,6 +26,9 @@ Gem::Specification.new do |spec|
   # for bosh/providers
   spec.add_dependency "fog"
 
+  # for running cookbooks on inception VM
+  spec.add_dependency "knife-solo", "~> 0.3.0.pre"
+
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
 
