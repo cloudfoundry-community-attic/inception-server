@@ -38,6 +38,7 @@ module Bosh::Inception
     DESC
     def ssh(cmd=nil)
       migrate_old_settings
+      recreate_private_key_file_for_inception
       run_ssh_command_or_open_tunnel(cmd)
     end
 
@@ -48,6 +49,7 @@ module Bosh::Inception
     DESC
     def tmux
       migrate_old_settings
+      recreate_private_key_file_for_inception
       run_ssh_command_or_open_tunnel(["-t", "tmux attach || tmux new-session"])
     end
 
