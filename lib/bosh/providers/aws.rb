@@ -180,7 +180,7 @@ class Bosh::Providers::AWS < Bosh::Providers::FogProvider
 
   def bootstrap(new_attributes = {})
     if new_attributes.delete(:quantal)
-      new_attributes[:image_id] ||= quantal_image_id(fog_compute.region)
+      new_attributes[:image_id] ||= raring_image_id(fog_compute.region)
     end
     vpc = new_attributes[:subnet_id]
 
