@@ -64,13 +64,8 @@ module Bosh::Inception
           save_settings!
         end
 
-        unless settings.exists?("inception.ip_address")
-          provision_or_reuse_public_ip_address_for_inception
-        end
-
-        unless settings.exists?("inception.key_pair.private_key")
-          recreate_key_pair_for_inception
-        end
+        provision_or_reuse_public_ip_address_for_inception unless settings.exists?("inception.ip_address")
+        recreate_key_pair_for_inception unless settings.exists?("inception.key_pair.private_key")
         recreate_private_key_file_for_inception
       end
 
