@@ -94,6 +94,7 @@ module Bosh::Inception
         key_pair = provider_client.create_key_pair(key_pair_name)
         settings.set("inception.key_pair.private_key", key_pair.private_key)
         settings.set("inception.key_pair.fingerprint", key_pair.fingerprint)
+        save_settings!
       end
       
 
