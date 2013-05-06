@@ -163,10 +163,12 @@ module Bosh::Inception
     end
 
     def bootstrap_vm
-      @fog_server = @provider_client.bootstrap(fog_attributes)
-      provisioned["server_id"] = fog_server.id
-      provisioned["host"] = fog_server.dns_name || fog_server.public_ip_address
-      provisioned["username"] = fog_attributes[:username]
+      unless fog_server
+        @fog_server = @provider_client.bootstrap(fog_attributes)
+        provisioned["server_id"] = fog_server.id
+        provisioned["host"] = fog_server.dns_name || fog_server.public_ip_address
+        provisioned["username"] = fog_attributes[:username]
+      end
     end
 
     def attach_persistent_disk
@@ -181,7 +183,11 @@ module Bosh::Inception
     end
 
     def fog_server
-      @fog_server ||= @provider_client.fog_compute.servers.get(provisioned.server_id)
+      @fog_server ||= begin
+        if server_id = provisioned.exists?("server_id")
+          @provider_client.fog_compute.servers.get(server_id)
+        end
+      end
     end
   end
 end

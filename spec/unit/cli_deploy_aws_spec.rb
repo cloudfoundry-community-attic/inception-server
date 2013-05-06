@@ -67,5 +67,11 @@ describe "AWS deployment" do
       capture_stdout { cmd.deploy }
       settings.inception.ip_address.should == "1.2.3.4"
     end
+
+    it "provisions another server if server_id id unknown" do
+      create_manifest(credentials: @credentials, "inception.provisioned.server_id" => "i-UNKNOWN")
+      capture_stdout { cmd.deploy }
+      settings.inception.provisioned.server_id.should_not == "i-UNKNOWN"
+    end
   end
 end
