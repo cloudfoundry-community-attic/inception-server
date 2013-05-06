@@ -77,7 +77,7 @@ module Bosh::Inception
       def provision_or_reuse_public_ip_address_for_inception
         say "Acquiring a public IP address... "
         if public_ip = provider_client.provision_or_reuse_public_ip_address
-          say public_ip
+          say public_ip, :green
           settings.set("inception.ip_address", public_ip)
           save_settings!
         else
