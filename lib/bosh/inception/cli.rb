@@ -64,6 +64,10 @@ module Bosh::Inception
         unless settings.exists?("inception.ip_address")
           provision_or_reuse_public_ip_address_for_inception
         end
+
+        unless settings.exists?("inception.key_pair.private_key")
+          recreate_key_pair_for_inception
+        end
       end
 
       # Attempt to provision a new public IP; if none available,
@@ -81,6 +85,16 @@ module Bosh::Inception
           error "Please rustle up at least one public IP address and try again."
         end
       end
+
+      DEFAULT_KEY_PAIR_NAME = "inception"
+
+      def recreate_key_pair_for_inception
+        key_pair_name = settings.set_default("inception.key_pair.name", DEFAULT_KEY_PAIR_NAME)
+        key_pair = provider_client.create_key_pair(key_pair_name)
+        settings.set("inception.key_pair.private_key", key_pair.private_key)
+        settings.set("inception.key_pair.fingerprint", key_pair.fingerprint)
+      end
+      
 
       # Required settings:
       # * git.name
