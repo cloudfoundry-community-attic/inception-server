@@ -178,6 +178,30 @@ class Bosh::Providers::AWS < Bosh::Providers::FogProvider
     image_id || raise("Please add Ubuntu 12.10 64bit (EBS) AMI image id to aws.rb#image_id method for region '#{region}'")
   end
 
+  # Ubuntu 13.04
+  def raring_image_id(region)
+    # http://cloud-images.ubuntu.com/locator/ec2/
+    image_id = case region.to_s
+    when "ap-northeast-1"
+      "ami-6b26ab6a"
+    when "ap-southeast-1"
+      "ami-2b511e79"
+    when "eu-west-1"
+      "ami-3d160149"
+    when "sa-east-1"
+      "ami-28e43e35"
+    when "us-east-1"
+      "ami-c30360aa"
+    when "us-west-1"
+      "ami-d383af96"
+    when "ap-southeast-2"
+      "ami-84a333be"
+    when "us-west-2"
+      "ami-bf1d8a8f"
+    end
+    image_id || raise("Please add Ubuntu 13.04 64bit (EBS) AMI image id to aws.rb#raring_image_id method for region '#{region}'")
+  end
+
   def bootstrap(new_attributes = {})
     if new_attributes.delete(:quantal)
       new_attributes[:image_id] ||= quantal_image_id(fog_compute.region)
