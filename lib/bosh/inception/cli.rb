@@ -19,7 +19,7 @@ module Bosh::Inception
     desc "deploy", "Create/upgrade a Bosh Inception VM"
     def deploy
       migrate_old_settings
-      load_deploy_options
+      prepare_deploy_settings
       validate_deploy_settings
     end
 
@@ -50,7 +50,7 @@ module Bosh::Inception
 
     no_tasks do
       # if git.name/git.email not provided, load it in from local ~/.gitconfig
-      def load_deploy_options
+      def prepare_deploy_settings
         gitconfig = File.expand_path("~/.gitconfig")
         if File.exists?(gitconfig)
           settings.set_default("git.name", `git config -f #{gitconfig} user.name`.strip)
