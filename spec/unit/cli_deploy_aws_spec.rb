@@ -15,6 +15,7 @@ describe "AWS deployment" do
     Fog.mock!
     Fog::Mock.reset
     @cmd = Bosh::Inception::Cli.new
+    @cmd.stub(:converge_cookbooks)
     @credentials = {aws_access_key_id: "ACCESS", aws_secret_access_key: "SECRET"}
     @fog_credentials = @credentials.merge(provider: "AWS")
   end
@@ -22,7 +23,6 @@ describe "AWS deployment" do
   describe "with simple manifest" do
     before do
       create_manifest(credentials: @credentials)
-      cmd.stub(:converge_cookbooks)
       capture_stdout { cmd.deploy }
       # cmd.deploy
     end
