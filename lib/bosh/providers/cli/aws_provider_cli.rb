@@ -38,13 +38,19 @@ class Bosh::Providers::Cli::AwsProviderCli
   def choose_region
     hl.choose do |menu|
       menu.prompt = "Choose AWS region: "
+      default_menu_item = nil
       aws_constants.region_labels.each do |region_info|
         label, code = region_info[:label], region_info[:code]
-        menu.choice("#{label} (#{code})") do
+        menu_item = "#{label} (#{code})"
+        if code == aws_constants.default_region_code
+          menu_item = "*#{menu_item}"
+          default_menu_item = menu_item 
+        end
+        menu.choice(menu_item) do
           attributes["region"] = code
         end
       end
-      # menu.default = default_aws_region
+      menu.default = default_menu_item if default_menu_item
     end
   end
 
