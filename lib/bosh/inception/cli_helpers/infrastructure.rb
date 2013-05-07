@@ -3,11 +3,13 @@ module Bosh::Inception::CliHelpers
     # Prompts user to choose an Iaas provider
     # Sets settings.provider.name
     def choose_provider
+      return if valid_infrastructure?
       choose_fog_provider unless settings.exists?("provider")
-      settings.set_default("provider", {})
+      settings.set_default("provider", {}) # to ensure settings.provider exists
       provider_cli = Bosh::Providers.provider_cli("aws", settings.provider)
       provider_cli.perform
       settings["provider"] = provider_cli.export_attributes
+      settings.create_accessors!
     end
 
     # Displays a prompt for known IaaS that are configured
