@@ -9,26 +9,26 @@
 
 execute "git config user.name" do
   command "git config --global --replace-all user.name '#{node.git.name}'"
-  user "vcap"
-  group "vcap"
+  user node.user.username
+  group node.user.username
   action :run
-  environment ({'HOME' => '/home/vcap'})
+  environment ({'HOME' => "/home/#{node.user.username}"})
 end
 
 execute "git config user.email" do
   command "git config --global --replace-all user.email '#{node.git.email}'"
-  user "vcap"
-  group "vcap"
+  user node.user.username
+  group node.user.username
   action :run
-  environment ({'HOME' => '/home/vcap'})
+  environment ({'HOME' => "/home/#{node.user.username}"})
 end
 
 execute "git config color.ui" do
   command "git config --global color.ui true"
-  user "vcap"
-  group "vcap"
+  user node.user.username
+  group node.user.username
   action :run
-  environment ({'HOME' => '/home/vcap'})
+  environment ({'HOME' => "/home/#{node.user.username}"})
 end
 
 bash "install hub" do
@@ -48,8 +48,8 @@ bash "install hub" do
 end
 
 directory "/var/vcap/store/repos/hub" do
-  owner "vcap"
-  group "vcap"
+  owner node.user.username
+  group node.user.username
   mode "0755"
   recursive true
   action :create
