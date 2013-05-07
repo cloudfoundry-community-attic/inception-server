@@ -14,7 +14,7 @@ module Bosh::Inception
       user_host = server.user_host
       key_path = server.private_key_path
       attributes = cookbook_attributes_for_inception.to_json
-      sh %Q{knife solo cook #{user_host} -i #{key_path} -j '#{attributes}' -r 'bosh_inception'}
+      sh %Q{knife solo bootstrap #{user_host} -i #{key_path} -j '#{attributes}' -r 'bosh_inception'}
     end
 
     protected
