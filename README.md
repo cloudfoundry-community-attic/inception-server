@@ -10,8 +10,19 @@ STATUS: This is in development. The cookbooks look good so far. README is a desc
 
 This tool is distributed as a RubyGem. It requires Ruby 1.9+.
 
+Currently, install and use the tool via this Git repo (due to its dependency on other unreleased RubyGems).
+
 ```
-$ gem install bosh-inception
+git clone https://github.com/drnic/bosh-inception.git
+cd bosh-inception
+bundle
+bundle exec bin/bosh-inception deploy
+```
+
+In future, the following will work:
+
+```
+gem install bosh-inception
 ```
 
 ## Usage
