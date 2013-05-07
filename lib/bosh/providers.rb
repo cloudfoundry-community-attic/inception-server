@@ -10,23 +10,40 @@ module Bosh::Providers
   # returns nil if +provider_name+ is unknown
   def provider_client(provider_name, provider_region, credentials)
     provider = {
-      provider: fog_provider_for(provider_name),
+      provider: fog_provider_label_for(provider_name),
       region: provider_region
     }
     fog_compute = Fog::Compute.new(credentials.merge(provider))
     case provider_name.to_sym
     when :aws
-      require "bosh/providers/clients/aws_provider_client"
-      Bosh::Providers::Clients::AwsProviderClient.new(fog_compute)
+      @aws_provider_client ||= begin
+        require "bosh/providers/clients/aws_provider_client"
+        Bosh::Providers::Clients::AwsProviderClient.new(fog_compute)
+      end
     when :openstack
-      require "bosh/providers/clients/openstack_provider_client"
-      Bosh::Providers::Clients::OpenStackProviderClient.new(fog_compute)
+      @openstack_provider_client ||= begin
+        require "bosh/providers/clients/openstack_provider_client"
+        Bosh::Providers::Clients::OpenStackProviderClient.new(fog_compute)
+      end
     else
       nil
     end
   end
 
-  def fog_provider_for(provider_name)
+  def provider_cli(provider_name, provider_settings)
+    case provider_name.to_sym
+    when :aws
+      require "bosh/providers/cli/aws_provider_cli"
+      Bosh::Providers::Cli::AwsProviderCli.new(provider_settings)
+    when :openstack
+      require "bosh/providers/cli/openstack_provider_cli"
+      Bosh::Providers::Cli::OpenStackProviderCli.new(provider_settings)
+    else
+      nil
+    end
+  end
+
+  def fog_provider_label_for(provider_name)
     case provider_name.to_sym
     when :aws
       "AWS"

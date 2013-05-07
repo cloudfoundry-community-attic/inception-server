@@ -9,6 +9,8 @@ require "rake/file_utils"
 
 require "escape"
 require "bosh/inception/cli_helpers/display"
+require "bosh/inception/cli_helpers/infrastructure"
+require "bosh/inception/cli_helpers/interactions"
 require "bosh/inception/cli_helpers/provider"
 require "bosh/inception/cli_helpers/settings"
 require "bosh/inception/cli_helpers/prepare_deploy_settings"
@@ -18,6 +20,8 @@ module Bosh::Inception
     include Thor::Actions
     include FileUtils
     include Bosh::Inception::CliHelpers::Display
+    include Bosh::Inception::CliHelpers::Infrastructure
+    include Bosh::Inception::CliHelpers::Interactions
     include Bosh::Inception::CliHelpers::Provider
     include Bosh::Inception::CliHelpers::Settings
     include Bosh::Inception::CliHelpers::PrepareDeploySettings
@@ -25,6 +29,7 @@ module Bosh::Inception
     desc "deploy", "Create/upgrade a Bosh Inception VM"
     def deploy
       migrate_old_settings
+      choose_provider
       prepare_deploy_settings
       perform_deploy
       converge_cookbooks

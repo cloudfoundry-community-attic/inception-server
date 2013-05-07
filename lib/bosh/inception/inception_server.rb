@@ -120,9 +120,9 @@ module Bosh::Inception
 
     def default_disk_device
       case @provider_client
-      when Bosh::Providers::AWS
+      when Bosh::Providers::Clients::AwsProviderClient
         { "external" => "/dev/sdf", "internal" => "/dev/xvdf" }
-      when Bosh::Providers::OpenStack
+      when Bosh::Providers::Clients::OpenStackProviderClient
         { "external" => "/dev/vdc", "internal" => "/dev/vdc" }
       else
         raise "Please implement InceptionServer#default_disk_device for #{@provider_client.class}"

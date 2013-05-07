@@ -3,17 +3,10 @@
 module Bosh; module Providers; module Clients; end; end; end
 
 require "bosh/providers/clients/fog_provider_client"
+require "bosh/providers/constants/aws_constants"
 
 class Bosh::Providers::Clients::AwsProviderClient < Bosh::Providers::Clients::FogProviderClient
-  # supported by fog 1.6.0
-  # FIXME weird that fog has no method to return this list
-  def region_labels
-    ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2']
-  end
-
-  def default_region_label
-    'us-east-1'
-  end
+  include Bosh::Providers::Constants::AwsConstants
 
   # @return [Integer] megabytes of RAM for requested flavor of server
   def ram_for_server_flavor(server_flavor_id)
