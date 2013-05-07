@@ -59,7 +59,13 @@ module Bosh::Inception
       # provision public IP address for inception VM if not allocated one
       def prepare_deploy_settings
         header "Preparing deployment settings"
+        update_git_config
+        provision_or_reuse_public_ip_address_for_inception unless settings.exists?("inception.ip_address")
+        recreate_key_pair_for_inception unless settings.exists?("inception.key_pair.private_key")
+        recreate_private_key_file_for_inception
+      end
 
+      def update_git_config
         gitconfig = File.expand_path("~/.gitconfig")
         if File.exists?(gitconfig)
           say "Using your git user.name (#{`git config -f #{gitconfig} user.name`.strip})"
@@ -67,10 +73,6 @@ module Bosh::Inception
           settings.set("git.email", `git config -f #{gitconfig} user.email`.strip)
           save_settings!
         end
-
-        provision_or_reuse_public_ip_address_for_inception unless settings.exists?("inception.ip_address")
-        recreate_key_pair_for_inception unless settings.exists?("inception.key_pair.private_key")
-        recreate_private_key_file_for_inception
       end
 
       # Attempt to provision a new public IP; if none available,
