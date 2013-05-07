@@ -2,14 +2,13 @@ module Bosh::Inception::CliHelpers
   module Infrastructure
     # Prompts user to choose an Iaas provider
     # Sets settings.provider.name
-    def choose_provider
-      return if valid_infrastructure?
-      choose_fog_provider unless settings.exists?("provider")
-      settings.set_default("provider", {}) # to ensure settings.provider exists
-      provider_cli = Bosh::Providers.provider_cli("aws", settings.provider)
-      provider_cli.perform
-      settings["provider"] = provider_cli.export_attributes
-      settings.create_accessors!
+    def configure_provider
+      unless valid_infrastructure?
+        choose_fog_provider unless settings.exists?("provider.name")
+        choose_provider unless settings.exists?("provider.name")
+        setup_provider_credentials
+      end
+      confirm_infrastructure
     end
 
     # Displays a prompt for known IaaS that are configured
@@ -105,16 +104,27 @@ module Bosh::Inception::CliHelpers
       end
     end
 
-    # Prompts user to choose a region for the Iaas provider
-    # Sets settings.provider.region
-    def choose_region
-      
+    # Prompts user to pick from the supported regions
+    def choose_provider
+      hl.choose do |menu|
+        menu.prompt = "Choose infrastructure:  "
+        menu.choice("AWS") do
+          settings.provider["name"] = "aws"
+        end
+        menu.choice("OpenStack") do
+          settings.provider["name"] = "openstack"
+        end
+      end
     end
 
-    # Prompts user to enter credentials for Iaas region
-    # Sets iaas-specific credentials in settings.provider.credentials
-    def choose_credentials
-      
+    def setup_provider_credentials
+      say "Using provider #{settings.provider.name}:"
+      say ""
+      settings.set_default("provider", {}) # to ensure settings.provider exists
+      provider_cli = Bosh::Providers.provider_cli(settings.provider.name, settings.provider)
+      provider_cli.perform
+      settings["provider"] = provider_cli.export_attributes
+      settings.create_accessors!
     end
 
     def valid_infrastructure?

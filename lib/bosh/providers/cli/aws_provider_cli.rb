@@ -28,6 +28,7 @@ class Bosh::Providers::Cli::AwsProviderCli
   def perform
     attributes.set("name", "aws") # ensure this property is correct
     choose_region unless attributes.exists?("region")
+    setup_credentials unless attributes.exists?("credentials.aws_access_key_id")
   end
 
   # helper to export the complete nested attributes as a pure Hash
@@ -52,6 +53,12 @@ class Bosh::Providers::Cli::AwsProviderCli
       end
       menu.default = default_menu_item if default_menu_item
     end
+  end
+
+  def setup_credentials
+    attributes.set_default("credentials", {})
+    attributes.credentials["aws_access_key_id"] = hl.ask("Access key: ")
+    attributes.credentials["aws_secret_access_key"] = hl.ask("Secret key: ")
   end
 
   def aws_constants

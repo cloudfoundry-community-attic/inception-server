@@ -29,7 +29,7 @@ module Bosh::Inception
     desc "deploy", "Create/upgrade a Bosh Inception VM"
     def deploy
       migrate_old_settings
-      choose_provider
+      configure_provider
       prepare_deploy_settings
       perform_deploy
       converge_cookbooks
