@@ -106,29 +106,12 @@ module Bosh::Inception
       end
 
       # Perform converge chef cookbooks upon Inception VM
+      # Does not update settings
       def converge_cookbooks
         header "Prepare inception VM"
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
-        user_host = server.user_host
-        key_path = server.private_key_path
-        attributes = cookbook_attributes_for_inception.to_json
-        sh %Q{knife solo cook #{user_host} -i #{key_path} -j '#{attributes}' -r 'bosh_inception'}
-      end
-
-      def cookbook_attributes_for_inception
-        {
-          "disk" => {
-            "mounted" => true,
-            "device" => settings.inception.provisioned.disk_device.internal
-          },
-          "git" => {
-            "name" => settings.git.name,
-            "email" => settings.git.email
-          },
-          "user" => {
-            "username" => settings.inception.provisioned.username
-          }
-        }
+        cookbook = InceptionServerCookbook.new(server, settings)
+        cookbook.converge
       end
 
       def run_ssh_command_or_open_tunnel(cmd)

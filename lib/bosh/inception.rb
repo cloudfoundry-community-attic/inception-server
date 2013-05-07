@@ -8,3 +8,4 @@ end
 
 require "bosh/providers"
 require "bosh/inception/inception_server"
+require "bosh/inception/inception_server_cookbook"
