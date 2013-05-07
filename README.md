@@ -88,8 +88,9 @@ This project includes a `bosh_inception` Chef cookbook.
 You can apply the cookbook to a preexisting remote VM using [knife solo](http://matschaffer.github.io/knife-solo/ "knife-solo"):
 
 ```
-$ gem install knife-solo
-$ knife solo bootstrap USER@HOST '{ user: { authorized_keys: ["...", "..."] } }'
+$ bundle
+$ bundle exec knife solo bootstrap ubuntu@HOST -j '{"disk": {"mounted": true}}' -r 'bosh_inception'
+
 # for more help information:
 $ knife solo bootstrap -h
 ```
