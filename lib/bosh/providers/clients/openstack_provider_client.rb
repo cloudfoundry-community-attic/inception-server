@@ -1,10 +1,10 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; module Providers; end; end
+module Bosh; module Providers; module Clients; end; end; end
 
-require "bosh/providers/fog_provider"
+require "bosh/providers/clients/fog_provider_client"
 
-class Bosh::Providers::OpenStack < Bosh::Providers::FogProvider
+class Bosh::Providers::Clients::OpenStackProviderClient < Bosh::Providers::Clients::FogProviderClient
   # @return [String] provisions a new public IP address in target region
   # TODO nil if none available
   def provision_public_ip_address(options={})

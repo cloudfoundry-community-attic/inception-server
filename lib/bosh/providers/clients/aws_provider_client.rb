@@ -1,10 +1,10 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; module Providers; end; end
+module Bosh; module Providers; module Clients; end; end; end
 
-require "bosh/providers/fog_provider"
+require "bosh/providers/clients/fog_provider_client"
 
-class Bosh::Providers::AWS < Bosh::Providers::FogProvider
+class Bosh::Providers::Clients::AwsProviderClient < Bosh::Providers::Clients::FogProviderClient
   # supported by fog 1.6.0
   # FIXME weird that fog has no method to return this list
   def region_labels

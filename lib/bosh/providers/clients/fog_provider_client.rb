@@ -1,9 +1,9 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
 require "fog"
-module Bosh; module Providers; end; end
+module Bosh; module Providers; module Clients; end; end; end
 
-class Bosh::Providers::FogProvider
+class Bosh::Providers::Clients::FogProviderClient
   attr_reader :fog_compute
 
   def initialize(fog_compute)

@@ -7,6 +7,7 @@ module Bosh::Providers
 
   # returns a BOSH provider (CPI) specific object
   # with helpers related to that provider
+  # returns nil if +provider_name+ is unknown
   def for_bosh_provider(provider_name, provider_region, credentials)
     provider = {
       provider: fog_provider_for(provider_name),
@@ -15,13 +16,13 @@ module Bosh::Providers
     fog_compute = Fog::Compute.new(credentials.merge(provider))
     case provider_name.to_sym
     when :aws
-      require "bosh/providers/aws"
-      Bosh::Providers::AWS.new(fog_compute)
+      require "bosh/providers/clients/aws_provider_client"
+      Bosh::Providers::Clients::AwsProviderClient.new(fog_compute)
     when :openstack
-      require "bosh/providers/openstack"
-      Bosh::Providers::OpenStack.new(fog_compute)
+      require "bosh/providers/clients/openstack_provider_client"
+      Bosh::Providers::Clients::OpenStackProviderClient.new(fog_compute)
     else
-      raise "please support #{provider_name} provider"
+      nil
     end
   end
 
@@ -43,11 +44,11 @@ module Bosh::Providers
     puts "DEPRECATED: Bosh::Providers.for_bosh_provider_name (#{caller.first.inspect})"
     case provider_name.to_sym
     when :aws
-      require "bosh/providers/aws"
-      Bosh::Providers::AWS.new(fog_compute)
+      require "bosh/providers/clients/aws_provider_client"
+      Bosh::Providers::Clients::AwsProviderClient.new(fog_compute)
     when :openstack
-      require "bosh/providers/openstack"
-      Bosh::Providers::OpenStack.new(fog_compute)
+      require "bosh/providers/clients/openstack_provider_client"
+      Bosh::Providers::Clients::OpenStackProviderClient.new(fog_compute)
     else
       raise "please support #{provider_name} provider"
     end
