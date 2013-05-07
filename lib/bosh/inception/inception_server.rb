@@ -133,6 +133,18 @@ module Bosh::Inception
       "#{provisioned.username}@#{provisioned.host}"
     end
 
+    def fog_server
+      @fog_server ||= begin
+        if server_id = provisioned["server_id"]
+          fog_compute.servers.get(server_id)
+        end
+      end
+    end
+
+    def fog_compute
+      @provider_client.fog_compute
+    end
+
     protected
     def fog_attributes
       {
@@ -196,14 +208,6 @@ module Bosh::Inception
       {
         keys: [private_key_path]
       }
-    end
-
-    def fog_server
-      @fog_server ||= begin
-        if server_id = provisioned["server_id"]
-          @provider_client.fog_compute.servers.get(server_id)
-        end
-      end
     end
   end
 end

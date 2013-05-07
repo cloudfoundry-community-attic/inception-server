@@ -5,9 +5,16 @@ module Bosh; module Providers; module Clients; end; end; end
 
 class Bosh::Providers::Clients::FogProviderClient
   attr_reader :fog_compute
+  attr_reader :attributes
 
-  def initialize(fog_compute)
-    @fog_compute = fog_compute
+  def initialize(attributes)
+    @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
+    raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
+    setup_fog_connection
+  end
+
+  def setup_fog_connection
+    raise "must implement"
   end
 
   def create_key_pair(key_pair_name)

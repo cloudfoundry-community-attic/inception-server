@@ -9,21 +9,26 @@ describe Bosh::Providers do
   include StdoutCapture
 
   describe "AWS" do
-    before do
-      Fog.mock!
-      @fog_compute =  Fog::Compute.new(
-          :provider  => 'AWS', 
-          :aws_access_key_id  => 'MOCK_AWS_ACCESS_KEY_ID',
-          :aws_secret_access_key  => 'MOCK_AWS_SECRET_ACCESS_KEY')
-      @aws_provider = Bosh::Providers.for_bosh_provider_name("aws", @fog_compute)
+    before { Fog.mock! }
+    let(:provider_attributes) do
+      {
+        "name" => "aws",
+        "region" => "us-west-2",
+        "credentials" => {
+          "aws_access_key_id"  => 'MOCK_AWS_ACCESS_KEY_ID',
+          "aws_secret_access_key"  => 'MOCK_AWS_SECRET_ACCESS_KEY'
+        }
+      }
     end
+    subject { Bosh::Providers.provider_client(provider_attributes) }
+    let(:fog_compute) { subject.fog_compute }
 
     describe "create security group" do
       it "should open a single TCP port on a security group" do
         capture_stdout do
           ports = { ssh: 22 }
-          @aws_provider.create_security_group("sg1-name", "sg1-desc", ports)
-          created_sg = @fog_compute.security_groups.get("sg1-name")
+          subject.create_security_group("sg1-name", "sg1-desc", ports)
+          created_sg = fog_compute.security_groups.get("sg1-name")
           created_sg.name.should == "sg1-name"
           created_sg.description.should == "sg1-desc"
           created_sg.ip_permissions.should == [
@@ -40,8 +45,8 @@ describe Bosh::Providers do
       it "should open a range of TCP ports" do
         capture_stdout do
           ports = { ssh: (22..30) }
-          @aws_provider.create_security_group("sg-range-name", "sg-range-desc", ports)
-          created_sg = @fog_compute.security_groups.get("sg-range-name")
+          subject.create_security_group("sg-range-name", "sg-range-desc", ports)
+          created_sg = fog_compute.security_groups.get("sg-range-name")
           created_sg.ip_permissions.should == [
             { 
               "ipProtocol"=>"tcp",
@@ -56,8 +61,8 @@ describe Bosh::Providers do
       it "should open a range of UDP ports" do
         capture_stdout do
           ports = { ssh: { protocol: "udp", ports: (60000..600050) } }
-          @aws_provider.create_security_group("sg-range-udp-name", "sg-range-udp-name", ports)
-          created_sg = @fog_compute.security_groups.get("sg-range-udp-name")
+          subject.create_security_group("sg-range-udp-name", "sg-range-udp-name", ports)
+          created_sg = fog_compute.security_groups.get("sg-range-udp-name")
           created_sg.ip_permissions.should == [
             { 
               "ipProtocol"=>"udp",
@@ -72,8 +77,8 @@ describe Bosh::Providers do
       it "should open a range of ICMP ports" do
         capture_stdout do
           ports = { ping: { protocol: "icmp", ports: (3..4) } }
-          @aws_provider.create_security_group("sg-range-icmp-name", "sg-range-icmp-name", ports)
-          created_sg = @fog_compute.security_groups.get("sg-range-icmp-name")
+          subject.create_security_group("sg-range-icmp-name", "sg-range-icmp-name", ports)
+          created_sg = fog_compute.security_groups.get("sg-range-icmp-name")
           created_sg.ip_permissions.should == [
             { 
               "ipProtocol"=>"icmp",
@@ -87,10 +92,10 @@ describe Bosh::Providers do
       end
       it "should open not open ports if they are already open" do
         capture_stdout do
-          @aws_provider.create_security_group("sg2", "", { ssh: { protocol: "udp", ports: (60000..600050) } })
-          @aws_provider.create_security_group("sg2", "", { ssh: { protocol: "udp", ports: (60010..600040) } })
-          @aws_provider.create_security_group("sg2", "", { ssh: { protocol: "udp", ports: (60000..600050) } })
-          created_sg = @fog_compute.security_groups.get("sg2")
+          subject.create_security_group("sg2", "", { ssh: { protocol: "udp", ports: (60000..600050) } })
+          subject.create_security_group("sg2", "", { ssh: { protocol: "udp", ports: (60010..600040) } })
+          subject.create_security_group("sg2", "", { ssh: { protocol: "udp", ports: (60000..600050) } })
+          created_sg = fog_compute.security_groups.get("sg2")
           created_sg.ip_permissions.should == [
             { 
               "ipProtocol"=>"udp",
@@ -104,9 +109,9 @@ describe Bosh::Providers do
       end
       it "should open ports even if they are already open for a different protocol" do
         capture_stdout do
-          @aws_provider.create_security_group("sg3", "", { ssh: { protocol: "udp", ports: (60000..600050) } })
-          @aws_provider.create_security_group("sg3", "", { ssh: { protocol: "tcp", ports: (60000..600050) } })
-          created_sg = @fog_compute.security_groups.get("sg3")
+          subject.create_security_group("sg3", "", { ssh: { protocol: "udp", ports: (60000..600050) } })
+          subject.create_security_group("sg3", "", { ssh: { protocol: "tcp", ports: (60000..600050) } })
+          created_sg = fog_compute.security_groups.get("sg3")
           created_sg.ip_permissions.should == [
             { 
               "ipProtocol"=>"udp",
@@ -130,9 +135,9 @@ describe Bosh::Providers do
           default_ports = {
              all_internal_tcp: { protocol: "tcp", ip_range: "1.1.1.1/32", ports: (0..65535) }
           }
-          @aws_provider.create_security_group("sg6", "sg6", default_ports)
-          @aws_provider.create_security_group("sg6", "sg6", { mosh: { protocol: "tcp", ports: (15..30) } })
-          created_sg = @fog_compute.security_groups.get("sg6")
+          subject.create_security_group("sg6", "sg6", default_ports)
+          subject.create_security_group("sg6", "sg6", { mosh: { protocol: "tcp", ports: (15..30) } })
+          created_sg = fog_compute.security_groups.get("sg6")
           created_sg.ip_permissions.should == [
             { 
               "ipProtocol"=>"tcp",
@@ -153,8 +158,8 @@ describe Bosh::Providers do
       end
       it "should open ports on the default sg" do
         capture_stdout do
-          @aws_provider.create_security_group("default", "default", { mosh: { protocol: "tcp", ports: (15..30) } })
-          created_sg = @fog_compute.security_groups.get("default")
+          subject.create_security_group("default", "default", { mosh: { protocol: "tcp", ports: (15..30) } })
+          created_sg = fog_compute.security_groups.get("default")
           expected_rule = { 
               "ipProtocol"=>"tcp",
               "fromPort"=>15, 
@@ -168,9 +173,9 @@ describe Bosh::Providers do
       #AWS allows overlapping port ranges, and it makes it easier to see the separate "rules" that were added
       it "should create overlapping port ranges" do
         capture_stdout do
-          @aws_provider.create_security_group("sg4", "", { ssh: { protocol: "udp", ports: (10..20) } })
-          @aws_provider.create_security_group("sg4", "", { ssh: { protocol: "udp", ports: (15..30) } })
-          created_sg = @fog_compute.security_groups.get("sg4")
+          subject.create_security_group("sg4", "", { ssh: { protocol: "udp", ports: (10..20) } })
+          subject.create_security_group("sg4", "", { ssh: { protocol: "udp", ports: (15..30) } })
+          created_sg = fog_compute.security_groups.get("sg4")
           created_sg.ip_permissions.should == [
             { 
               "ipProtocol"=>"udp",

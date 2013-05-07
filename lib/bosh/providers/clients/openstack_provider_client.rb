@@ -3,6 +3,7 @@
 module Bosh; module Providers; module Clients; end; end; end
 
 require "bosh/providers/clients/fog_provider_client"
+require "bosh/providers/constants/openstack_constants"
 
 class Bosh::Providers::Clients::OpenStackProviderClient < Bosh::Providers::Clients::FogProviderClient
   # @return [String] provisions a new public IP address in target region
@@ -75,5 +76,24 @@ class Bosh::Providers::Clients::OpenStackProviderClient < Bosh::Providers::Clien
 
   def delete_security_group_and_servers(sg_name)
     raise "not implemented yet"
+  end
+
+  # Construct a Fog::Compute object
+  # Uses +attributes+ which normally originates from +settings.provider+
+  def setup_fog_connection
+    configuration = attributes.credentials.inject({}) do |mem, key_value|
+      key, value = key_value
+      mem[key.to_sym] = value
+      mem
+    end
+    configuration[:provider] = "OpenStack"
+    unless attributes.region == openstack_constants.no_region_code
+      configuration[:openstack_region] = attributes.region
+    end
+    @fog_compute = Fog::Compute.new(configuration)
+  end
+
+  def openstack_constants
+    Bosh::Providers::Constants::OpenStackConstants
   end
 end

@@ -2,6 +2,16 @@ describe Bosh::Inception::InceptionServer do
   include StdoutCapture
 
   describe "new AWS server" do
+    let(:provider_attributes) do
+      {
+        "name" => "aws",
+        "region" => "us-west-2",
+        "credentials" => {
+          "aws_access_key_id"  => 'MOCK_AWS_ACCESS_KEY_ID',
+          "aws_secret_access_key"  => 'MOCK_AWS_SECRET_ACCESS_KEY'
+        }
+      }
+    end
     let(:attributes) do
       {
         "ip_address" => "54.214.15.178",
@@ -12,20 +22,16 @@ describe Bosh::Inception::InceptionServer do
         }
       }
     end
-    let(:fog_compute) { Fog::Compute.new(
-        :provider  => 'AWS', 
-        :aws_access_key_id  => 'MOCK_AWS_ACCESS_KEY_ID',
-        :aws_secret_access_key  => 'MOCK_AWS_SECRET_ACCESS_KEY')
-    }
-    let(:provider) { Bosh::Providers.for_bosh_provider_name("aws", fog_compute) }
+    let(:provider_client) { Bosh::Providers.provider_client(provider_attributes) }
     let(:ssh_dir) { "~/.bosh_inception/ssh" }
-    subject { Bosh::Inception::InceptionServer.new(provider, attributes, ssh_dir) }
+    subject { Bosh::Inception::InceptionServer.new(provider_client, attributes, ssh_dir) }
+    let(:fog_compute) { subject.fog_compute }
 
     before do
       Fog.mock!
       Fog::Mock.reset
       capture_stdout do
-        provider.create_key_pair("inception")
+        provider_client.create_key_pair("inception")
         subject.create
       end
     end

@@ -11,3 +11,4 @@
 * echo "export EDITOR=vim" >> /home/vcap/.bashrc
 * move bosh-micro & bosh-cf installation into separate cookbooks
 * move hub into separate cookbooks
+* place ~ubuntu/.fog for the selected provider credentials
