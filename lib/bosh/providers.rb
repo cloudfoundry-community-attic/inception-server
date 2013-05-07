@@ -9,11 +9,16 @@ module Bosh::Providers
   # with helpers related to that provider
   # returns nil if +provider_name+ is unknown
   def provider_client(provider_name, provider_region, credentials)
+    credentials = credentials.inject({}) do |mem, key_value|
+      key, value = key_value
+      mem[key.to_sym] = value
+      mem
+    end
     provider = {
       provider: fog_provider_label_for(provider_name),
       region: provider_region
     }
-    fog_compute = Fog::Compute.new(credentials.merge(provider))
+    fog_compute = Fog::Compute.new(provider.merge(credentials))
     case provider_name.to_sym
     when :aws
       @aws_provider_client ||= begin
