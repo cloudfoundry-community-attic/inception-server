@@ -2,7 +2,6 @@ require File.expand_path("../../spec_helper", __FILE__)
 require File.expand_path("../../support/aws/aws_helpers", __FILE__)
 
 require "fog"
-require "active_support/core_ext/hash/keys"
 
 describe "AWS deployment" do
   include FileUtils

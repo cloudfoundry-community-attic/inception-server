@@ -1,3 +1,4 @@
+require "active_support/core_ext/hash/keys"
 module AwsHelpers
   include SettingsHelper
 
