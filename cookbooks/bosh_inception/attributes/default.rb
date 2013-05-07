@@ -5,7 +5,6 @@ default["disk"]["device"] = "/dev/xvdf"
 default["disk"]["fstype"] = "ext4"
 default["disk"]["dir"] = "/var/vcap/store"
 default["user"]["username"] = "ubuntu"
-default["user"]["authorized_keys"] = []
 default["git"]["name"] = "Nobody"
 default["git"]["email"] = "nobody@in-the-house.com"
 default["rvm"]["default_ruby"] = "ruby-1.9.3"

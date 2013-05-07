@@ -168,6 +168,9 @@ module Bosh::Inception
           "git" => {
             "name" => settings.git.name,
             "email" => settings.git.email
+          },
+          "user" => {
+            "username" => settings.inception.provisioned.username
           }
         }
       end

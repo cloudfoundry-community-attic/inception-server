@@ -8,7 +8,6 @@ maintainer_email "drnicwilliams@gmail.com"
 supports "ubuntu"
 
 depends "apt"
-depends "user"
 depends "sudo"
 depends "rvm"
 
