@@ -8,7 +8,7 @@ module Bosh::Providers
   # returns a BOSH provider (CPI) specific object
   # with helpers related to that provider
   # returns nil if +provider_name+ is unknown
-  def for_bosh_provider(provider_name, provider_region, credentials)
+  def provider_client(provider_name, provider_region, credentials)
     provider = {
       provider: fog_provider_for(provider_name),
       region: provider_region
@@ -39,7 +39,7 @@ module Bosh::Providers
 
   # returns a BOSH provider (CPI) specific object
   # with helpers related to that provider
-  # @deprecated - use for_bosh_provider instead
+  # @deprecated - use provider_client instead
   def for_bosh_provider_name(provider_name, fog_compute)
     puts "DEPRECATED: Bosh::Providers.for_bosh_provider_name (#{caller.first.inspect})"
     case provider_name.to_sym
