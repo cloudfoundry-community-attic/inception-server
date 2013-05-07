@@ -1,7 +1,8 @@
 ## CLI
 
 * integration test - create VM, use busser (?) to run remote SSH bats tests, destroy VM
-* port bosh-bootstrap helpers across
+* observe InstanceServer#create stages and run save_settings! after each one (idempotence)
+* observe InstanceServer#create stages and display STDOUT as it goes along
 
 ## Cookbooks
 
