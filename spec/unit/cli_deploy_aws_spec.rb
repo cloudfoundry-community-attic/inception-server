@@ -30,8 +30,8 @@ describe "AWS deployment" do
       settings.git.email.should == "drnicwilliams@gmail.com"
     end
 
-    it "creates an elastic IP automatically and assigns to settings.inception.ip_address" do
-      settings.inception.ip_address.should_not be_nil
+    it "creates an elastic IP automatically and assigns to settings.inception.provisioned.ip_address" do
+      settings.inception.provisioned.ip_address.should_not be_nil
     end
 
     it "creates AWS key pair and assigns to inception.key_pair.name / private_key" do
@@ -70,9 +70,9 @@ describe "AWS deployment" do
     end
 
     it "does not provision another IP address if already allocated" do
-      create_manifest(credentials: @credentials, "inception.ip_address" => "1.2.3.4")
+      create_manifest(credentials: @credentials, "inception.provisioned.ip_address" => "1.2.3.4")
       capture_stdout { cmd.deploy }
-      settings.inception.ip_address.should == "1.2.3.4"
+      settings.inception.provisioned.ip_address.should == "1.2.3.4"
     end
 
     it "provisions another server if server_id id unknown" do

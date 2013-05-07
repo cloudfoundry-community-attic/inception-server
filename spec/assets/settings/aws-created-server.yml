@@ -9,7 +9,6 @@ git:
   name: Dr Nic Williams
   email: drnicwilliams@gmail.com
 inception:
-  ip_address: 54.214.15.178
   key_pair:
     name: inception
     private_key: private_key
@@ -18,6 +17,7 @@ inception:
   size: m1.small
   disk_size: 16
   provisioned:
+    ip_address: 54.214.15.178
     image_id: ami-123456
     server_id: i-e7f005d2
     security_groups:

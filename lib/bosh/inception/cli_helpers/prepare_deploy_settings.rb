@@ -18,7 +18,7 @@ module Bosh::Inception::CliHelpers
       say "Acquiring a public IP address... "
       if public_ip = provider_client.provision_or_reuse_public_ip_address
         say public_ip, :green
-        settings.set("inception.ip_address", public_ip)
+        settings.set("inception.provisioned.ip_address", public_ip)
         save_settings!
       else
         say "none available.", :red
@@ -72,11 +72,11 @@ module Bosh::Inception::CliHelpers
       end
 
       begin
-        settings.inception.ip_address
+        settings.inception.provisioned.ip_address
         settings.inception.key_pair.name
         settings.inception.key_pair.private_key
       rescue Settingslogic::MissingSetting => e
-        error "Wooh there, we need inception.ip_address, inception.key_pair.name, & inception.key_pair.private_key in settings.yml to proceed."
+        error "Wooh there, we need inception.provisioned.ip_address, inception.key_pair.name, & inception.key_pair.private_key in settings.yml to proceed."
       end
     end
   end

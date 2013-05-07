@@ -113,14 +113,14 @@ module Bosh::Inception
     
 
     def release_ip_address
-      public_ip = attributes.exists?("ip_address")
+      public_ip = provisioned.exists?("ip_address")
       if public_ip && ip_address = fog_compute.addresses.get(public_ip)
         puts "Releasing IP address #{public_ip}"
         ip_address.destroy
       else
         puts "IP address already released"
       end
-      attributes.delete("ip_address")
+      provisioned.delete("ip_address")
     end
 
     def security_groups
@@ -147,7 +147,7 @@ module Bosh::Inception
     end
 
     def ip_address
-      @attributes.ip_address
+      provisioned.ip_address
     end
 
     def image_id
@@ -220,7 +220,7 @@ module Bosh::Inception
 
     def validate_attributes_for_bootstrap
       missing_attributes = []
-      missing_attributes << "ip_address" unless @attributes["ip_address"]
+      missing_attributes << "provisioned.ip_address" unless @attributes.exists?("provisioned.ip_address")
       missing_attributes << "key_pair.private_key" unless @attributes.exists?("key_pair.private_key")
       if missing_attributes.size > 0
         raise "Missing InceptionServer attributes: #{missing_attributes.join(', ')}"

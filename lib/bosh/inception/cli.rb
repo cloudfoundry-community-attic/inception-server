@@ -67,7 +67,7 @@ module Bosh::Inception
       def prepare_deploy_settings
         header "Preparing deployment settings"
         update_git_config
-        provision_or_reuse_public_ip_address_for_inception unless settings.exists?("inception.ip_address")
+        provision_or_reuse_public_ip_address_for_inception unless settings.exists?("inception.provisioned.ip_address")
         recreate_key_pair_for_inception unless settings.exists?("inception.key_pair.private_key")
         recreate_private_key_file_for_inception
         validate_deploy_settings

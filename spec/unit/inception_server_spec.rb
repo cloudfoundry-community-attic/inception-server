@@ -14,7 +14,9 @@ describe Bosh::Inception::InceptionServer do
     end
     let(:attributes) do
       {
-        "ip_address" => "54.214.15.178",
+        "provisioned" => {
+          "ip_address" => "54.214.15.178"
+        },
         "key_pair" => {
           "name" => "inception",
           "private_key" => "private_key",

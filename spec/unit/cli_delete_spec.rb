@@ -33,7 +33,7 @@ describe "AWS deployment deletion" do
     settings.exists?("git").should_not be_nil
     settings.exists?("inception.provisioned.disk_device").should be_nil
     settings.exists?("inception.provisioned.host").should be_nil
-    settings.exists?("inception.ip_address").should be_nil
+    settings.exists?("inception.provisioned.ip_address").should be_nil
     settings.exists?("inception.key_pair").should be_nil
     settings.exists?("inception.provisioned.disk_device").should be_nil
   end
