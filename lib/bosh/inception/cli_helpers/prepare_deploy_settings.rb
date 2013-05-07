@@ -51,5 +51,33 @@ module Bosh::Inception::CliHelpers
       File.chmod(0600, private_key_path_for_inception)
     end
 
+
+    # Required settings:
+    # * git.name
+    # * git.email
+    def validate_deploy_settings
+      begin
+        settings.git.name
+        settings.git.email
+      rescue Settingslogic::MissingSetting => e
+        error "Please setup local git user.name & user.email config; or specify git.name & git.email in settings.yml"
+      end
+
+      begin
+        settings.provider.name
+        settings.provider.region
+        settings.provider.credentials
+      rescue Settingslogic::MissingSetting => e
+        error "Wooh there, we need provider.name, provider.region, provider.credentials in settings.yml to proceed."
+      end
+
+      begin
+        settings.inception.ip_address
+        settings.inception.key_pair.name
+        settings.inception.key_pair.private_key
+      rescue Settingslogic::MissingSetting => e
+        error "Wooh there, we need inception.ip_address, inception.key_pair.name, & inception.key_pair.private_key in settings.yml to proceed."
+      end
+    end
   end
 end

@@ -26,7 +26,6 @@ module Bosh::Inception
     def deploy
       migrate_old_settings
       prepare_deploy_settings
-      validate_deploy_settings
       perform_deploy
       converge_cookbooks
     end
@@ -57,42 +56,16 @@ module Bosh::Inception
     end
 
     no_tasks do
-      # if git.name/git.email not provided, load it in from local ~/.gitconfig
+      # update settings.git.name/git.email from local ~/.gitconfig if available
       # provision public IP address for inception VM if not allocated one
+      # Note: helper methods are in bosh/inception/cli_helpers/prepare_deploy_settings.rb
       def prepare_deploy_settings
         header "Preparing deployment settings"
         update_git_config
         provision_or_reuse_public_ip_address_for_inception unless settings.exists?("inception.ip_address")
         recreate_key_pair_for_inception unless settings.exists?("inception.key_pair.private_key")
         recreate_private_key_file_for_inception
-      end
-
-      # Required settings:
-      # * git.name
-      # * git.email
-      def validate_deploy_settings
-        begin
-          settings.git.name
-          settings.git.email
-        rescue Settingslogic::MissingSetting => e
-          error "Please setup local git user.name & user.email config; or specify git.name & git.email in settings.yml"
-        end
-
-        begin
-          settings.provider.name
-          settings.provider.region
-          settings.provider.credentials
-        rescue Settingslogic::MissingSetting => e
-          error "Wooh there, we need provider.name, provider.region, provider.credentials in settings.yml to proceed."
-        end
-
-        begin
-          settings.inception.ip_address
-          settings.inception.key_pair.name
-          settings.inception.key_pair.private_key
-        rescue Settingslogic::MissingSetting => e
-          error "Wooh there, we need inception.ip_address, inception.key_pair.name, & inception.key_pair.private_key in settings.yml to proceed."
-        end
+        validate_deploy_settings
       end
 
       def perform_deploy
