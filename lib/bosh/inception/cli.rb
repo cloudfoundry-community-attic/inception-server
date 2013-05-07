@@ -58,10 +58,13 @@ module Bosh::Inception
       # if git.name/git.email not provided, load it in from local ~/.gitconfig
       # provision public IP address for inception VM if not allocated one
       def prepare_deploy_settings
+        header "Preparing deployment settings"
+
         gitconfig = File.expand_path("~/.gitconfig")
         if File.exists?(gitconfig)
-          settings.set_default("git.name", `git config -f #{gitconfig} user.name`.strip)
-          settings.set_default("git.email", `git config -f #{gitconfig} user.email`.strip)
+          say "Using your git user.name (#{`git config -f #{gitconfig} user.name`.strip})"
+          settings.set("git.name", `git config -f #{gitconfig} user.name`.strip)
+          settings.set("git.email", `git config -f #{gitconfig} user.email`.strip)
           save_settings!
         end
 

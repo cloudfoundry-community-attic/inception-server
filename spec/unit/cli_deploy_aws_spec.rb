@@ -64,6 +64,12 @@ describe "AWS deployment" do
   end
 
   describe "converge inception VM if it fails midway" do
+    it "use local git config even if already allocated" do
+      create_manifest(credentials: @credentials, "git.name" => "Mystery", "git.email" => "mystery@gmail.com")
+      capture_stdout { cmd.deploy }
+      settings.git.email.should == "drnicwilliams@gmail.com"
+    end
+
     it "does not provision another IP address if already allocated" do
       create_manifest(credentials: @credentials, "inception.ip_address" => "1.2.3.4")
       capture_stdout { cmd.deploy }
