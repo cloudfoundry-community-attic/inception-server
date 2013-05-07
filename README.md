@@ -89,7 +89,8 @@ You can apply the cookbook to a preexisting remote VM using [knife solo](http://
 
 ```
 $ bundle
-$ bundle exec knife solo bootstrap ubuntu@HOST -j '{"disk": {"mounted": true}}' -r 'bosh_inception'
+$ bundle exec knife solo bootstrap ubuntu@HOST -r 'bosh_inception'
+$ bundle exec knife solo bootstrap ubuntu@HOST -j '{"disk": {"mounted": true, "device": "/dev/xvdf"}}' -r 'bosh_inception'
 
 # for more help information:
 $ knife solo bootstrap -h
