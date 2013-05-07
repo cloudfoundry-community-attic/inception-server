@@ -24,7 +24,7 @@ inception:
       - ssh
       - mosh
     username: vcap
-    disk_device: /dev/sdi
+    disk_device:
+      external: /dev/sdf
+      internal: /dev/xvdf
     host: ec2-54-214-15-178.us-west-2.compute.amazonaws.com
-    validated: true
-    converged: true

@@ -22,6 +22,7 @@ describe "AWS deployment" do
   describe "with simple manifest" do
     before do
       create_manifest(credentials: @credentials)
+      cmd.stub(:converge_cookbooks)
       capture_stdout { cmd.deploy }
       # cmd.deploy
     end

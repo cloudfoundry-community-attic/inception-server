@@ -1,6 +1,7 @@
 require "thor"
 require "highline"
 require "fileutils"
+require "json"
 
 # for the #sh helper
 require "rake"
@@ -25,6 +26,7 @@ module Bosh::Inception
       prepare_deploy_settings
       validate_deploy_settings
       perform_deploy
+      converge_cookbooks
     end
 
     desc "destroy", "Destroy target Bosh Inception VM"
@@ -138,12 +140,35 @@ module Bosh::Inception
       end
 
       def perform_deploy
+        header "Provision inception VM"
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
         server.create
       ensure
         # after any error handling, still save the current InceptionServer state back into settings.inception
         settings["inception"] = server.attributes
         save_settings!
+      end
+
+      def converge_cookbooks
+        header "Prepare inception VM"
+        server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
+        user_host = server.user_host
+        key_path = server.private_key_path
+        attributes = cookbook_attributes_for_inception.to_json
+        sh %Q{knife solo cook #{user_host} -i #{key_path} -j '#{attributes}' -r 'bosh_inception'}
+      end
+
+      def cookbook_attributes_for_inception
+        {
+          "disk" => {
+            "mounted" => true,
+            "device" => settings.inception.provisioned.disk_device.internal
+          },
+          "git" => {
+            "name" => settings.git.name,
+            "email" => settings.git.email
+          }
+        }
       end
 
       def run_ssh_command_or_open_tunnel(cmd)

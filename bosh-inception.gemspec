@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "thor"
   spec.add_dependency "highline"
   spec.add_dependency "escape"
+  spec.add_dependency "json"
   spec.add_dependency "settingslogic", "~> 2.0.9" # need to_nested_hash method
 
   # for bosh/providers

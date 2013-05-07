@@ -37,7 +37,6 @@ module Bosh::Inception
       @provider_client = provider_client
       @ssh_dir = ssh_dir
       @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
-      provisioned # trigger initializer if +attributes.provisioned+ missing
       raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
     end
 
@@ -59,7 +58,6 @@ module Bosh::Inception
     #       converged: true
     def create
       validate_attributes_for_bootstrap
-      ensure_local_private_key
       ensure_required_security_groups
       create_missing_default_security_groups
       bootstrap_vm
@@ -100,7 +98,8 @@ module Bosh::Inception
     # The progresive/final attributes of the provisioned Inception server &
     # persistent disk.
     def provisioned
-      @attributes["provisioned"] ||= {}
+      @attributes.set_default("provisioned", {}) unless @attributes["provisioned"]
+      @attributes.provisioned
     end
 
     def disk_devices
@@ -120,6 +119,10 @@ module Bosh::Inception
       else
         raise "Please implement InceptionServer#default_disk_device for #{@provider_client.class}"
       end
+    end
+
+    def user_host
+      "#{provisioned.username}@#{provisioned.host}"
     end
 
     protected
@@ -143,11 +146,6 @@ module Bosh::Inception
       if missing_attributes.size > 0
         raise "Missing InceptionServer attributes: #{missing_attributes.join(', ')}"
       end
-    end
-
-    # store private key into +private_key_path+ file
-    def ensure_local_private_key
-      
     end
 
     # ssh group must be first (bootstrap method looks for port 22 in first group)
