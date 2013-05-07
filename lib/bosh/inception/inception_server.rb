@@ -64,6 +64,65 @@ module Bosh::Inception
       attach_persistent_disk
     end
 
+    # Delete the server, volume and release the IP address
+    def delete_all
+      delete_server
+      delete_volume
+      delete_key_pair
+      release_ip_address
+    end
+
+    def delete_server
+      @fog_server = nil # force reload of fog_server model
+      if fog_server
+        print "Deleting server..."
+        fog_server.destroy
+        wait_for_termination(fog_server) unless Fog.mocking?
+        puts "done."
+      else
+        puts "Server already destroyed"
+      end
+      provisioned.delete("host")
+      provisioned.delete("server_id")
+      provisioned.delete("username")
+    end
+    
+    def delete_volume
+      volume_id = provisioned.exists?("disk_device.volume_id")
+      if volume_id && (volume = fog_compute.volumes.get(volume_id)) && volume.ready?
+        print "Deleting volume..."
+        volume.destroy
+        wait_for_termination(volume, "deleting")
+        puts ""
+      else
+        puts "Volume already destroyed"
+      end
+      provisioned.delete("disk_device")
+    end
+    
+    def delete_key_pair
+      key_pair_name = attributes.exists?("key_pair.name")
+      if key_pair_name && key_pair = fog_compute.key_pairs.get(key_pair_name)
+        puts "Deleting key pair '#{key_pair_name}'"
+        key_pair.destroy
+      else
+        puts "Keypair already destroyed"
+      end
+      attributes.delete("key_pair")
+    end
+    
+
+    def release_ip_address
+      public_ip = attributes.exists?("ip_address")
+      if public_ip && ip_address = fog_compute.addresses.get(public_ip)
+        puts "Releasing IP address #{public_ip}"
+        ip_address.destroy
+      else
+        puts "IP address already released"
+      end
+      attributes.delete("ip_address")
+    end
+
     def security_groups
       @attributes.security_groups
     end
@@ -200,7 +259,8 @@ module Bosh::Inception
 
       unless @provider_client.find_server_device(fog_server, external_disk_device)
         # say "Provisioning #{disk_size}Gb persistent disk for inception VM..."
-        @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, external_disk_device)
+        volume = @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, external_disk_device)
+        disk_devices["volume_id"] = volume.id
       end
     end
 
@@ -208,6 +268,14 @@ module Bosh::Inception
       {
         keys: [private_key_path]
       }
+    end
+
+    # Poll a fog model until it terminates; print . each second
+    def wait_for_termination(fog_model, state_to_wait_for="terminated")
+      fog_model.wait_for do
+        print "."
+        state == state_to_wait_for
+      end
     end
   end
 end

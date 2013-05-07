@@ -12,7 +12,6 @@ describe "AWS deployment" do
   before do
     setup_home_dir
     Fog.mock!
-    Fog::Mock.reset
     @cmd = Bosh::Inception::Cli.new
     @cmd.stub(:converge_cookbooks)
     @credentials = {aws_access_key_id: "ACCESS", aws_secret_access_key: "SECRET"}
@@ -56,6 +55,7 @@ describe "AWS deployment" do
       settings.inception.provisioned.host.should_not be_nil
       settings.inception.provisioned.server_id.should_not be_nil
 
+      settings.inception.provisioned.disk_device.volume_id.should_not be_nil
       settings.inception.provisioned.disk_device.external.should == "/dev/sdf"
       settings.inception.provisioned.disk_device.internal.should == "/dev/xvdf"
     end

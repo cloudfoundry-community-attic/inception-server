@@ -17,7 +17,6 @@ require "bosh/inception/cli_helpers/prepare_deploy_settings"
 
 module Bosh::Inception
   class Cli < Thor
-    include Thor::Actions
     include FileUtils
     include Bosh::Inception::CliHelpers::Display
     include Bosh::Inception::CliHelpers::Infrastructure
@@ -35,10 +34,11 @@ module Bosh::Inception
       converge_cookbooks
     end
 
-    desc "destroy", "Destroy target Bosh Inception VM"
-    def destroy
+    desc "delete", "Destroy target Bosh Inception VM, volumes & release the IP address"
+    method_option :"non-interactive", aliases: ["-n"], type: :boolean, desc: "Don't ask questions, just get crankin'"
+    def delete
       migrate_old_settings
-      error "Not implemented yet"
+      perform_delete(options[:"non-interactive"])
     end
 
     desc "ssh [COMMAND]", "Open an ssh session to the inception VM [do nothing if local machine is the inception VM]"
@@ -90,6 +90,20 @@ module Bosh::Inception
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
         cookbook = InceptionServerCookbook.new(server, settings)
         cookbook.converge
+      end
+
+      def perform_delete(non_interactive)
+        server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
+        if non_interactive
+          header "Deleting inception server, volumes and releasing IP address"
+          server.delete_all
+        else
+          raise "Interactive delete not implemented yet"
+        end
+      ensure
+        # after any error handling, still save the current InceptionServer state back into settings.inception
+        settings["inception"] = server.export_attributes
+        save_settings!
       end
 
       def run_ssh_command_or_open_tunnel(cmd)

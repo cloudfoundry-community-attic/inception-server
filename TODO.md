@@ -1,7 +1,8 @@
 ## CLI
 
-* prompt for IaaS & region & credentials
-* integration test - create VM, use busser (?) to run remote SSH bats tests, destroy VM
+* delete action
+* integration test - AWS - create VM, use busser (?) to run remote SSH bats tests, destroy VM
+* integration test - OpenStack - create VM, use busser (?) to run remote SSH bats tests, destroy VM
 * observe InstanceServer#create stages and run save_settings! after each one (idempotence)
 * observe InstanceServer#create stages and display STDOUT as it goes along
 

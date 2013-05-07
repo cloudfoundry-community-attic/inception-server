@@ -43,6 +43,7 @@ end
 RSpec.configure do |c|
   c.before do
     setup_home_dir
+    Fog::Mock.reset
   end
 
   c.color_enabled = true
