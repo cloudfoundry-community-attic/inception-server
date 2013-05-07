@@ -56,7 +56,8 @@ describe "AWS deployment" do
       settings.inception.provisioned.host.should_not be_nil
       settings.inception.provisioned.server_id.should_not be_nil
 
-      settings.inception.provisioned.disk_device.should == "/dev/sdi"
+      settings.inception.provisioned.disk_device.external.should == "/dev/sdf"
+      settings.inception.provisioned.disk_device.internal.should == "/dev/xvdf"
     end
 
   end

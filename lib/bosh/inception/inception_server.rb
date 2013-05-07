@@ -103,16 +103,20 @@ module Bosh::Inception
       @attributes["provisioned"] ||= {}
     end
 
-    def disk_device
+    def disk_devices
       provisioned["disk_device"] ||= default_disk_device
+    end
+
+    def external_disk_device
+      disk_devices["external"]
     end
 
     def default_disk_device
       case @provider_client
       when Bosh::Providers::AWS
-        "/dev/sdi"
+        { "external" => "/dev/sdf", "internal" => "/dev/xvdf" }
       when Bosh::Providers::OpenStack
-        "/dev/vdc"
+        { "external" => "/dev/vdc", "internal" => "/dev/vdc" }
       else
         raise "Please implement InceptionServer#default_disk_device for #{@provider_client.class}"
       end
@@ -176,9 +180,9 @@ module Bosh::Inception
         Fog.wait_for(60) { fog_server.sshable?(ssh_options) }
       end
 
-      unless @provider_client.find_server_device(fog_server, disk_device)
+      unless @provider_client.find_server_device(fog_server, external_disk_device)
         # say "Provisioning #{disk_size}Gb persistent disk for inception VM..."
-        @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, disk_device)
+        @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, external_disk_device)
       end
     end
 
