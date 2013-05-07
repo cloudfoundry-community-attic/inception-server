@@ -145,10 +145,11 @@ module Bosh::Inception
         server.create
       ensure
         # after any error handling, still save the current InceptionServer state back into settings.inception
-        settings["inception"] = server.attributes
+        settings["inception"] = server.export_attributes
         save_settings!
       end
 
+      # Perform converge chef cookbooks upon Inception VM
       def converge_cookbooks
         header "Prepare inception VM"
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)

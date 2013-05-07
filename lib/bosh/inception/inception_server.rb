@@ -98,8 +98,16 @@ module Bosh::Inception
     # The progresive/final attributes of the provisioned Inception server &
     # persistent disk.
     def provisioned
-      @attributes.set_default("provisioned", {}) unless @attributes["provisioned"]
+      @attributes["provisioned"] = {} unless @attributes["provisioned"]
       @attributes.provisioned
+    end
+
+    # Because @attributes["provisioned"] is not the same as @attributes.provisioned
+    # we need a helper to export the complete nested attributes.
+    def export_attributes
+      attrs = attributes.to_nested_hash
+      attrs["provisioned"] = provisioned.to_nested_hash
+      attrs
     end
 
     def disk_devices
