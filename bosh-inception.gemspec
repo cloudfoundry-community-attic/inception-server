@@ -38,6 +38,5 @@ Gem::Specification.new do |spec|
 
   # gems for the cookbook tests
   spec.add_development_dependency "test-kitchen", "~> 1.0.0.alpha"
-  spec.add_development_dependency "kitchen-vagrant"
   spec.add_development_dependency "berkshelf"
 end
