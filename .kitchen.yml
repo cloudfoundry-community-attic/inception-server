@@ -14,6 +14,22 @@ platforms:
     box: precise64
     box_url: https://s3.amazonaws.com/gsc-vagrant-boxes/ubuntu-12.04.2-server-amd64.box
     require_chef_omnibus: true
+- name: precise64_ec2
+  driver_plugin: ec2
+  driver_config:
+    aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+    aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+    aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_NAME'] %> # name of the AWS keypair to use
+    ssh_key: <%= ENV['AWS_SSH_KEY_PATH'] %> # private key such as ~/.ssh/id_rsa that matches the AWS keypair
+    region: us-east-1
+    availability_zone: us-east-1b
+    flavor_id: m1.medium
+    image_id: ami-856f02ec # us-east-1 12.04 amd64
+    username: ubuntu
+    groups:
+      - default
+      - ssh
+    require_chef_omnibus: true
 
 suites:
 - name: default
