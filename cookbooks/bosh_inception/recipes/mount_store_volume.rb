@@ -1,6 +1,6 @@
 if node.disk.mounted
   bash "format /var/vcap/store partition" do
-    code "mkfs.#{node.disk.fstype} #{node.disk.device} -F"
+    code "mkfs.#{node.disk.fstype} #{node.disk.device}"
     not_if "cat /proc/mounts | grep /var/vcap/store"
   end
 

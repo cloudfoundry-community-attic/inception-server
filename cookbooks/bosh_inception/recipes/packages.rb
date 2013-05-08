@@ -15,6 +15,7 @@ include_recipe "apt"
   runit
   genisoimage
   debootstrap kpartx qemu-kvm
+  btrfs-tools
   whois
   tmux mosh
   vim
