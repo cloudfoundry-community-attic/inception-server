@@ -12,5 +12,5 @@ group :integration do
 end
 
 group :vagrant do
-  gem 'kitchen-vagrant', github: 'opscode/kitchen-vagrant'
+  gem 'kitchen-vagrant', '~> 0.10.0'
 end
