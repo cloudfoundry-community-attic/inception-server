@@ -27,6 +27,15 @@ if defined?(RSpec)
       t.rspec_opts = %w(--format progress --color)
     end
 
+    desc "Run cookbook tests (only if $AWS_ACCESS_KEY_ID is set)"
+    task :cookbooks do
+      if ENV['AWS_ACCESS_KEY_ID']
+        sh "kitchen test ec2"
+      else
+        puts "Skipping spec:cookbooks. Please provide $AWS_ACCESS_KEY_ID & $AWS_SECRET_ACCESS_KEY_ID"
+      end
+    end
+
     namespace :integration do
       namespace :aws do
         jobs = Dir["spec/integration/aws/*_spec.rb"].map {|f| File.basename(f).gsub(/aws_(.*)_spec.rb/, '\1')}
