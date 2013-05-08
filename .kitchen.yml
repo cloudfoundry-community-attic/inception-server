@@ -2,12 +2,12 @@
 driver_plugin: vagrant
 
 platforms:
-- name: precise64_virtualbox
-  driver_config:
-    provider: virtualbox
-    box: precise64
-    box_url: http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
-    require_chef_omnibus: true
+# - name: precise64_virtualbox
+#   driver_config:
+#     provider: virtualbox
+#     box: precise64
+#     box_url: http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
+#     require_chef_omnibus: true
 - name: precise64_vmware_fusion
   driver_config:
     provider: vmware_fusion
@@ -19,4 +19,6 @@ suites:
 - name: default
   run_list:
     - recipe[bosh_inception]
-  attributes: {}
+  attributes:
+    user:
+      username: vagrant
