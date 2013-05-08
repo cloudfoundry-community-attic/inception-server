@@ -1,5 +1,6 @@
 language: ruby
 script: bundle exec rake spec:$SUITE
+bundler_args: "--without=vagrant"
 rvm:
   - ruby-1.9.3
   # - rbx-19mode
