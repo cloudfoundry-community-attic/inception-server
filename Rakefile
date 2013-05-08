@@ -2,7 +2,7 @@ ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __FILE__)
 
 require "rubygems"
 require "bundler"
-Bundler.setup(:default, :test, :development)
+Bundler.setup(:default, :test, :development, :integration)
 
 require "bundler/gem_tasks"
 
