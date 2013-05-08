@@ -10,6 +10,7 @@ supports "ubuntu"
 depends "apt"
 depends "sudo"
 depends "rvm"
+depends "hub"
 
 attribute "git",
   display_name: "Git",

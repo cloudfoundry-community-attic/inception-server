@@ -7,6 +7,8 @@
 # MIT License
 #
 
+include_recipe "hub"
+
 execute "git config user.name" do
   command "git config --global --replace-all user.name '#{node.git.name}'"
   user node.user.username
