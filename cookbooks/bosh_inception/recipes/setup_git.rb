@@ -30,27 +30,3 @@ execute "git config color.ui" do
   action :run
   environment ({'HOME' => "/home/#{node.user.username}"})
 end
-
-bash "install hub" do
-  user "root"
-  cwd "/var/vcap/store/repos"
-  code <<-BASH
-  if [[ ! -d hub ]]; then
-    git clone https://github.com/defunkt/hub.git
-    cd hub
-  else
-    cd hub
-    git pull origin master
-  fi
-  rake install prefix=/usr/local
-  BASH
-  action :run
-end
-
-directory "/var/vcap/store/repos/hub" do
-  owner node.user.username
-  group node.user.username
-  mode "0755"
-  recursive true
-  action :create
-end
