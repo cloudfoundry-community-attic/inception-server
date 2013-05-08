@@ -1,19 +1,8 @@
 ---
-driver_plugin: vagrant
+driver_plugin: <%= ENV['AWS_ACCESS_KEY_ID'] ? "ec2" : "vagrant" %>
 
 platforms:
-- name: precise64_virtualbox
-  driver_config:
-    provider: virtualbox
-    box: precise64
-    box_url: http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
-    require_chef_omnibus: true
-- name: precise64_vmware_fusion
-  driver_config:
-    provider: vmware_fusion
-    box: precise64
-    box_url: https://s3.amazonaws.com/gsc-vagrant-boxes/ubuntu-12.04.2-server-amd64.box
-    require_chef_omnibus: true
+<% if ENV['AWS_ACCESS_KEY_ID'] %>
 - name: precise64_ec2
   driver_plugin: ec2
   driver_config:
@@ -31,6 +20,20 @@ platforms:
       - default
       - ssh
     require_chef_omnibus: true
+<% else %>
+- name: precise64_virtualbox
+  driver_config:
+    provider: virtualbox
+    box: precise64
+    box_url: http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
+    require_chef_omnibus: true
+- name: precise64_vmware_fusion
+  driver_config:
+    provider: vmware_fusion
+    box: precise64
+    box_url: https://s3.amazonaws.com/gsc-vagrant-boxes/ubuntu-12.04.2-server-amd64.box
+    require_chef_omnibus: true
+<% end %>
 
 suites:
 - name: default
