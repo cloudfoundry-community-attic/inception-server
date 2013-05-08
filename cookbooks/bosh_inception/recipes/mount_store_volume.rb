@@ -1,4 +1,6 @@
 if node.disk.mounted
+  package "btrfs-tools" if node.disk.fstype == "btrfs"
+
   bash "format /var/vcap/store partition" do
     code "mkfs.#{node.disk.fstype} #{node.disk.device}"
     not_if "cat /proc/mounts | grep /var/vcap/store"
