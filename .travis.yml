@@ -1,0 +1,26 @@
+language: ruby
+script: bundle exec rake spec:$SUITE
+bundler_args: "--local"
+rvm:
+  - ruby-1.9.3
+  # - rbx-19mode
+  # - ruby-2.0.0 - generates "Cannot find Syck parser for YAML"
+notifications:
+  email:
+    recipients:
+      - drnicwilliams@gmail.com
+    on_success: change
+    on_failure: always
+env:
+  matrix:
+    - SUITE=cookbooks
+    # - SUITE=integration:aws:basic
+    # - SUITE=integration:aws:edge
+    # - SUITE=integration:aws:edge_prebuilt
+    # - SUITE=integration:aws:edge_prebuilt_ami
+  global:
+    - secure: "XRBq8CKIbRvwBTpyecFFtQFXgD0dhH4+p7knMQn/o4xnv79/feEPRccQycmk\nsFuWeVxTOW06p+PseQMQuU2UgjIDM6RE7jE5iM5kJh6hS/zFHAzlXWQAvEGz\nimnmzEMza60RXgihvT4WWVy5KJZtailUd2ywV9j5BxYHExKeABo="
+matrix:
+  allow_failures:
+    - env: SUITE=integration:aws:basic
+        
