@@ -19,8 +19,9 @@ platforms:
   driver_config:
     aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
     aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-    aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_NAME'] %> # name of the AWS keypair to use
-    ssh_key: <%= ENV['AWS_SSH_KEY_PATH'] %> # private key such as ~/.ssh/id_rsa that matches the AWS keypair
+    # Default keypair is in Stark & Wayne AWS account for kitchen CI testing
+    aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_NAME'] || 'kitchen' %> # name of the AWS keypair to use
+    ssh_key: <%= ENV['AWS_SSH_KEY_PATH'] || File.expand_path("../config/ssh/kitchen-aws", __FILE__) %> # private key such as ~/.ssh/id_rsa that matches the AWS keypair
     region: us-east-1
     availability_zone: us-east-1b
     flavor_id: m1.medium
