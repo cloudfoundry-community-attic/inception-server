@@ -19,6 +19,4 @@ suites:
 - name: default
   run_list:
     - recipe[bosh_inception]
-  attributes:
-    user:
-      username: vagrant
+  attributes: {}
