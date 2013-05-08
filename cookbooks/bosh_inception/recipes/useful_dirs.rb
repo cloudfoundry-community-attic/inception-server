@@ -8,6 +8,6 @@
   end
 end
 
-link "/home/vcap/.bosh_cache" do
+link "/home/#{node.user.username}/.bosh_cache" do
   to "/var/vcap/store/bosh_cache"
 end
