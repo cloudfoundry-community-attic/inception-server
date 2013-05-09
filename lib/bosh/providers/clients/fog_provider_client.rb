@@ -27,6 +27,13 @@ class Bosh::Providers::Clients::FogProviderClient
     end
   end
 
+  def delete_servers_with_name(server_name)
+    fog_compute.servers.select {|s| s.tags["Name"].downcase == server_name.downcase }.each do |server|
+      puts "Destroying server #{server.id}..."
+      server.destroy
+    end
+  end
+
   # Creates or reuses an security group and opens ports.
   #
   # +security_group_name+ is the name to be created or reused

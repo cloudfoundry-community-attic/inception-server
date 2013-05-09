@@ -42,31 +42,32 @@ module AwsHelpers
     @cmd = nil
     @fog = nil
     create_manifest
-    destroy_test_constructs(bosh_name)
+    destroy_test_constructs
   end
 
   def unique_number
     ENV['UNIQUE_NUMBER'] || Random.rand(100000)
   end
 
+  def test_server_name
+    "test-inception"
+  end
+
   def create_manifest(options = {})
-    credentials = options.delete(:credentials) || fog_credentials.stringify_keys
+    credentials = options.delete(:credentials) || fog_credentials
     setting "provider.name", "aws"
-    setting "provider.credentials", credentials
+    setting "provider.credentials", credentials.stringify_keys
     setting "provider.region", region
+    setting "inception.name", test_server_name
     options.each { |key, value| setting(key, value) }
     cmd.save_settings!
   end
 
-  def destroy_test_constructs(bosh_name)
-    puts "Destroying everything created by previous tests..."
+  def destroy_test_constructs
+    puts "Destroying everything created by previous test..."
     # destroy servers using inception-vm SG
-    provider.delete_security_group_and_servers("#{bosh_name}-inception-vm")
-    provider.delete_security_group_and_servers(bosh_name)
-
-    # TODO delete "inception" key pair? Why isn't it named for the bosh/inception server?
-    provider.delete_key_pair(bosh_name)
-
+    provider.delete_servers_with_key_pair(test_server_name)
+    provider.delete_key_pair_if_exists(test_server_name)
     provider.cleanup_unused_ip_addresses
   end
 
