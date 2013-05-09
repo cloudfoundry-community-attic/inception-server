@@ -84,7 +84,15 @@ Acquiring a public IP address... 54.245.246.122
 
 Provision inception server
 
+Created security group ssh
+ -> opened ssh ports TCP 22..22 from IP range 0.0.0.0/0
+Booting m1.small Inception VM...
+Provisioning 16Gb persistent disk for inception VM...
 
+Prepare inception VM
+
+knife solo bootstrap ubuntu@ec2-54-214-66-166.us-west-2.compute.amazonaws.com [...]
+Bootstrapping Chef...
 ... lots of chef output...
 
 ```
