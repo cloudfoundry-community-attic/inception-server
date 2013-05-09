@@ -38,49 +38,53 @@ To create a remote Inception VM, normally in the IaaS/region that you will be wo
 
 ```
 $ bosh-inception deploy
+✗ bundle exec bin/bosh-inception delete -n
 
-Stage 1: Choose infrastructure
+Deleting inception server, volumes and releasing IP address
 
-Found infrastructure API credentials at ~/.fog (override with --fog)
+Server already destroyed
+Volume already destroyed
+Deleting key pair 'inception'
+Releasing IP address 54.245.246.122
+➜  bosh-inception git:(master) ✗ rm ~/.bosh_inception/settings.yml
+➜  bosh-inception git:(master) ✗ bundle exec bin/bosh-inception deploy   
+
+Found infrastructure API credentials at ~/.fog (override with $FOG)
 1. AWS (default)
-2. AWS (bosh)
-3. Openstack (default)
+2. AWS (starkandwayne)
+3. Alternate credentials
+Choose infrastructure:  3
+
+1. AWS
+2. OpenStack
 Choose infrastructure:  1
 
-Confirming: using AWS infrastructure.
 
-1. ap-northeast-1
-2. ap-southeast-1
-3. eu-west-1
-4. us-east-1
-5. us-west-1
-6. us-west-2
-7. sa-east-1
-Choose AWS region:  6
-Confirming: Using AWS us-west-2 region.
+Using provider aws:
+
+1. *US East (Northern Virginia) Region (us-east-1)
+2. US West (Oregon) Region (us-west-2)
+3. US West (Northern California) Region (us-west-1)
+4. EU (Ireland) Region (eu-west-1)
+5. Asia Pacific (Singapore) Region (ap-southeast-1)
+6. Asia Pacific (Sydney) Region (ap-southeast-2)
+7. Asia Pacific (Tokyo) Region (ap-northeast-1)
+8. South America (Sao Paulo) Region (sa-east-1)
+Choose AWS region: 2
+
+Access key: KEYGOESHERE
+Secret key: SECRETGOESHERE
+
+Confirming: Using aws/us-west-2
+
+Preparing deployment settings
+
+Using your git user.name (Dr Nic Williams)
+Acquiring a public IP address... 54.245.246.122
+
+Provision inception VM
 
 
-Stage 2: Networking
-
-Confirming: Inception VM will be named inception-us-west-2
-
-Creating security group "inception"...
-Opening port: 22
-
-Confirming: Inception VM will will use security group inception
-
-Creating keypair "drnic-inception"...
-
-Confirming: Inception VM will include keypair drnic-inception
-
-Stage 3: Create/Allocate the Inception VM
-
-creating m1.small...
-Confirming: Inception VM has been created
-
-Stage 4: Preparing the Inception VM
-
-Running: knife solo bootstrap...
 ... lots of chef output...
 
 ```
