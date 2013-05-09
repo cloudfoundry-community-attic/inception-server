@@ -26,10 +26,16 @@ module Bosh::Inception::CliHelpers
       end
     end
 
-    DEFAULT_KEY_PAIR_NAME = "inception"
+    def default_server_name
+      "inception"
+    end
+
+    def default_key_pair_name
+      default_server_name
+    end
 
     def recreate_key_pair_for_inception
-      key_pair_name = settings.set_default("inception.key_pair.name", DEFAULT_KEY_PAIR_NAME)
+      key_pair_name = settings.set_default("inception.key_pair.name", default_key_pair_name)
       provider_client.delete_key_pair_if_exists(key_pair_name)
       key_pair = provider_client.create_key_pair(key_pair_name)
       settings.set("inception.key_pair.private_key", key_pair.private_key)

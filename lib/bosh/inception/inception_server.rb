@@ -3,6 +3,7 @@ require "fog"
 module Bosh::Inception
   class InceptionServer
 
+    DEFAULT_SERVER_NAME = "inception"
     DEFAULT_FLAVOR = "m1.small"
     DEFAULT_DISK_SIZE = 16
     DEFAULT_SECURITY_GROUPS = ["ssh"]
@@ -14,6 +15,7 @@ module Bosh::Inception
     #
     # Required @attributes:
     #   {
+    #     "name" => "inception",
     #     "ip_address" => "54.214.15.178",
     #     "key_pair" => {
     #       "name" => "inception",
@@ -24,6 +26,7 @@ module Bosh::Inception
     #
     # Including optional @attributes and default values:
     #   {
+    #     "name" => "inception",
     #     "ip_address" => "54.214.15.178",
     #     "security_groups" => ["ssh"],
     #     "flavor" => "m1.small",
@@ -127,6 +130,11 @@ module Bosh::Inception
       @attributes.security_groups
     end
 
+    def server_name
+      @attributes["name"] ||= DEFAULT_SERVER_NAME
+      @attributes.name
+    end
+
     def key_name
       @attributes.key_pair.name
     end
@@ -205,6 +213,13 @@ module Bosh::Inception
     end
 
     protected
+    # set_resource_name(fog_server, "inception")
+    # set_resource_name(volume, "inception-root")
+    # set_resource_name(volume, "inception-store")
+    def set_resource_name(resource, name)
+      fog_compute.tags.create :key => "Name", :value => name, :resource_id => resource.id
+    end
+
     def fog_attributes
       {
         :image_id => image_id,
@@ -251,6 +266,7 @@ module Bosh::Inception
         provisioned["host"] = fog_server.dns_name || fog_server.public_ip_address
         provisioned["username"] = fog_attributes[:username]
       end
+      set_resource_name(fog_server, server_name)
     end
 
     def attach_persistent_disk
@@ -258,11 +274,12 @@ module Bosh::Inception
         Fog.wait_for(60) { fog_server.sshable?(ssh_options) }
       end
 
-      unless @provider_client.find_server_device(fog_server, external_disk_device)
+      unless volume = @provider_client.find_server_device(fog_server, external_disk_device)
         say "Provisioning #{disk_size}Gb persistent disk for inception server..."
         volume = @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, external_disk_device)
         disk_devices["volume_id"] = volume.id
       end
+      set_resource_name(volume, server_name)
     end
 
     def ssh_options
