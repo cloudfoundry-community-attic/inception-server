@@ -73,49 +73,6 @@ class Bosh::Providers::Clients::AwsProviderClient < Bosh::Providers::Clients::Fo
     gateway.id
   end
 
-  # Creates or reuses an AWS security group and opens ports.
-  #
-  # +security_group_name+ is the name to be created or reused
-  # +ports+ is a hash of name/port for ports to open, for example:
-  # {
-  #   ssh: 22,
-  #   http: 80,
-  #   https: 443
-  # }
-  # protocol defaults to TCP
-  # You can also use a more verbose +ports+ using the format:
-  # {
-  #   ssh: 22,
-  #   http: { ports: (80..82) },
-  #   mosh: { protocol: "udp", ports: (60000..60050) }
-  #   mosh: { protocol: "rdp", ports: (3398..3398), ip_ranges: [ { cidrIp: "196.212.12.34/32" } ] }
-  # }
-  # In this example, 
-  #  * TCP 22 will be opened for ssh from any ip_range,
-  #  * TCP ports 80, 81, 82 for http from any ip_range,
-  #  * UDP 60000 -> 60050 for mosh from any ip_range and
-  #  * TCP 3398 for RDP from ip range: 96.212.12.34/32
-  # def create_security_group(security_group_name, description, ports)
-  #   unless sg = fog_compute.security_groups.get(security_group_name)
-  #     sg = fog_compute.security_groups.create(name: security_group_name, description: description)
-  #     puts "Created security group #{security_group_name}"
-  #   else
-  #     puts "Reusing security group #{security_group_name}"
-  #   end
-  #   ip_permissions = sg.ip_permissions
-  #   ports_opened = 0
-  #   ports.each do |name, port_defn|
-  #     (protocol, port_range, ip_range) = extract_port_definition(port_defn)
-  #     unless port_open?(ip_permissions, port_range, protocol, ip_range)
-  #       sg.authorize_port_range(port_range, {:ip_protocol => protocol, :cidr_ip => ip_range})
-  #       puts " -> opened #{name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
-  #       ports_opened += 1
-  #     end
-  #   end
-  #   puts " -> no additional ports opened" if ports_opened == 0
-  #   true
-  # end
-
   def find_server_device(server, device)
     server.volumes.all.find {|v| v.device == device}
   end

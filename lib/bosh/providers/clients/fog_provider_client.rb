@@ -27,6 +27,28 @@ class Bosh::Providers::Clients::FogProviderClient
     end
   end
 
+  # Creates or reuses an security group and opens ports.
+  #
+  # +security_group_name+ is the name to be created or reused
+  # +ports+ is a hash of name/port for ports to open, for example:
+  # {
+  #   ssh: 22,
+  #   http: 80,
+  #   https: 443
+  # }
+  # protocol defaults to TCP
+  # You can also use a more verbose +ports+ using the format:
+  # {
+  #   ssh: 22,
+  #   http: { ports: (80..82) },
+  #   mosh: { protocol: "udp", ports: (60000..60050) }
+  #   mosh: { protocol: "rdp", ports: (3398..3398), ip_ranges: [ { cidrIp: "196.212.12.34/32" } ] }
+  # }
+  # In this example, 
+  #  * TCP 22 will be opened for ssh from any ip_range,
+  #  * TCP ports 80, 81, 82 for http from any ip_range,
+  #  * UDP 60000 -> 60050 for mosh from any ip_range and
+  #  * TCP 3398 for RDP from ip range: 96.212.12.34/32
   def create_security_group(security_group_name, description, ports)
     security_groups = fog_compute.security_groups
     unless sg = security_groups.find { |s| s.name == security_group_name }
