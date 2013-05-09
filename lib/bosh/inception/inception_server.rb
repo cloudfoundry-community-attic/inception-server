@@ -217,7 +217,7 @@ module Bosh::Inception
     # set_resource_name(volume, "inception-root")
     # set_resource_name(volume, "inception-store")
     def set_resource_name(resource, name)
-      fog_compute.tags.create :key => "Name", :value => name, :resource_id => resource.id
+      @provider_client.set_resource_name(resource, name)
     end
 
     def fog_attributes

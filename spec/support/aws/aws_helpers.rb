@@ -34,14 +34,14 @@ module AwsHelpers
   end
 
   def provider
-    cmd.provider
+    cmd.provider_client
   end
 
-  def prepare_aws(spec_name, aws_region)
+  def prepare_aws(spec_name, aws_region, options={})
     setup_home_dir
     @cmd = nil
     @fog = nil
-    create_manifest
+    create_manifest(options)
     destroy_test_constructs
   end
 
@@ -66,9 +66,9 @@ module AwsHelpers
   def destroy_test_constructs
     puts "Destroying everything created by previous test..."
     # destroy servers using inception-vm SG
-    provider.delete_servers_with_key_pair(test_server_name)
+    provider.delete_servers_with_name(test_server_name)
+    provider.delete_volumes_with_name(test_server_name)
     provider.delete_key_pair_if_exists(test_server_name)
     provider.cleanup_unused_ip_addresses
   end
-
 end

@@ -71,6 +71,7 @@ module Bosh::Inception
         recreate_key_pair_for_inception unless settings.exists?("inception.key_pair.private_key")
         recreate_private_key_file_for_inception
         validate_deploy_settings
+        setup_next_deploy_actions
       end
 
       def perform_deploy
@@ -83,13 +84,22 @@ module Bosh::Inception
         save_settings!
       end
 
+      def setup_next_deploy_actions
+        settings["next_deploy_actions"] ||= {}
+        @next_deploy_actions = NextDeployActions.new(settings.next_deploy_actions, options)
+      end
+
       # Perform converge chef cookbooks upon inception server
       # Does not update settings
       def converge_cookbooks
-        header "Prepare inception server"
-        server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
-        cookbook = InceptionServerCookbook.new(server, settings)
-        cookbook.converge
+        if @next_deploy_actions.skip_chef_converge?
+          header "Prepare inception server", skip: "Requested to be skipped on this deploy."
+        else
+          header "Prepare inception server"
+          server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
+          cookbook = InceptionServerCookbook.new(server, settings)
+          cookbook.converge
+        end
       end
 
       def perform_delete(non_interactive)

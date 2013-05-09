@@ -18,7 +18,6 @@ env:
     - SUITE=integration:aws:basic
   global:
     - secure: "XRBq8CKIbRvwBTpyecFFtQFXgD0dhH4+p7knMQn/o4xnv79/feEPRccQycmk\nsFuWeVxTOW06p+PseQMQuU2UgjIDM6RE7jE5iM5kJh6hS/zFHAzlXWQAvEGz\nimnmzEMza60RXgihvT4WWVy5KJZtailUd2ywV9j5BxYHExKeABo="
-matrix:
-  allow_failures:
-    - env: SUITE=integration:aws:basic
-        
+# matrix:
+#   allow_failures:
+#     - env: SUITE=integration:aws:basic

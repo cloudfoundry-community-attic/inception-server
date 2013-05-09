@@ -21,16 +21,43 @@ class Bosh::Providers::Clients::FogProviderClient
     fog_compute.key_pairs.create(:name => key_pair_name)
   end
 
+  # set_resource_name(fog_server, "inception")
+  # set_resource_name(volume, "inception-root")
+  # set_resource_name(volume, "inception-store")
+  def set_resource_name(resource, name)
+    fog_compute.tags.create :key => "Name", :value => name, :resource_id => resource.id
+  end
+
   def delete_key_pair_if_exists(key_pair_name)
     if fog_key_pair = fog_compute.key_pairs.get(key_pair_name)
       fog_key_pair.destroy
     end
   end
 
-  def delete_servers_with_name(server_name)
-    fog_compute.servers.select {|s| s.tags["Name"].downcase == server_name.downcase }.each do |server|
+  def delete_servers_with_name(name)
+    fog_compute.servers.select {|s| s.tags["Name"].downcase == name.downcase }.each do |server|
       puts "Destroying server #{server.id}..."
       server.destroy
+    end
+  end
+
+  def delete_volumes_with_name(name)
+    fog_compute.volumes.select do |v|
+      volume_name = v.tags["Name"]
+      volume_name && volume_name.downcase == name.downcase
+    end.each do |volume|
+      puts "Destroying volume #{volume.id}..."
+      volume.destroy
+    end
+  end
+
+  # Destroy all IP addresses that aren't bound to a server
+  def cleanup_unused_ip_addresses
+    fog_compute.addresses.each do |a|
+      unless a.server
+        puts "Deleting unused IP address #{a.public_ip}..."
+        a.destroy
+      end
     end
   end
 

@@ -157,16 +157,6 @@ class Bosh::Providers::Clients::AwsProviderClient < Bosh::Providers::Clients::Fo
     server
   end
 
-  # Destroy all IP addresses that aren't bound to a server
-  def cleanup_unused_ip_addresses
-    fog_compute.addresses.each do |a|
-      unless a.server
-        puts "Deleting unused IP address #{a.public_ip}..."
-        a.destroy
-      end
-    end
-  end
-
   # Construct a Fog::Compute object
   # Uses +attributes+ which normally originates from +settings.provider+
   def setup_fog_connection

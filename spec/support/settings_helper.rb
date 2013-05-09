@@ -7,6 +7,6 @@ module SettingsHelper
 
   # used by +SettingsSetter+ to access the settings
   def settings
-    @cmd.settings
+    cmd.settings
   end
 end
