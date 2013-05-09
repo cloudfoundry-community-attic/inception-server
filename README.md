@@ -38,16 +38,6 @@ To create a remote inception server, normally in the IaaS/region that you will b
 
 ```
 $ bosh-inception deploy
-✗ bundle exec bin/bosh-inception delete -n
-
-Deleting inception server, volumes and releasing IP address
-
-Server already destroyed
-Volume already destroyed
-Deleting key pair 'inception'
-Releasing IP address 54.245.246.122
-➜  bosh-inception git:(master) ✗ rm ~/.bosh_inception/settings.yml
-➜  bosh-inception git:(master) ✗ bundle exec bin/bosh-inception deploy   
 
 Found infrastructure API credentials at ~/.fog (override with $FOG)
 1. AWS (default)
