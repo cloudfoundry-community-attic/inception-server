@@ -13,7 +13,8 @@ notifications:
     on_failure: always
 env:
   matrix:
-    - SUITE=cookbooks
+    - SUITE=unit
+    # - SUITE=cookbooks
     # - SUITE=integration:aws:basic
     # - SUITE=integration:aws:edge
     # - SUITE=integration:aws:edge_prebuilt
