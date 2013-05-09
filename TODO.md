@@ -1,6 +1,8 @@
 ## CLI
 
-* --no-converge flag & next_deploy.no_converge: true => do not run chef on deploy
+* Add Berkshelf into ~/.bosh_settings to reference `bosh_inception` cookbook (allow users to extend)
+* rename to bosh-inception => inception
+* --no-converge flag do not run chef on deploy
 * integration test - OpenStack - create VM, use busser (?) to run remote SSH bats tests, destroy VM
 * observe InstanceServer#create stages and run save_settings! after each one (idempotence)
 * observe InstanceServer#create stages and display STDOUT as it goes along

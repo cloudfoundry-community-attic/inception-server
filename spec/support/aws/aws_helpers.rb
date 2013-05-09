@@ -29,14 +29,6 @@ module AwsHelpers
     end
   end
 
-  def cmd
-    @cmd ||= Bosh::Inception::Cli.new
-  end
-
-  def provider
-    cmd.provider_client
-  end
-
   def prepare_aws(spec_name, aws_region, options={})
     setup_home_dir
     @cmd = nil
