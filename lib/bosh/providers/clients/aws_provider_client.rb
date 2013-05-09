@@ -244,11 +244,7 @@ class Bosh::Providers::Clients::AwsProviderClient < Bosh::Providers::Clients::Fo
   # Construct a Fog::Compute object
   # Uses +attributes+ which normally originates from +settings.provider+
   def setup_fog_connection
-    configuration = attributes.credentials.inject({}) do |mem, key_value|
-      key, value = key_value
-      mem[key.to_sym] = value
-      mem
-    end
+    configuration = Fog.symbolize_credentials(attributes.credentials)
     configuration[:provider] = "AWS"
     configuration[:region] = attributes.region
     @fog_compute = Fog::Compute.new(configuration)
