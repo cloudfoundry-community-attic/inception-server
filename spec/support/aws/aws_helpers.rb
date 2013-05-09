@@ -64,7 +64,7 @@ module AwsHelpers
     provider.delete_security_group_and_servers("#{bosh_name}-inception-vm")
     provider.delete_security_group_and_servers(bosh_name)
 
-    # TODO delete "inception" key pair? Why isn't it named for the bosh/inception VM?
+    # TODO delete "inception" key pair? Why isn't it named for the bosh/inception server?
     provider.delete_key_pair(bosh_name)
 
     provider.cleanup_unused_ip_addresses

@@ -45,7 +45,7 @@ describe "AWS deployment" do
       File.read(local_private_key).should == settings.inception.key_pair.private_key
     end
 
-    it "provisions inception VM" do
+    it "provisions inception server" do
       settings.inception.flavor.should == "m1.small"
       settings.inception.disk_size.should == 16
       settings.inception.image_id.should == "ami-bf1d8a8f" # us-west-2 13.04 AMI
@@ -62,7 +62,7 @@ describe "AWS deployment" do
 
   end
 
-  describe "converge inception VM if it fails midway" do
+  describe "converge inception server if it fails midway" do
     it "use local git config even if already allocated" do
       create_manifest(credentials: @credentials, "git.name" => "Mystery", "git.email" => "mystery@gmail.com")
       capture_stdout { cmd.deploy }

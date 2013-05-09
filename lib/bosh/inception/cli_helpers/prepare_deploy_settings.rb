@@ -41,9 +41,9 @@ module Bosh::Inception::CliHelpers
       @private_key_path_for_inception ||= File.join(settings_dir, "ssh", settings.inception.key_pair.name)
     end
 
-    # The keys for the inception VM originate from the provider and are cached in
+    # The keys for the inception server originate from the provider and are cached in
     # the manifest. The private key is stored locally; the public key is placed
-    # on the inception VM.
+    # on the inception server.
     def recreate_private_key_file_for_inception
       mkdir_p(File.dirname(private_key_path_for_inception))
       File.chmod(0700, File.dirname(private_key_path_for_inception))

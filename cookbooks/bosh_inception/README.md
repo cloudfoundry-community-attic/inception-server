@@ -1,6 +1,6 @@
 # Cookbook for bosh-inception
 
-Chef cookbook to convert a VM into an Inception VM to deploy/develop Bosh and bosh releases.
+Chef cookbook to convert a VM into an inception server to deploy/develop Bosh and bosh releases.
 
 ## Development
 

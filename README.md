@@ -1,8 +1,8 @@
 # Bosh Inception
 
-Create an Inception VM for Bosh.
+Create an inception server for Bosh.
 
-Includes a CLI for creating and preparing an Inception VM for deploying/developing a Bosh universe. The created or targeted VM is upgraded into an Inception VM via a Chef cookbook.
+Includes a CLI for creating and preparing an inception server for deploying/developing a Bosh universe. The created or targeted VM is upgraded into an inception server via a Chef cookbook.
 
 [![Build Status](https://travis-ci.org/drnic/bosh-inception.png?branch=master)](https://travis-ci.org/drnic/bosh-inception)
 [![Code Climate](https://codeclimate.com/github/drnic/bosh-inception.png)](https://codeclimate.com/github/drnic/bosh-inception)
@@ -30,11 +30,11 @@ gem install bosh-inception
 
 ## Usage
 
-This project includes both a standalone CLI to create an Inception VM or transform an existing VM into an Inception VM; and the internal Chef cookbooks that can be used outside of the CLI.
+This project includes both a standalone CLI to create an inception server or transform an existing VM into an inception server; and the internal Chef cookbooks that can be used outside of the CLI.
 
-### CLI usage - create a remote Inception VM
+### CLI usage - create a remote inception server
 
-To create a remote Inception VM, normally in the IaaS/region that you will be working with BOSH:
+To create a remote inception server, normally in the IaaS/region that you will be working with BOSH:
 
 ```
 $ bosh-inception deploy
@@ -82,16 +82,16 @@ Preparing deployment settings
 Using your git user.name (Dr Nic Williams)
 Acquiring a public IP address... 54.245.246.122
 
-Provision inception VM
+Provision inception server
 
 
 ... lots of chef output...
 
 ```
 
-### CLI usage - upgrade existing remote Inception VM
+### CLI usage - upgrade existing remote inception server
 
-You can upgrade your remote Inception VM at any time by re-running the `deploy` command.
+You can upgrade your remote inception server at any time by re-running the `deploy` command.
 
 ```
 $ bosh-inception deploy

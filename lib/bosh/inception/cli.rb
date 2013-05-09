@@ -25,7 +25,7 @@ module Bosh::Inception
     include Bosh::Inception::CliHelpers::Settings
     include Bosh::Inception::CliHelpers::PrepareDeploySettings
 
-    desc "deploy", "Create/upgrade a Bosh Inception VM"
+    desc "deploy", "Create/upgrade a Bosh inception server"
     def deploy
       migrate_old_settings
       configure_provider
@@ -34,14 +34,14 @@ module Bosh::Inception
       converge_cookbooks
     end
 
-    desc "delete", "Destroy target Bosh Inception VM, volumes & release the IP address"
+    desc "delete", "Destroy target Bosh inception server, volumes & release the IP address"
     method_option :"non-interactive", aliases: ["-n"], type: :boolean, desc: "Don't ask questions, just get crankin'"
     def delete
       migrate_old_settings
       perform_delete(options[:"non-interactive"])
     end
 
-    desc "ssh [COMMAND]", "Open an ssh session to the inception VM [do nothing if local machine is the inception VM]"
+    desc "ssh [COMMAND]", "Open an ssh session to the inception server [do nothing if local machine is the inception server]"
     long_desc <<-DESC
       If a command is supplied, it will be run, otherwise a session will be opened.
     DESC
@@ -50,7 +50,7 @@ module Bosh::Inception
       run_ssh_command_or_open_tunnel(cmd)
     end
 
-    desc "tmux", "Open an ssh (with tmux) session to the inception VM [do nothing if local machine is inception VM]"
+    desc "tmux", "Open an ssh (with tmux) session to the inception server [do nothing if local machine is inception server]"
     long_desc <<-DESC
       Opens a connection using ssh and attaches to the most recent tmux session;
       giving you persistance across disconnects.
@@ -62,7 +62,7 @@ module Bosh::Inception
 
     no_tasks do
       # update settings.git.name/git.email from local ~/.gitconfig if available
-      # provision public IP address for inception VM if not allocated one
+      # provision public IP address for inception server if not allocated one
       # Note: helper methods are in bosh/inception/cli_helpers/prepare_deploy_settings.rb
       def prepare_deploy_settings
         header "Preparing deployment settings"
@@ -74,7 +74,7 @@ module Bosh::Inception
       end
 
       def perform_deploy
-        header "Provision inception VM"
+        header "Provision inception server"
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
         server.create
       ensure
@@ -83,10 +83,10 @@ module Bosh::Inception
         save_settings!
       end
 
-      # Perform converge chef cookbooks upon Inception VM
+      # Perform converge chef cookbooks upon inception server
       # Does not update settings
       def converge_cookbooks
-        header "Prepare inception VM"
+        header "Prepare inception server"
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
         cookbook = InceptionServerCookbook.new(server, settings)
         cookbook.converge
@@ -109,7 +109,7 @@ module Bosh::Inception
       def run_ssh_command_or_open_tunnel(cmd)
         recreate_private_key_file_for_inception
         unless settings.exists?("inception.provisioned.host")
-          exit "Inception VM has not finished launching; run to complete: bosh-inception deploy"
+          exit "inception server has not finished launching; run to complete: bosh-inception deploy"
         end
 
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)

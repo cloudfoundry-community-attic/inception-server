@@ -1,5 +1,5 @@
 module Bosh::Inception
-  # Perform converge chef cookbooks upon Inception VM
+  # Perform converge chef cookbooks upon inception server
   class InceptionServerCookbook
     include FileUtils
 

@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version     = Bosh::Inception::VERSION
   spec.authors     = ["Dr Nic Williams"]
   spec.email       = ["drnicwilliams@gmail.com"]
-  spec.description = %q{Create an Inception VM for Bosh}
-  spec.summary     = %q{CLI, with chef recipes, for creating and preparing an Inception VM for deploying/developing a Bosh universe.}
+  spec.description = %q{Create an inception server for Bosh}
+  spec.summary     = %q{CLI, with chef recipes, for creating and preparing an inception server for deploying/developing a Bosh universe.}
   spec.homepage    = ""
   spec.license     = "MIT"
 
@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   # for bosh/providers
   spec.add_dependency "fog"
 
-  # for running cookbooks on inception VM
+  # for running cookbooks on inception server
   spec.add_dependency "knife-solo", "~> 0.3.0.pre"
 
   spec.add_development_dependency "bundler", "~> 1.3"

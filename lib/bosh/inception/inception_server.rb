@@ -141,7 +141,7 @@ module Bosh::Inception
       @attributes["flavor"] ||= DEFAULT_FLAVOR
     end
 
-    # Size of attached persistent disk for the inception VM
+    # Size of attached persistent disk for the inception server
     def disk_size
       @attributes["disk_size"] ||= DEFAULT_DISK_SIZE
     end
