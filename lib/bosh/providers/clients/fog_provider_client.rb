@@ -54,6 +54,15 @@ class Bosh::Providers::Clients::FogProviderClient
     [protocol, port_range, ip_range]
   end
 
+  def port_open?(ip_permissions, port_range, protocol, ip_range)
+    ip_permissions && ip_permissions.find do |ip| 
+      ip["ipProtocol"] == protocol \
+      && ip["ipRanges"].detect { |range| range["cidrIp"] == ip_range } \
+      && ip["fromPort"] <= port_range.min \
+      && ip["toPort"] >= port_range.max
+    end
+  end
+
   def provision_or_reuse_public_ip_address(options={})
     provision_public_ip_address(options) || find_unused_public_ip_address(options)
   end

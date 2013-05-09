@@ -50,15 +50,6 @@ class Bosh::Providers::Clients::OpenStackProviderClient < Bosh::Providers::Clien
     true
   end
 
-  def port_open?(ip_permissions, port_range, protocol, ip_range)
-    ip_permissions && ip_permissions.find do |ip|
-      ip["ip_protocol"] == protocol \
-      && ip["ip_range"].detect { |range| range["cidr"] == ip_range } \
-      && ip["from_port"] <= port_range.min \
-      && ip["to_port"] >= port_range.max
-    end
-  end
-
   def find_server_device(server, device)
     va = fog_compute.get_server_volumes(server.id).body['volumeAttachments']
     va.find { |v| v["device"] == device }

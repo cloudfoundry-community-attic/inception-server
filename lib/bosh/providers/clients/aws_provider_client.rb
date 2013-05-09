@@ -116,15 +116,6 @@ class Bosh::Providers::Clients::AwsProviderClient < Bosh::Providers::Clients::Fo
     true
   end
 
-  def port_open?(ip_permissions, port_range, protocol, ip_range)
-    ip_permissions && ip_permissions.find do |ip| 
-      ip["ipProtocol"] == protocol \
-      && ip["ipRanges"].detect { |range| range["cidrIp"] == ip_range } \
-      && ip["fromPort"] <= port_range.min \
-      && ip["toPort"] >= port_range.max
-    end
-  end
-
   def find_server_device(server, device)
     server.volumes.all.find {|v| v.device == device}
   end
