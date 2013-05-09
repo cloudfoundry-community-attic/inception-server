@@ -5,10 +5,11 @@ gemspec
 
 gem "settingslogic", github: "drnic/settingslogic", branch: "integration"
 
+gem 'knife-solo', github: 'matschaffer/knife-solo'
+
 group :integration do
-  gem 'test-kitchen', github: 'opscode/test-kitchen', branch: '1.0'
-  gem 'kitchen-ec2', github: 'opscode/kitchen-ec2'
-  gem 'knife-solo', github: 'matschaffer/knife-solo'
+  # gem 'test-kitchen', github: 'opscode/test-kitchen', branch: '1.0'
+  gem 'kitchen-ec2'
 end
 
 group :vagrant do
