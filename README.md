@@ -4,7 +4,7 @@ Create an Inception VM for Bosh.
 
 Includes a CLI for creating and preparing an Inception VM for deploying/developing a Bosh universe. The created or targeted VM is upgraded into an Inception VM via a Chef cookbook.
 
-STATUS: This is in development. The cookbooks look good so far. README is a description of what the project will become.
+[![Build Status](https://travis-ci.org/drnic/bosh-inception.png?branch=master)](https://travis-ci.org/drnic/bosh-inception)
 
 ## Installation
 
