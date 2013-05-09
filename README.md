@@ -8,8 +8,6 @@ Includes a CLI for creating and preparing an Inception VM for deploying/developi
 
 ## Installation
 
-This tool is distributed as a RubyGem. It requires Ruby 1.9+.
-
 Currently, install and use the tool via this Git repo (due to its dependency on other unreleased RubyGems).
 
 ```
@@ -19,7 +17,7 @@ bundle
 bundle exec bin/bosh-inception deploy
 ```
 
-In future, the following will work:
+In future, this tool will be distributed as a RubyGem. It requires Ruby 1.9+.
 
 ```
 gem install bosh-inception
