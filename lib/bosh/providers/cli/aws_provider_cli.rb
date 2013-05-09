@@ -2,6 +2,7 @@
 
 module Bosh; module Providers; module Cli; end; end; end
 
+require "bosh/providers/cli/provider_cli"
 require "bosh/providers/constants/aws_constants"
 
 # Interactively prompt user for region & credential information for AWS
@@ -13,17 +14,7 @@ require "bosh/providers/constants/aws_constants"
 #   provider = AwsProviderCli.new(settings.provider)
 #   provider_client.perform
 #   settings.provider = provider_cli.export_attributes
-class Bosh::Providers::Cli::AwsProviderCli
-  include Bosh::Inception::CliHelpers::Interactions
-
-  attr_reader :provider_client
-  attr_reader :attributes
-
-  def initialize(attributes)
-    @provider_client = provider_client
-    @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
-    raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
-  end
+class Bosh::Providers::Cli::AwsProviderCli < Bosh::Providers::Cli::ProviderCli
 
   def perform
     attributes.set("name", "aws") # ensure this property is correct
