@@ -1,5 +1,6 @@
 require "active_support/core_ext/hash/keys"
 module AwsHelpers
+  extend self
   include SettingsHelper
 
   def keep_after_test?
@@ -12,6 +13,12 @@ module AwsHelpers
 
   def fog
     @fog ||= Fog::Compute.new(fog_credentials.merge(:region => region))
+  end
+
+  def aws_credentials?
+    access_key = ENV['AWS_ACCESS_KEY_ID']
+    secret_key = ENV["AWS_SECRET_ACCESS_KEY"]
+    access_key && secret_key
   end
 
   def fog_credentials
