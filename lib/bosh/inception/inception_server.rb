@@ -245,6 +245,7 @@ module Bosh::Inception
 
     def bootstrap_vm
       unless fog_server
+        say "Booting #{flavor} inception server..."
         @fog_server = @provider_client.bootstrap(fog_attributes)
         provisioned["server_id"] = fog_server.id
         provisioned["host"] = fog_server.dns_name || fog_server.public_ip_address
@@ -258,7 +259,7 @@ module Bosh::Inception
       end
 
       unless @provider_client.find_server_device(fog_server, external_disk_device)
-        # say "Provisioning #{disk_size}Gb persistent disk for inception VM..."
+        say "Provisioning #{disk_size}Gb persistent disk for inception server..."
         volume = @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, external_disk_device)
         disk_devices["volume_id"] = volume.id
       end
@@ -276,6 +277,12 @@ module Bosh::Inception
         print "."
         state == state_to_wait_for
       end
+    end
+
+    protected
+    # TODO emit events rather than writing directly to STDOUT
+    def say(*args)
+      puts(*args)
     end
   end
 end
