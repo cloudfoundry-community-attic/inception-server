@@ -1,7 +1,5 @@
 ## CLI
 
-* update README with actual output
-* more output during deploy (creating server, volume, disk, "Using IP 1.2.3.4")
 * integration test - AWS - create VM, use busser (?) to run remote SSH bats tests, destroy VM
 * integration test - OpenStack - create VM, use busser (?) to run remote SSH bats tests, destroy VM
 * observe InstanceServer#create stages and run save_settings! after each one (idempotence)
