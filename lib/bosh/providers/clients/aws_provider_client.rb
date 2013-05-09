@@ -95,26 +95,26 @@ class Bosh::Providers::Clients::AwsProviderClient < Bosh::Providers::Clients::Fo
   #  * TCP ports 80, 81, 82 for http from any ip_range,
   #  * UDP 60000 -> 60050 for mosh from any ip_range and
   #  * TCP 3398 for RDP from ip range: 96.212.12.34/32
-  def create_security_group(security_group_name, description, ports)
-    unless sg = fog_compute.security_groups.get(security_group_name)
-      sg = fog_compute.security_groups.create(name: security_group_name, description: description)
-      puts "Created security group #{security_group_name}"
-    else
-      puts "Reusing security group #{security_group_name}"
-    end
-    ip_permissions = sg.ip_permissions
-    ports_opened = 0
-    ports.each do |name, port_defn|
-      (protocol, port_range, ip_range) = extract_port_definition(port_defn)
-      unless port_open?(ip_permissions, port_range, protocol, ip_range)
-        sg.authorize_port_range(port_range, {:ip_protocol => protocol, :cidr_ip => ip_range})
-        puts " -> opened #{name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
-        ports_opened += 1
-      end
-    end
-    puts " -> no additional ports opened" if ports_opened == 0
-    true
-  end
+  # def create_security_group(security_group_name, description, ports)
+  #   unless sg = fog_compute.security_groups.get(security_group_name)
+  #     sg = fog_compute.security_groups.create(name: security_group_name, description: description)
+  #     puts "Created security group #{security_group_name}"
+  #   else
+  #     puts "Reusing security group #{security_group_name}"
+  #   end
+  #   ip_permissions = sg.ip_permissions
+  #   ports_opened = 0
+  #   ports.each do |name, port_defn|
+  #     (protocol, port_range, ip_range) = extract_port_definition(port_defn)
+  #     unless port_open?(ip_permissions, port_range, protocol, ip_range)
+  #       sg.authorize_port_range(port_range, {:ip_protocol => protocol, :cidr_ip => ip_range})
+  #       puts " -> opened #{name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
+  #       ports_opened += 1
+  #     end
+  #   end
+  #   puts " -> no additional ports opened" if ports_opened == 0
+  #   true
+  # end
 
   def find_server_device(server, device)
     server.volumes.all.find {|v| v.device == device}

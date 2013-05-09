@@ -27,6 +27,45 @@ class Bosh::Providers::Clients::FogProviderClient
     end
   end
 
+  def create_security_group(security_group_name, description, ports)
+    security_groups = fog_compute.security_groups
+    unless sg = security_groups.find { |s| s.name == security_group_name }
+      sg = fog_compute.security_groups.create(name: security_group_name, description: description)
+      puts "Created security group #{security_group_name}"
+    else
+      puts "Reusing security group #{security_group_name}"
+    end
+    ip_permissions = ip_permissions(sg)
+    ports_opened = 0
+    ports.each do |name, port_defn|
+      (protocol, port_range, ip_range) = extract_port_definition(port_defn)
+      unless port_open?(ip_permissions, port_range, protocol, ip_range)
+        authorize_port_range(sg, port_range, protocol, ip_range)
+        puts " -> opened #{name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
+        ports_opened += 1
+      end
+    end
+    puts " -> no additional ports opened" if ports_opened == 0
+    true
+  end
+
+  def port_open?(ip_permissions, port_range, protocol, ip_range)
+    ip_permissions && ip_permissions.find do |ip| 
+      ip["ipProtocol"] == protocol \
+      && ip["ipRanges"].detect { |range| range["cidrIp"] == ip_range } \
+      && ip["fromPort"] <= port_range.min \
+      && ip["toPort"] >= port_range.max
+    end
+  end
+
+  def authorize_port_range(sg, port_range, protocol, ip_range)
+    sg.authorize_port_range(port_range, {:ip_protocol => protocol, :cidr_ip => ip_range})
+  end
+
+  def ip_permissions(sg)
+    sg.ip_permissions
+  end
+
   # Any of the following +port_defn+ can be used:
   # {
   #   ssh: 22,
@@ -52,15 +91,6 @@ class Bosh::Providers::Clients::FogProviderClient
       ip_range = port_defn[:ip_range] if port_defn[:ip_range]
     end
     [protocol, port_range, ip_range]
-  end
-
-  def port_open?(ip_permissions, port_range, protocol, ip_range)
-    ip_permissions && ip_permissions.find do |ip| 
-      ip["ipProtocol"] == protocol \
-      && ip["ipRanges"].detect { |range| range["cidrIp"] == ip_range } \
-      && ip["fromPort"] <= port_range.min \
-      && ip["toPort"] >= port_range.max
-    end
   end
 
   def provision_or_reuse_public_ip_address(options={})

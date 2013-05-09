@@ -19,35 +19,14 @@ class Bosh::Providers::Clients::OpenStackProviderClient < Bosh::Providers::Clien
     address.server = server
   end
 
-  # Creates or reuses an OpenStack security group and opens ports.
-  # 
-  # +security_group_name+ is the name to be created or reused
-  # +ports+ is a hash of name/port for ports to open, for example:
-  # {
-  #   ssh: 22,
-  #   http: 80,
-  #   https: 443
-  # }
-  def create_security_group(security_group_name, description, ports)
-    security_groups = fog_compute.security_groups
-    unless sg = security_groups.find { |s| s.name == security_group_name }
-      sg = fog_compute.security_groups.create(name: security_group_name, description: description)
-      puts "Created security group #{security_group_name}"
-    else
-      puts "Reusing security group #{security_group_name}"
-    end
-    ip_permissions = sg.rules
-    ports_opened = 0
-    ports.each do |name, port_defn|
-      (protocol, port_range, ip_range) = extract_port_definition(port_defn)
-      unless port_open?(ip_permissions, port_range, protocol, ip_range)
-        sg.create_security_group_rule(port_range.min, port_range.max, protocol, ip_range)
-        puts " -> opened #{name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
-        ports_opened += 1
-      end
-    end
-    puts " -> no additional ports opened" if ports_opened == 0
-    true
+  # Hook method for FogProviderClient#create_security_group
+  def ip_permissions(sg)
+    sg.rules
+  end
+
+  # Hook method for FogProviderClient#create_security_group
+  def authorize_port_range(sg, port_range, protocol, ip_range)
+    sg.create_security_group_rule(port_range.min, port_range.max, protocol, ip_range)
   end
 
   def find_server_device(server, device)
