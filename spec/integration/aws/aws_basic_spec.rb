@@ -7,7 +7,7 @@ describe "AWS deployment without Chef run" do
 
   if AwsHelpers.aws_credentials?
     before do
-      prepare_aws("basic", aws_region, "next_deploy_actions.no_converge" => true)
+      prepare_aws("basic", aws_region)
     end
     after(:all) do
       destroy_test_constructs unless keep_after_test?
