@@ -21,15 +21,6 @@ describe Bosh::Inception::InceptionServerCookbook do
   let(:inception_server) { mock(user_host: "user@host", private_key_path: "path/to/key") }
   subject { Bosh::Inception::InceptionServerCookbook.new(inception_server, settings, settings_dir) }
 
-  it "complains if run within folder without nodes folder" do
-    attributes = {}.to_json
-    expected_cmd = "knife solo bootstrap user@host -i path/to/key -j '#{attributes}' -r 'bosh_inception'"
-    subject.stub(:sh).with(expected_cmd)
-    expect {
-      subject.converge
-    }.to raise_error(Bosh::Inception::InceptionServerCookbook::InvalidTarget)
-  end
-
   describe "in prepared settings dir" do
     before do
       attributes = '{"disk":{"mounted":true,"device":"/dev/abc"},"git":{"name":"Dr Nic Williams","email":"drnicwilliams@gmail.com"},"user":{"username":"user"}}'
