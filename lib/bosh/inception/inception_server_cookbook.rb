@@ -28,14 +28,18 @@ module Bosh::Inception
     protected
     def prepare_project_dir
       prepare_cookbook
+      prepare_knife_config
       prepare_berksfile
-      mkdir_p("nodes")
     end
 
     def prepare_cookbook
       mkdir_p("cookbooks")
       rm_rf("cookbooks/bosh_inception")
       cp_r(inception_cookbook_path, "cookbooks/")
+    end
+
+    def prepare_knife_config
+      mkdir_p("nodes") # needed for knife solo
     end
 
     def prepare_berksfile

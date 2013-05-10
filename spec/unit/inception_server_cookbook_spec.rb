@@ -27,12 +27,18 @@ describe Bosh::Inception::InceptionServerCookbook do
       expected_cmd = "knife solo bootstrap user@host -i path/to/key -j '#{attributes}' -r 'bosh_inception'"
       subject.stub(:sh).with(expected_cmd)
       mkdir_p(File.join(settings_dir, "nodes"))
+      subject.converge
     end
 
     it "creates Berksfile" do
-      subject.converge
       FileUtils.chdir(settings_dir) do
         File.should be_exists("Berksfile")
+      end
+    end
+
+    it "copies in cookbook" do
+      FileUtils.chdir(settings_dir) do
+        File.should be_exists("cookbooks/bosh_inception/recipes/default.rb")
       end
     end
   end
