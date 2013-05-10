@@ -9,7 +9,6 @@ gem "settingslogic", github: "drnic/settingslogic", branch: "integration"
 gem 'knife-solo', github: 'drnic/knife-solo', branch: 'continue_connecting'
 
 group :integration do
-  # gem 'test-kitchen', github: 'opscode/test-kitchen', branch: '1.0'
   gem 'kitchen-ec2'
 end
 
