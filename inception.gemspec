@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version     = Inception::VERSION
   spec.authors     = ["Dr Nic Williams"]
   spec.email       = ["drnicwilliams@gmail.com"]
-  spec.description = %q{Create an inception server for Bosh}
+  spec.description = %q{Create an inception server for Bosh & general inception of new universes}
   spec.summary     = %q{CLI, with chef recipes, for creating and preparing an inception server for deploying/developing a Bosh universe.}
   spec.homepage    = ""
   spec.license     = "MIT"
