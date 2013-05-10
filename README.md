@@ -1,11 +1,11 @@
-# Bosh Inception
+# Inception Server for Bosh development
 
-Create an inception server for Bosh.
+Create an inception server for Bosh-related development.
 
 Includes a CLI for creating and preparing an inception server for deploying/developing a Bosh universe. The created or targeted VM is upgraded into an inception server via a Chef cookbook.
 
-[![Build Status](https://travis-ci.org/drnic/inception.png?branch=master)](https://travis-ci.org/drnic/inception)
-[![Code Climate](https://codeclimate.com/github/drnic/inception.png)](https://codeclimate.com/github/drnic/inception)
+[![Build Status](https://travis-ci.org/drnic/inception-server.png?branch=master)](https://travis-ci.org/drnic/inception-server)
+[![Code Climate](https://codeclimate.com/github/drnic/inception-server.png)](https://codeclimate.com/github/drnic/inception-server)
 
 ## Installation
 
