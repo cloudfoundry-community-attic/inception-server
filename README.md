@@ -21,6 +21,7 @@ bundle exec bin/inception deploy
 Waiting on the following projects to ship a new gem:
 
 * https://github.com/matschaffer/knife-solo/issues/243
+* drnic/settingslogic - branch integration (just need a single file from it)
 
 In future, this tool will be distributed as a RubyGem. It requires Ruby 1.9+.
 
