@@ -1,8 +1,10 @@
 ## CLI
 
 * do not install Chef each time; run `knife solo prepare`, then only run `knife solo cook` after that
+* FIX - WARNING: `knife[:berkshelf_path]` is not set. Using temporary directory to install Berkshelf cookbooks.
 * rename to bosh-inception => inception
 * --no-converge flag do not run chef on deploy
+* next_deploy_actions - deleted from settings after deploy completes
 * integration test - OpenStack - create VM, use busser (?) to run remote SSH bats tests, destroy VM
 * observe InstanceServer#create stages and run save_settings! after each one (idempotence)
 * observe InstanceServer#create stages and display STDOUT as it goes along
