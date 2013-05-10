@@ -17,7 +17,7 @@ env:
     # - SUITE=cookbooks
     - SUITE=integration:aws:basic
   global:
-    - secure: "HB69lnKRSopQgW/1fFZtYsdTsLLRhQVXm0w2y8OIGNOI1+d1uViOsRbCI8Ww\nTg/8lCpRkk3ICjx+Sc0hXYWCX5l2r0qK9aqNMMIUilfrR8UDEPQ94aprz99j\nGq1wOugGD6CvxWmY3ktfv/HlZ4mb7y1tQXcewJjQF2EW7AtxwCs="
+    - secure: "ffIzBURgvWYTtbdZjic6DGxRiKBrd8auIJxiEIdgBhI2a/KUpcgQEKJrnReg\nL9rUEOWDlWOKfTqsUdehQ4q24MKoNVlpAHPyGZlEd6BtypbdQARJD1VFUSD0\nyNybSKjAe3+gaqTBt7LBWeVEBAVI8U9OQwL5+DQPnz53io06Z6I="
 # matrix:
 #   allow_failures:
 #     - env: SUITE=integration:aws:basic
