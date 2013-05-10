@@ -14,7 +14,6 @@
 * echo "export TMPDIR=/var/vcap/store/tmp" >> /home/#{node.user.username}/.bashrc
 * echo "export EDITOR=vim" >> /home/#{node.user.username}/.bashrc
 * move bosh-micro & bosh-cf installation into separate cookbooks
-* place ~ubuntu/.fog for the selected provider credentials
 * stuff that will go onto AMI must be installed into root volume, not /var/vcap/store
 * where does btrfs need to be installed? should /var/vcap/store be btrfs instead of ext4?
 

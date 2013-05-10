@@ -74,7 +74,8 @@ module Inception
         },
         "user" => {
           "username" => settings.inception.provisioned.username
-        }
+        },
+        "fog" => settings.provider.credentials
       }
     end
 

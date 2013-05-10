@@ -19,11 +19,11 @@ else
       end
     end
   end
-end
 
-file "/home/#{node.user.username}/.fog" do
-  owner node.user.username
-  group node.user.username
-  mode "0600"
-  action :touch
+  file "/home/#{node.user.username}/.fog" do
+    owner node.user.username
+    group node.user.username
+    mode "0600"
+    action :touch
+  end
 end
