@@ -5,7 +5,8 @@ gemspec
 
 gem "settingslogic", github: "drnic/settingslogic", branch: "integration"
 
-gem 'knife-solo', github: 'matschaffer/knife-solo'
+# gem 'knife-solo', github: 'matschaffer/knife-solo'
+gem 'knife-solo', github: 'drnic/knife-solo', branch: 'continue_connecting'
 
 group :integration do
   # gem 'test-kitchen', github: 'opscode/test-kitchen', branch: '1.0'
