@@ -14,7 +14,7 @@ notifications:
 env:
   matrix:
     - SUITE=unit
-    - SUITE=cookbooks
+    # - SUITE=cookbooks
     - SUITE=integration:aws:basic
   global:
     - secure: "ffIzBURgvWYTtbdZjic6DGxRiKBrd8auIJxiEIdgBhI2a/KUpcgQEKJrnReg\nL9rUEOWDlWOKfTqsUdehQ4q24MKoNVlpAHPyGZlEd6BtypbdQARJD1VFUSD0\nyNybSKjAe3+gaqTBt7LBWeVEBAVI8U9OQwL5+DQPnz53io06Z6I="
