@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+$:.push File.dirname(__FILE__) + '/../lib'
+
+require "rubygems"
+require 'inception'
+require 'inception/cli'
+
+Inception::Cli.start
