@@ -2,6 +2,8 @@ require "settingslogic"
 
 module Bosh::Inception::CliHelpers
   module Settings
+    include FileUtils
+
     # The base directory for holding the manifest settings file
     # and private keys
     #
@@ -22,9 +24,11 @@ module Bosh::Inception::CliHelpers
     def settings
       @settings ||= begin
         unless File.exists?(settings_path)
-          FileUtils.mkdir_p(settings_dir)
+          mkdir_p(settings_ssh_dir)
           File.open(settings_path, "w") { |file| file << "--- {}" }
         end
+        chmod(0600, settings_path)
+        chmod(0700, settings_ssh_dir)
         Settingslogic.new(settings_path)
       end
     end

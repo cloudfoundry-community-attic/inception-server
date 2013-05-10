@@ -1,7 +1,6 @@
 ## CLI
 
 * do not install Chef each time; run `knife solo prepare`, then only run `knife solo cook` after that
-* set 0600 for settings.yml
 * rename to bosh-inception => inception
 * --no-converge flag do not run chef on deploy
 * next_deploy_actions - deleted from settings after deploy completes
