@@ -16,9 +16,7 @@ module Bosh::Inception
     # To be invoked within the settings_dir
     def converge
       FileUtils.chdir(project_dir) do
-        raise InvalidTarget, "please invoke within folder containing nodes dir" unless File.directory?("nodes")
-
-        prepare_berksfile
+        prepare_project_dir
 
         user_host = server.user_host
         key_path = server.private_key_path
@@ -28,16 +26,21 @@ module Bosh::Inception
     end
 
     protected
-    def prepare_berksfile
-      cookbook_path = File.expand_path("../../../../cookbooks/bosh_inception", __FILE__)
-      unless File.exists?("Berksfile")
-        File.open("Berksfile", "w") do |f|
-          f << <<-EOS
-site :opscode
+    def prepare_project_dir
+      prepare_cookbook
+      prepare_berksfile
+      mkdir_p("nodes")
+    end
 
-cookbook "bosh_inception", path: '#{cookbook_path}'
-          EOS
-        end
+    def prepare_cookbook
+      mkdir_p("cookbooks")
+      rm_rf("cookbooks/bosh_inception")
+      cp_r(inception_cookbook_path, "cookbooks/")
+    end
+
+    def prepare_berksfile
+      unless File.exists?("Berksfile")
+        cp_r(File.join(gem_root_path, "Berksfile"), "Berksfile")
       end
     end
 
@@ -57,5 +60,12 @@ cookbook "bosh_inception", path: '#{cookbook_path}'
       }
     end
 
+    def gem_root_path
+      File.expand_path("../../../..", __FILE__)
+    end
+
+    def inception_cookbook_path
+      File.join(gem_root_path, "cookbooks/bosh_inception")
+    end
   end
 end

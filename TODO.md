@@ -1,6 +1,6 @@
 ## CLI
 
-* Add Berkshelf into ~/.bosh_settings to reference `bosh_inception` cookbook (allow users to extend)
+* do not install Chef each time; run `knife solo prepare`, then only run `knife solo cook` after that
 * rename to bosh-inception => inception
 * --no-converge flag do not run chef on deploy
 * integration test - OpenStack - create VM, use busser (?) to run remote SSH bats tests, destroy VM
