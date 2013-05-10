@@ -141,7 +141,7 @@ module Inception::CliHelpers
     def fog_config
       @fog_config ||= begin
         if File.exists?(File.expand_path(fog_config_path))
-          say "Found infrastructure API credentials at #{fog_config_path} (override with $FOG)"
+          say "Auto-detected infrastructure API credentials at #{fog_config_path} (override with $FOG)"
           YAML.load_file(File.expand_path(fog_config_path))
         else
           say "No existing #{fog_config_path} fog configuration file", :yellow

@@ -40,7 +40,7 @@ To create a remote inception server, normally in the IaaS/region that you will b
 ```
 $ inception deploy
 
-Found infrastructure API credentials at ~/.fog (override with $FOG)
+Auto-detected infrastructure API credentials at ~/.fog (override with $FOG)
 1. AWS (default)
 2. AWS (starkandwayne)
 3. Alternate credentials
