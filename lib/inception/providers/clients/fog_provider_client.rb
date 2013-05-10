@@ -1,9 +1,9 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
 require "fog"
-module Bosh; module Providers; module Clients; end; end; end
+module Inception; module Providers; module Clients; end; end; end
 
-class Bosh::Providers::Clients::FogProviderClient
+class Inception::Providers::Clients::FogProviderClient
   attr_reader :fog_compute
   attr_reader :attributes
 

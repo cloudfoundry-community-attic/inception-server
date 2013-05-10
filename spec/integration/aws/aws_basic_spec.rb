@@ -1,4 +1,3 @@
-require File.expand_path("../../../spec_helper", __FILE__)
 require File.expand_path("../../../support/aws/aws_helpers", __FILE__)
 
 describe "AWS deployment without Chef run" do

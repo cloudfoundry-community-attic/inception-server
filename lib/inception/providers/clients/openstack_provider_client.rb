@@ -1,11 +1,11 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; module Providers; module Clients; end; end; end
+module Inception; module Providers; module Clients; end; end; end
 
-require "bosh/providers/clients/fog_provider_client"
-require "bosh/providers/constants/openstack_constants"
+require "inception/providers/clients/fog_provider_client"
+require "inception/providers/constants/openstack_constants"
 
-class Bosh::Providers::Clients::OpenStackProviderClient < Bosh::Providers::Clients::FogProviderClient
+class Inception::Providers::Clients::OpenStackProviderClient < Inception::Providers::Clients::FogProviderClient
   # @return [String] provisions a new public IP address in target region
   # TODO nil if none available
   def provision_public_ip_address(options={})
@@ -60,6 +60,6 @@ class Bosh::Providers::Clients::OpenStackProviderClient < Bosh::Providers::Clien
   end
 
   def openstack_constants
-    Bosh::Providers::Constants::OpenStackConstants
+    Inception::Providers::Constants::OpenStackConstants
   end
 end

@@ -1,12 +1,12 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; module Providers; module Clients; end; end; end
+module Inception; module Providers; module Clients; end; end; end
 
-require "bosh/providers/clients/fog_provider_client"
-require "bosh/providers/constants/aws_constants"
+require "inception/providers/clients/fog_provider_client"
+require "inception/providers/constants/aws_constants"
 
-class Bosh::Providers::Clients::AwsProviderClient < Bosh::Providers::Clients::FogProviderClient
-  include Bosh::Providers::Constants::AwsConstants
+class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::Clients::FogProviderClient
+  include Inception::Providers::Constants::AwsConstants
 
   # @return [Integer] megabytes of RAM for requested flavor of server
   def ram_for_server_flavor(server_flavor_id)

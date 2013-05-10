@@ -1,9 +1,9 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; module Providers; module Cli; end; end; end
+module Inception; module Providers; module Cli; end; end; end
 
-require "bosh/providers/cli/provider_cli"
-require "bosh/providers/constants/openstack_constants"
+require "inception/providers/cli/provider_cli"
+require "inception/providers/constants/openstack_constants"
 
 # Interactively prompt user for region & credential information for OpenStack
 #
@@ -14,7 +14,7 @@ require "bosh/providers/constants/openstack_constants"
 #   provider = OpenStackProviderCli.new(settings.provider)
 #   provider_client.perform
 #   settings.provider = provider_cli.export_attributes
-class Bosh::Providers::Cli::OpenStackProviderCli < Bosh::Providers::Cli::ProviderCli
+class Inception::Providers::Cli::OpenStackProviderCli < Inception::Providers::Cli::ProviderCli
 
   def perform
     attributes.set("name", "openstack") # ensure this property is correct
@@ -42,6 +42,6 @@ class Bosh::Providers::Cli::OpenStackProviderCli < Bosh::Providers::Cli::Provide
   end
 
   def openstack_constants
-    Bosh::Providers::Constants::OpenStackConstants
+    Inception::Providers::Constants::OpenStackConstants
   end
 end

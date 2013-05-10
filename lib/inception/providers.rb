@@ -1,8 +1,8 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; end
+module Inception; end
 
-module Bosh::Providers
+module Inception::Providers
   extend self
 
   # returns a BOSH provider (CPI) specific object
@@ -13,13 +13,13 @@ module Bosh::Providers
     case attributes.name.to_sym
     when :aws
       @aws_provider_client ||= begin
-        require "bosh/providers/clients/aws_provider_client"
-        Bosh::Providers::Clients::AwsProviderClient.new(attributes)
+        require "inception/providers/clients/aws_provider_client"
+        Inception::Providers::Clients::AwsProviderClient.new(attributes)
       end
     when :openstack
       @openstack_provider_client ||= begin
-        require "bosh/providers/clients/openstack_provider_client"
-        Bosh::Providers::Clients::OpenStackProviderClient.new(attributes)
+        require "inception/providers/clients/openstack_provider_client"
+        Inception::Providers::Clients::OpenStackProviderClient.new(attributes)
       end
     else
       nil
@@ -29,11 +29,11 @@ module Bosh::Providers
   def provider_cli(provider_name, provider_settings)
     case provider_name.to_sym
     when :aws
-      require "bosh/providers/cli/aws_provider_cli"
-      Bosh::Providers::Cli::AwsProviderCli.new(provider_settings)
+      require "inception/providers/cli/aws_provider_cli"
+      Inception::Providers::Cli::AwsProviderCli.new(provider_settings)
     when :openstack
-      require "bosh/providers/cli/openstack_provider_cli"
-      Bosh::Providers::Cli::OpenStackProviderCli.new(provider_settings)
+      require "inception/providers/cli/openstack_provider_cli"
+      Inception::Providers::Cli::OpenStackProviderCli.new(provider_settings)
     else
       nil
     end

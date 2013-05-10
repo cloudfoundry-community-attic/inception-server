@@ -1,8 +1,8 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; module Providers; module Constants; end; end; end
+module Inception; module Providers; module Constants; end; end; end
 
-module Bosh::Providers::Constants::AwsConstants
+module Inception::Providers::Constants::AwsConstants
   extend self
 
   # http://docs.aws.amazon.com/general/latest/gr/rande.html#region

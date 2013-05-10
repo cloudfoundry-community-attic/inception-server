@@ -121,7 +121,7 @@ module Inception::CliHelpers
       say "Using provider #{settings.provider.name}:"
       say ""
       settings.set_default("provider", {}) # to ensure settings.provider exists
-      provider_cli = Bosh::Providers.provider_cli(settings.provider.name, settings.provider)
+      provider_cli = Inception::Providers.provider_cli(settings.provider.name, settings.provider)
       provider_cli.perform
       settings["provider"] = provider_cli.export_attributes
       settings.create_accessors!

@@ -1,7 +1,5 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-require File.expand_path("../../spec_helper", __FILE__)
-
 # Specs for 'ssh' related behavior. Includes CLI commands:
 # * ssh
 # * tmux

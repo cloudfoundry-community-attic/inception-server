@@ -10,7 +10,7 @@ module Inception
 
     attr_reader :attributes
 
-    # @provider_client [Bosh::Providers::FogProvider] - interact with IaaS
+    # @provider_client [Inception::Providers::FogProvider] - interact with IaaS
     # @attributes [Settingslogic]
     #
     # Required @attributes:
@@ -187,9 +187,9 @@ module Inception
 
     def default_disk_device
       case @provider_client
-      when Bosh::Providers::Clients::AwsProviderClient
+      when Inception::Providers::Clients::AwsProviderClient
         { "external" => "/dev/sdf", "internal" => "/dev/xvdf" }
-      when Bosh::Providers::Clients::OpenStackProviderClient
+      when Inception::Providers::Clients::OpenStackProviderClient
         { "external" => "/dev/vdc", "internal" => "/dev/vdc" }
       else
         raise "Please implement InceptionServer#default_disk_device for #{@provider_client.class}"

@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "json"
   spec.add_dependency "settingslogic", "~> 2.0.9" # need to_nested_hash method
 
-  # for bosh/providers
+  # for inception/providers
   spec.add_dependency "fog"
 
   # for running cookbooks on inception server

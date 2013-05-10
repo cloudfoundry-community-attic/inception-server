@@ -1,10 +1,9 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-require File.expand_path("../../../../spec_helper", __FILE__)
 require "fog"
 
 # Specs for the aws provider
-describe Bosh::Providers do
+describe Inception::Providers do
   include FileUtils
   include StdoutCapture
 
@@ -20,7 +19,7 @@ describe Bosh::Providers do
         }
       }
     end
-    subject { Bosh::Providers.provider_client(provider_attributes) }
+    subject { Inception::Providers.provider_client(provider_attributes) }
     let(:fog_compute) { subject.fog_compute }
 
     describe "create security group" do

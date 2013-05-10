@@ -9,7 +9,7 @@ Bundler.setup(:default, :test)
 $:.unshift(File.expand_path("../../lib", __FILE__))
 
 require "rspec/core"
-require "bosh/providers"
+require "inception/providers"
 require "inception"
 require "inception/cli"
 

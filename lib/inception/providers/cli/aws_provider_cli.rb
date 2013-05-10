@@ -1,9 +1,9 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; module Providers; module Cli; end; end; end
+module Inception; module Providers; module Cli; end; end; end
 
-require "bosh/providers/cli/provider_cli"
-require "bosh/providers/constants/aws_constants"
+require "inception/providers/cli/provider_cli"
+require "inception/providers/constants/aws_constants"
 
 # Interactively prompt user for region & credential information for AWS
 #
@@ -14,7 +14,7 @@ require "bosh/providers/constants/aws_constants"
 #   provider = AwsProviderCli.new(settings.provider)
 #   provider_client.perform
 #   settings.provider = provider_cli.export_attributes
-class Bosh::Providers::Cli::AwsProviderCli < Bosh::Providers::Cli::ProviderCli
+class Inception::Providers::Cli::AwsProviderCli < Inception::Providers::Cli::ProviderCli
 
   def perform
     attributes.set("name", "aws") # ensure this property is correct
@@ -53,6 +53,6 @@ class Bosh::Providers::Cli::AwsProviderCli < Bosh::Providers::Cli::ProviderCli
   end
 
   def aws_constants
-    Bosh::Providers::Constants::AwsConstants
+    Inception::Providers::Constants::AwsConstants
   end
 end

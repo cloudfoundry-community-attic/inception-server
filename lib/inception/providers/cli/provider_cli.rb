@@ -1,8 +1,8 @@
 # Copyright (c) 2012-2013 Stark & Wayne, LLC
 
-module Bosh; module Providers; module Cli; end; end; end
+module Inception; module Providers; module Cli; end; end; end
 
-class Bosh::Providers::Cli::ProviderCli
+class Inception::Providers::Cli::ProviderCli
   include Inception::CliHelpers::Interactions
 
   attr_reader :provider_client
