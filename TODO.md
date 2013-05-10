@@ -1,7 +1,7 @@
 ## CLI
 
 * do not install Chef each time; run `knife solo prepare`, then only run `knife solo cook` after that
-* FIX - WARNING: `knife[:berkshelf_path]` is not set. Using temporary directory to install Berkshelf cookbooks.
+* set 0600 for settings.yml
 * rename to bosh-inception => inception
 * --no-converge flag do not run chef on deploy
 * next_deploy_actions - deleted from settings after deploy completes

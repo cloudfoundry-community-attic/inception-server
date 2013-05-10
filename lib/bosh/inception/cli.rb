@@ -98,6 +98,9 @@ module Bosh::Inception
           header "Prepare inception server"
           server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
           cookbook = InceptionServerCookbook.new(server, settings, settings_dir)
+          cookbook.prepare
+          settings.set("cookbook.prepared", true)
+          save_settings!
           cookbook.converge
         end
       end

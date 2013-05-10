@@ -24,9 +24,11 @@ describe Bosh::Inception::InceptionServerCookbook do
   describe "in prepared settings dir" do
     before do
       attributes = '{"disk":{"mounted":true,"device":"/dev/abc"},"git":{"name":"Dr Nic Williams","email":"drnicwilliams@gmail.com"},"user":{"username":"user"}}'
-      expected_cmd = "knife solo bootstrap user@host -i path/to/key -j '#{attributes}' -r 'bosh_inception'"
-      subject.stub(:sh).with(expected_cmd)
-      mkdir_p(File.join(settings_dir, "nodes"))
+      cmd_arguments = "user@host -i path/to/key -j '#{attributes}' -r 'bosh_inception'"
+      subject.stub(:sh).with("knife solo prepare #{cmd_arguments}")
+      subject.prepare
+
+      subject.stub(:sh).with("knife solo cook #{cmd_arguments}")
       subject.converge
     end
 
@@ -40,6 +42,19 @@ describe Bosh::Inception::InceptionServerCookbook do
       FileUtils.chdir(settings_dir) do
         File.should be_exists("cookbooks/bosh_inception/recipes/default.rb")
       end
+    end
+  end
+
+  describe "after initial converge" do
+    it "does not prepare/install chef again" do
+      setting "cookbook.prepared", true
+      cookbook = Bosh::Inception::InceptionServerCookbook.new(inception_server, settings, settings_dir)
+
+      attributes = '{"disk":{"mounted":true,"device":"/dev/abc"},"git":{"name":"Dr Nic Williams","email":"drnicwilliams@gmail.com"},"user":{"username":"user"}}'
+      cmd_arguments = "user@host -i path/to/key -j '#{attributes}' -r 'bosh_inception'"
+
+      subject.stub(:sh).with("knife solo cook #{cmd_arguments}") # just to stub :sh
+      subject.prepare
     end
   end
 

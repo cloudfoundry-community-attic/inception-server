@@ -13,16 +13,30 @@ module Bosh::Inception
       @project_dir = project_dir
     end
 
+    def prepare
+      FileUtils.chdir(project_dir) do
+        prepare_project_dir
+        knife_solo :prepare unless ignore_chef_preparations?
+      end
+    end
+
     # To be invoked within the settings_dir
     def converge
       FileUtils.chdir(project_dir) do
-        prepare_project_dir
-
-        user_host = server.user_host
-        key_path = server.private_key_path
-        attributes = cookbook_attributes_for_inception.to_json
-        sh %Q{knife solo bootstrap #{user_host} -i #{key_path} -j '#{attributes}' -r 'bosh_inception'}
+        knife_solo :cook
       end
+    end
+
+    def ignore_chef_preparations?
+      @settings.exists?("cookbook.prepared")
+    end
+
+    def user_host; server.user_host; end
+    def key_path; server.private_key_path; end
+
+    def knife_solo(command)
+      attributes = cookbook_attributes_for_inception.to_json
+      sh %Q{knife solo #{command} #{user_host} -i #{key_path} -j '#{attributes}' -r 'bosh_inception'}
     end
 
     protected

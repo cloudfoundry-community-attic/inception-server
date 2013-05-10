@@ -16,7 +16,7 @@ describe "AWS deployment deletion" do
     setting "provider.credentials.aws_access_key_id", "aws_access_key_id"
     setting "provider.credentials.aws_secret_access_key", "aws_secret_access_key"
     setting "provider.region", "us-west-2"
-    @cmd.stub(:converge_cookbooks)
+    setting "next_deploy_actions.no_converge", true
     capture_stdout { @cmd.deploy }
   end
 
