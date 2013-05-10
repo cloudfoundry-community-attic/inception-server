@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bosh/inception/version'
+require 'inception/version'
 
 Gem::Specification.new do |spec|
-  spec.name        = "bosh-inception"
-  spec.version     = Bosh::Inception::VERSION
+  spec.name        = "inception"
+  spec.version     = Inception::VERSION
   spec.authors     = ["Dr Nic Williams"]
   spec.email       = ["drnicwilliams@gmail.com"]
   spec.description = %q{Create an inception server for Bosh}

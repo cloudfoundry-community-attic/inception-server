@@ -1,4 +1,4 @@
-module Bosh::Inception::CliHelpers
+module Inception::CliHelpers
   module Provider
     def provider_client
       @provider_client ||= begin

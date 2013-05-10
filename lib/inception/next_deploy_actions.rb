@@ -1,4 +1,4 @@
-module Bosh::Inception
+module Inception
   
   class NextDeployActions
     def initialize(attributes, cli_options)

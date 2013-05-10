@@ -1,4 +1,4 @@
-cookbook 'bosh_inception', :path => '/Users/drnic/Projects/ruby/gems/bosh-inception/cookbooks/bosh_inception'
+cookbook 'bosh_inception', :path => '/Users/drnic/Projects/ruby/gems/inception/cookbooks/bosh_inception'
 cookbook 'apt', :locked_version => '1.9.2'
 cookbook 'user', :locked_version => '0.3.0'
 cookbook 'sudo', :locked_version => '2.1.0'

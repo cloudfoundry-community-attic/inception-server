@@ -1,4 +1,4 @@
-describe Bosh::Inception::InceptionServer do
+describe Inception::InceptionServer do
   include StdoutCapture
 
   describe "new AWS server" do
@@ -26,7 +26,7 @@ describe Bosh::Inception::InceptionServer do
     end
     let(:provider_client) { Bosh::Providers.provider_client(provider_attributes) }
     let(:ssh_dir) { "~/.bosh_inception/ssh" }
-    subject { Bosh::Inception::InceptionServer.new(provider_client, attributes, ssh_dir) }
+    subject { Inception::InceptionServer.new(provider_client, attributes, ssh_dir) }
     let(:fog_compute) { subject.fog_compute }
 
     before do

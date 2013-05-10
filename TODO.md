@@ -1,7 +1,7 @@
 ## CLI
 
 * do not install Chef each time; run `knife solo prepare`, then only run `knife solo cook` after that
-* rename to bosh-inception => inception
+* rename to inception => inception
 * --no-converge flag do not run chef on deploy
 * next_deploy_actions - deleted from settings after deploy completes
 * integration test - OpenStack - create VM, use busser (?) to run remote SSH bats tests, destroy VM

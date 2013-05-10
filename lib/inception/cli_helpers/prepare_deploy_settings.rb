@@ -1,4 +1,4 @@
-module Bosh::Inception::CliHelpers
+module Inception::CliHelpers
   module PrepareDeploySettings
     def update_git_config
       gitconfig = File.expand_path("~/.gitconfig")

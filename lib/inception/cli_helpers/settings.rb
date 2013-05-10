@@ -1,6 +1,6 @@
 require "settingslogic"
 
-module Bosh::Inception::CliHelpers
+module Inception::CliHelpers
   module Settings
     include FileUtils
 

@@ -4,18 +4,18 @@ Create an inception server for Bosh.
 
 Includes a CLI for creating and preparing an inception server for deploying/developing a Bosh universe. The created or targeted VM is upgraded into an inception server via a Chef cookbook.
 
-[![Build Status](https://travis-ci.org/drnic/bosh-inception.png?branch=master)](https://travis-ci.org/drnic/bosh-inception)
-[![Code Climate](https://codeclimate.com/github/drnic/bosh-inception.png)](https://codeclimate.com/github/drnic/bosh-inception)
+[![Build Status](https://travis-ci.org/drnic/inception.png?branch=master)](https://travis-ci.org/drnic/inception)
+[![Code Climate](https://codeclimate.com/github/drnic/inception.png)](https://codeclimate.com/github/drnic/inception)
 
 ## Installation
 
 Currently, install and use the tool via this Git repo (due to its dependency on other unreleased RubyGems).
 
 ```
-git clone https://github.com/drnic/bosh-inception.git
-cd bosh-inception
+git clone https://github.com/drnic/inception.git
+cd inception
 bundle
-bundle exec bin/bosh-inception deploy
+bundle exec bin/inception deploy
 ```
 
 Waiting on the following projects to ship a new gem:
@@ -25,7 +25,7 @@ Waiting on the following projects to ship a new gem:
 In future, this tool will be distributed as a RubyGem. It requires Ruby 1.9+.
 
 ```
-gem install bosh-inception
+gem install inception
 ```
 
 ## Usage
@@ -37,7 +37,7 @@ This project includes both a standalone CLI to create an inception server or tra
 To create a remote inception server, normally in the IaaS/region that you will be working with BOSH:
 
 ```
-$ bosh-inception deploy
+$ inception deploy
 
 Found infrastructure API credentials at ~/.fog (override with $FOG)
 1. AWS (default)
@@ -92,7 +92,7 @@ Bootstrapping Chef...
 You can upgrade your remote inception server at any time by re-running the `deploy` command.
 
 ```
-$ bosh-inception deploy
+$ inception deploy
 ... lots of chef output ...
 ```
 

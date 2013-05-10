@@ -1,6 +1,6 @@
 require "fog"
 
-module Bosh::Inception
+module Inception
   class InceptionServer
 
     DEFAULT_SERVER_NAME = "inception"

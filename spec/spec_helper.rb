@@ -10,8 +10,8 @@ $:.unshift(File.expand_path("../../lib", __FILE__))
 
 require "rspec/core"
 require "bosh/providers"
-require "bosh/inception"
-require "bosh/inception/cli"
+require "inception"
+require "inception/cli"
 
 # for the #sh helper
 require "rake"

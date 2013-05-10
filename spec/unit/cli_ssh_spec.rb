@@ -6,13 +6,13 @@ require File.expand_path("../../spec_helper", __FILE__)
 # * ssh
 # * tmux
 # * mosh
-describe Bosh::Inception do
+describe Inception do
   include FileUtils
   include SettingsHelper
 
   before do
     setup_home_dir
-    @cmd = Bosh::Inception::Cli.new
+    @cmd = Inception::Cli.new
     setting "provider.name", "aws"
     setting "provider.credentials.aws_access_key_id", "aws_access_key_id"
     setting "provider.credentials.aws_secret_access_key", "aws_secret_access_key"

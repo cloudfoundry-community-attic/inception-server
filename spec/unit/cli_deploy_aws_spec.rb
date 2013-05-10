@@ -12,7 +12,7 @@ describe "AWS deployment" do
   before do
     setup_home_dir
     Fog.mock!
-    @cmd = Bosh::Inception::Cli.new
+    @cmd = Inception::Cli.new
     @cmd.stub(:converge_cookbooks)
     @credentials = {aws_access_key_id: "ACCESS", aws_secret_access_key: "SECRET"}
     @fog_credentials = @credentials.merge(provider: "AWS")

@@ -1,4 +1,4 @@
-module Bosh::Inception::CliHelpers
+module Inception::CliHelpers
   module Display
     # Display header for a new section of the bootstrapper
     def header(title, options={})

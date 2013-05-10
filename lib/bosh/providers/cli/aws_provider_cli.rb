@@ -7,7 +7,7 @@ require "bosh/providers/constants/aws_constants"
 
 # Interactively prompt user for region & credential information for AWS
 #
-# Primary use within bosh-inception is to pass +settings.provider+ hash
+# Primary use within inception is to pass +settings.provider+ hash
 # run #perform to gather credentials, then export the credentials/attributes.
 #
 #   settings["provider"] = {}

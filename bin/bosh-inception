@@ -2,7 +2,7 @@
 $:.push File.dirname(__FILE__) + '/../lib'
 
 require "rubygems"
-require 'bosh/inception'
-require 'bosh/inception/cli'
+require 'inception'
+require 'inception/cli'
 
-Bosh::Inception::Cli.start
+Inception::Cli.start

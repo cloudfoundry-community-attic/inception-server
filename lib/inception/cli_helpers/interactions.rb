@@ -1,4 +1,4 @@
-module Bosh::Inception::CliHelpers
+module Inception::CliHelpers
   module Interactions
     def cyan; "\033[36m" end
     def clear; "\033[0m" end

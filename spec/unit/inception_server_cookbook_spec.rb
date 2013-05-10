@@ -1,4 +1,4 @@
-describe Bosh::Inception::InceptionServerCookbook do
+describe Inception::InceptionServerCookbook do
   include FileUtils
   include StdoutCapture
   include SettingsHelper
@@ -19,7 +19,7 @@ describe Bosh::Inception::InceptionServerCookbook do
 
   let(:settings_dir) { File.expand_path("~/.bosh_inception") }
   let(:inception_server) { mock(user_host: "user@host", private_key_path: "path/to/key") }
-  subject { Bosh::Inception::InceptionServerCookbook.new(inception_server, settings, settings_dir) }
+  subject { Inception::InceptionServerCookbook.new(inception_server, settings, settings_dir) }
 
   describe "in prepared settings dir" do
     before do
@@ -48,7 +48,7 @@ describe Bosh::Inception::InceptionServerCookbook do
   describe "after initial converge" do
     it "does not prepare/install chef again" do
       setting "cookbook.prepared", true
-      cookbook = Bosh::Inception::InceptionServerCookbook.new(inception_server, settings, settings_dir)
+      cookbook = Inception::InceptionServerCookbook.new(inception_server, settings, settings_dir)
 
       attributes = '{"disk":{"mounted":true,"device":"/dev/abc"},"git":{"name":"Dr Nic Williams","email":"drnicwilliams@gmail.com"},"user":{"username":"user"}}'
       cmd_arguments = "user@host -i path/to/key -j '#{attributes}' -r 'bosh_inception'"

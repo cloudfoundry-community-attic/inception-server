@@ -1,7 +1,7 @@
-# assumes @cmd is Bosh::Inception::Cli instance
+# assumes @cmd is Inception::Cli instance
 module SettingsHelper
   def cmd
-    @cmd ||= Bosh::Inception::Cli.new
+    @cmd ||= Inception::Cli.new
   end
 
   def provider

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in bosh-inception.gemspec
+# Specify your gem's dependencies in inception.gemspec
 gemspec
 
 gem "settingslogic", github: "drnic/settingslogic", branch: "integration"

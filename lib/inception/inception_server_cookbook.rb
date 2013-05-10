@@ -1,4 +1,4 @@
-module Bosh::Inception
+module Inception
   # Perform converge chef cookbooks upon inception server
   class InceptionServerCookbook
     include FileUtils
@@ -79,7 +79,7 @@ module Bosh::Inception
     end
 
     def gem_root_path
-      File.expand_path("../../../..", __FILE__)
+      File.expand_path("../../..", __FILE__)
     end
 
     def inception_cookbook_path

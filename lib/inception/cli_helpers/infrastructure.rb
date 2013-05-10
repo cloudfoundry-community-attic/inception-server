@@ -1,4 +1,4 @@
-module Bosh::Inception::CliHelpers
+module Inception::CliHelpers
   module Infrastructure
     # Prompts user to choose an Iaas provider
     # Sets settings.provider.name

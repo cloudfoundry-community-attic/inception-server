@@ -8,22 +8,22 @@ require "rake"
 require "rake/file_utils"
 
 require "escape"
-require "bosh/inception/cli_helpers/display"
-require "bosh/inception/cli_helpers/infrastructure"
-require "bosh/inception/cli_helpers/interactions"
-require "bosh/inception/cli_helpers/provider"
-require "bosh/inception/cli_helpers/settings"
-require "bosh/inception/cli_helpers/prepare_deploy_settings"
+require "inception/cli_helpers/display"
+require "inception/cli_helpers/infrastructure"
+require "inception/cli_helpers/interactions"
+require "inception/cli_helpers/provider"
+require "inception/cli_helpers/settings"
+require "inception/cli_helpers/prepare_deploy_settings"
 
-module Bosh::Inception
+module Inception
   class Cli < Thor
     include FileUtils
-    include Bosh::Inception::CliHelpers::Display
-    include Bosh::Inception::CliHelpers::Infrastructure
-    include Bosh::Inception::CliHelpers::Interactions
-    include Bosh::Inception::CliHelpers::Provider
-    include Bosh::Inception::CliHelpers::Settings
-    include Bosh::Inception::CliHelpers::PrepareDeploySettings
+    include Inception::CliHelpers::Display
+    include Inception::CliHelpers::Infrastructure
+    include Inception::CliHelpers::Interactions
+    include Inception::CliHelpers::Provider
+    include Inception::CliHelpers::Settings
+    include Inception::CliHelpers::PrepareDeploySettings
 
     desc "deploy", "Create/upgrade a Bosh inception server"
     def deploy
@@ -63,7 +63,7 @@ module Bosh::Inception
     no_tasks do
       # update settings.git.name/git.email from local ~/.gitconfig if available
       # provision public IP address for inception server if not allocated one
-      # Note: helper methods are in bosh/inception/cli_helpers/prepare_deploy_settings.rb
+      # Note: helper methods are in inception/cli_helpers/prepare_deploy_settings.rb
       def prepare_deploy_settings
         header "Preparing deployment settings"
         update_git_config
@@ -122,7 +122,7 @@ module Bosh::Inception
       def run_ssh_command_or_open_tunnel(cmd)
         recreate_private_key_file_for_inception
         unless settings.exists?("inception.provisioned.host")
-          exit "inception server has not finished launching; run to complete: bosh-inception deploy"
+          exit "inception server has not finished launching; run to complete: inception deploy"
         end
 
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)

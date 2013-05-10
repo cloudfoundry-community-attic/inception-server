@@ -3,7 +3,7 @@
 module Bosh; module Providers; module Cli; end; end; end
 
 class Bosh::Providers::Cli::ProviderCli
-  include Bosh::Inception::CliHelpers::Interactions
+  include Inception::CliHelpers::Interactions
 
   attr_reader :provider_client
   attr_reader :attributes
