@@ -18,3 +18,8 @@ default["rvm"]["global_gems"] = [
     "action"  => "remove"
   }
 ]
+
+# Pass in credentials to be dropped into a ~/.fog file
+# They will be automatically converted to symbolized keys
+# to make fog happy
+default["fog"] = {}
