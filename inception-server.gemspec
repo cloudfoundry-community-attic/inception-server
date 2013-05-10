@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'inception/version'
 
 Gem::Specification.new do |spec|
-  spec.name        = "inception"
+  spec.name        = "inception-server"
   spec.version     = Inception::VERSION
   spec.authors     = ["Dr Nic Williams"]
   spec.email       = ["drnicwilliams@gmail.com"]
