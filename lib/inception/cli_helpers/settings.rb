@@ -28,7 +28,7 @@ module Inception::CliHelpers
           File.open(settings_path, "w") { |file| file << "--- {}" }
         end
         chmod(0600, settings_path)
-        chmod(0700, settings_ssh_dir)
+        chmod(0700, settings_ssh_dir) if File.directory?(settings_ssh_dir)
         Settingslogic.new(settings_path)
       end
     end
