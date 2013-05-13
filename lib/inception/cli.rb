@@ -66,6 +66,7 @@ module Inception
         save_settings!
         provider_cli = Cyoi::Cli::Provider.new([settings_dir])
         provider_cli.execute!
+        reload_settings!
       end
 
       # update settings.git.name/git.email from local ~/.gitconfig if available

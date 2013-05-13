@@ -4,6 +4,11 @@ source 'https://rubygems.org'
 gemspec
 
 gem "settingslogic", github: "drnic/settingslogic", branch: "integration"
+# if File.directory?(File.expand_path("~/gems/cyoi"))
+#   gem "cyoi", path: "~/gems/cyoi"
+# else
+#   gem "cyoi", github: "drnic/cyoi"
+# end
 
 # gem 'knife-solo', github: 'matschaffer/knife-solo'
 gem 'knife-solo', github: 'drnic/knife-solo', branch: 'continue_connecting'

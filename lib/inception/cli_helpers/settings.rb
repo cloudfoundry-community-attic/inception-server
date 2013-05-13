@@ -40,7 +40,13 @@ module Inception::CliHelpers
       settings.create_accessors!
     end
 
+    def reload_settings!
+      @settings = nil
+      settings
+    end
+
     def migrate_old_settings
+      settings
     end
 
   end
