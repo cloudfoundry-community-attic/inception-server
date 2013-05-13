@@ -3,13 +3,15 @@ require "highline"
 require "fileutils"
 require "json"
 
+# to prompt user for infrastructure choice/credentials
+require "cyoi/cli/provider"
+
 # for the #sh helper
 require "rake"
 require "rake/file_utils"
 
 require "escape"
 require "inception/cli_helpers/display"
-require "inception/cli_helpers/infrastructure"
 require "inception/cli_helpers/interactions"
 require "inception/cli_helpers/provider"
 require "inception/cli_helpers/settings"
@@ -19,7 +21,6 @@ module Inception
   class Cli < Thor
     include FileUtils
     include Inception::CliHelpers::Display
-    include Inception::CliHelpers::Infrastructure
     include Inception::CliHelpers::Interactions
     include Inception::CliHelpers::Provider
     include Inception::CliHelpers::Settings
@@ -61,6 +62,12 @@ module Inception
     end
 
     no_tasks do
+      def configure_provider
+        save_settings!
+        provider_cli = Cyoi::Cli::Provider.new([settings_dir])
+        provider_cli.execute!
+      end
+
       # update settings.git.name/git.email from local ~/.gitconfig if available
       # provision public IP address for inception server if not allocated one
       # Note: helper methods are in inception/cli_helpers/prepare_deploy_settings.rb

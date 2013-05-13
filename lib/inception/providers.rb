@@ -25,17 +25,4 @@ module Inception::Providers
       nil
     end
   end
-
-  def provider_cli(provider_name, provider_settings)
-    case provider_name.to_sym
-    when :aws
-      require "inception/providers/cli/aws_provider_cli"
-      Inception::Providers::Cli::AwsProviderCli.new(provider_settings)
-    when :openstack
-      require "inception/providers/cli/openstack_provider_cli"
-      Inception::Providers::Cli::OpenStackProviderCli.new(provider_settings)
-    else
-      nil
-    end
-  end
 end
