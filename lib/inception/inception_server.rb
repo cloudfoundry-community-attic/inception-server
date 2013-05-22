@@ -260,24 +260,28 @@ module Inception
 
     def bootstrap_vm
       unless fog_server
-        say "Booting #{flavor} inception server..."
+        print "Booting #{flavor} inception server..."
         @fog_server = @provider_client.bootstrap(fog_attributes)
         provisioned["server_id"] = fog_server.id
         provisioned["host"] = fog_server.dns_name || fog_server.public_ip_address
         provisioned["username"] = fog_attributes[:username]
+        puts provisioned.server_id
       end
       set_resource_name(fog_server, server_name)
     end
 
     def attach_persistent_disk
       unless Fog.mocking?
+        print "Confirming ssh access to server... "
         Fog.wait_for(60) { fog_server.sshable?(ssh_options) }
+        puts "done"
       end
 
       unless volume = @provider_client.find_server_device(fog_server, external_disk_device)
-        say "Provisioning #{disk_size}Gb persistent disk for inception server..."
+        print "Provisioning #{disk_size}Gb persistent disk for inception server..."
         volume = @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, external_disk_device)
         disk_devices["volume_id"] = volume.id
+        puts disk_devices.volume_id
       end
       set_resource_name(volume, server_name)
     end
