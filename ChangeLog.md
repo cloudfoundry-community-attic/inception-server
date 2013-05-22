@@ -1,9 +1,14 @@
 # Change Log for Inception Server
 
-## v1.0.0
+## v0.2.0
 
-* Initial release
-* Extracted from bosh-bootstrap v0.10.2
-* Chef cookbook `bosh_inception` replacing old bosh-bootstrap shell scripts
+* Settings stored in `~/.inception_server` instead of `~/.bosh_inception`
 * Using [readwritesettings](https://github.com/drnic/readwritesettings) instead of settingslogic for access/save settings
+
+## v0.1.0
+
+* Initial release to mailing list
+* Extracted from bosh-bootstrap v0.10.2
+* Settings stored in `~/.bosh_inception`
+* Chef cookbook `bosh_inception` replacing old bosh-bootstrap shell scripts
 * Using [cyoi](https://github.com/drnic/cyoi) to prompt for infrastructure/provider credentials
