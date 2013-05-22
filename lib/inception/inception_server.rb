@@ -78,7 +78,7 @@ module Inception
     def delete_server
       @fog_server = nil # force reload of fog_server model
       if fog_server
-        print "Deleting server..."
+        print "Deleting server... "
         fog_server.destroy
         wait_for_termination(fog_server) unless Fog.mocking?
         puts "done."
@@ -93,7 +93,7 @@ module Inception
     def delete_volume
       volume_id = provisioned.exists?("disk_device.volume_id")
       if volume_id && (volume = fog_compute.volumes.get(volume_id)) && volume.ready?
-        print "Deleting volume..."
+        print "Deleting volume... "
         volume.destroy
         wait_for_termination(volume, "deleting")
         puts ""
@@ -260,7 +260,7 @@ module Inception
 
     def bootstrap_vm
       unless fog_server
-        print "Booting #{flavor} inception server..."
+        print "Booting #{flavor} inception server... "
         @fog_server = @provider_client.bootstrap(fog_attributes)
         provisioned["server_id"] = fog_server.id
         provisioned["host"] = fog_server.dns_name || fog_server.public_ip_address
@@ -278,7 +278,7 @@ module Inception
       end
 
       unless volume = @provider_client.find_server_device(fog_server, external_disk_device)
-        print "Provisioning #{disk_size}Gb persistent disk for inception server..."
+        print "Provisioning #{disk_size}Gb persistent disk for inception server... "
         volume = @provider_client.create_and_attach_volume("Inception Disk", disk_size, fog_server, external_disk_device)
         disk_devices["volume_id"] = volume.id
         puts disk_devices.volume_id

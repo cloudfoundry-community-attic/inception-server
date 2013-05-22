@@ -63,7 +63,7 @@ module AwsHelpers
   end
 
   def destroy_test_constructs
-    puts "Destroying everything created by previous test..."
+    puts "Destroying everything created by previous test... "
     # destroy servers using inception-vm SG
     provider.delete_servers_with_name(test_server_name)
     provider.delete_volumes_with_name(test_server_name)

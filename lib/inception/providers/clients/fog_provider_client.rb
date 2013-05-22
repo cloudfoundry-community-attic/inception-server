@@ -36,7 +36,7 @@ class Inception::Providers::Clients::FogProviderClient
 
   def delete_servers_with_name(name)
     fog_compute.servers.select {|s| s.tags["Name"].downcase == name.downcase }.each do |server|
-      puts "Destroying server #{server.id}..."
+      puts "Destroying server #{server.id}... "
       server.destroy
     end
   end
@@ -46,7 +46,7 @@ class Inception::Providers::Clients::FogProviderClient
       volume_name = v.tags["Name"]
       volume_name && volume_name.downcase == name.downcase
     end.each do |volume|
-      puts "Destroying volume #{volume.id}..."
+      puts "Destroying volume #{volume.id}... "
       volume.destroy
     end
   end
@@ -55,7 +55,7 @@ class Inception::Providers::Clients::FogProviderClient
   def cleanup_unused_ip_addresses
     fog_compute.addresses.each do |a|
       unless a.server
-        puts "Deleting unused IP address #{a.public_ip}..."
+        puts "Deleting unused IP address #{a.public_ip}... "
         a.destroy
       end
     end
