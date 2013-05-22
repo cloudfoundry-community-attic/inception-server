@@ -9,23 +9,10 @@ Includes a CLI for creating and preparing an inception server for deploying/deve
 
 ## Installation
 
-Currently, install and use the tool via this Git repo (due to its dependency on other unreleased RubyGems).
+The tool is distributed as a RubyGem.
 
 ```
-git clone https://github.com/drnic/inception.git
-cd inception
-bundle
-bundle exec bin/inception deploy
-```
-
-Waiting on the following projects to ship a new gem:
-
-* https://github.com/matschaffer/knife-solo/issues/243
-
-In future, this tool will be distributed as a RubyGem. It requires Ruby 1.9+.
-
-```
-gem install inception
+$ gem install inception-server
 ```
 
 ## Usage
