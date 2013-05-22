@@ -27,7 +27,7 @@ describe "AWS deployment deletion" do
 
   it "clears out settings.yml" do
     perform_delete
-    settings = ReadWriteSettings.new(File.expand_path("~/.bosh_inception/settings.yml"))
+    settings = ReadWriteSettings.new(File.expand_path("~/.inception_server/settings.yml"))
     settings.exists?("provider").should_not be_nil
     settings.exists?("git").should_not be_nil
     settings.exists?("inception.provisioned.disk_device").should be_nil

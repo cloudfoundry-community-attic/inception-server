@@ -19,7 +19,7 @@ describe "AWS deployment without Chef run" do
     it "creates an EC2 inception/microbosh with the associated resources" do
       create_manifest
 
-      manifest_file = home_file(".bosh_inception", "settings.yml")
+      manifest_file = home_file(".inception_server", "settings.yml")
       File.should be_exists(manifest_file)
 
       cmd.deploy

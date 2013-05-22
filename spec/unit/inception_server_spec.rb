@@ -25,7 +25,7 @@ describe Inception::InceptionServer do
       }
     end
     let(:provider_client) { Inception::Providers.provider_client(provider_attributes) }
-    let(:ssh_dir) { "~/.bosh_inception/ssh" }
+    let(:ssh_dir) { "~/.inception_server/ssh" }
     subject { Inception::InceptionServer.new(provider_client, attributes, ssh_dir) }
     let(:fog_compute) { subject.fog_compute }
 

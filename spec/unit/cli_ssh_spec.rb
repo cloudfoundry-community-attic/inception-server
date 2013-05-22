@@ -22,7 +22,7 @@ describe Inception do
   end
 
   describe "ssh" do
-    let(:private_key_path) { home_file(".bosh_inception/ssh/inception") }
+    let(:private_key_path) { home_file(".inception_server/ssh/inception") }
 
     describe "normal" do
       it "launches ssh session" do

@@ -17,7 +17,7 @@ describe Inception::InceptionServerCookbook do
     setting "inception.provisioned.disk_device.internal", "/dev/abc"
   end
 
-  let(:settings_dir) { File.expand_path("~/.bosh_inception") }
+  let(:settings_dir) { File.expand_path("~/.inception_server") }
   let(:inception_server) { mock(user_host: "user@host", private_key_path: "path/to/key") }
   subject { Inception::InceptionServerCookbook.new(inception_server, settings, settings_dir) }
 
