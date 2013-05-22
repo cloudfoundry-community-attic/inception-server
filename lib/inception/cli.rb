@@ -36,7 +36,7 @@ module Inception
     end
 
     desc "delete", "Destroy target Bosh inception server, volumes & release the IP address"
-    method_option :"non-interactive", aliases: ["-n"], type: :boolean, desc: "Don't ask questions, just get crankin'"
+    # method_option :"non-interactive", aliases: ["-n"], type: :boolean, desc: "Don't ask questions, just get crankin'"
     def delete
       migrate_old_settings
       perform_delete(options[:"non-interactive"])
@@ -115,12 +115,8 @@ module Inception
 
       def perform_delete(non_interactive)
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
-        if non_interactive
-          header "Deleting inception server, volumes and releasing IP address"
-          server.delete_all
-        else
-          raise "Interactive delete not implemented yet"
-        end
+        header "Deleting inception server, volumes and releasing IP address"
+        server.delete_all
       ensure
         # after any error handling, still save the current InceptionServer state back into settings.inception
         settings["inception"] = server.export_attributes
