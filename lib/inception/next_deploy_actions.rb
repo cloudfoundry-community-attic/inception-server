@@ -2,8 +2,8 @@ module Inception
   
   class NextDeployActions
     def initialize(attributes, cli_options)
-      @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
-      raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
+      @attributes = attributes.is_a?(Hash) ? ReadWriteSettings.new(attributes) : attributes
+      raise "@attributes must be ReadWriteSettings (or Hash)" unless @attributes.is_a?(ReadWriteSettings)
       raise "@cli_options must be Hash" unless cli_options.is_a?(Hash)
       apply_cli_options(cli_options)
     end

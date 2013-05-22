@@ -11,7 +11,7 @@ module Inception
     attr_reader :attributes
 
     # @provider_client [Inception::Providers::FogProvider] - interact with IaaS
-    # @attributes [Settingslogic]
+    # @attributes [ReadWriteSettings]
     #
     # Required @attributes:
     #   {
@@ -39,8 +39,8 @@ module Inception
     def initialize(provider_client, attributes, ssh_dir)
       @provider_client = provider_client
       @ssh_dir = ssh_dir
-      @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
-      raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
+      @attributes = attributes.is_a?(Hash) ? ReadWriteSettings.new(attributes) : attributes
+      raise "@attributes must be ReadWriteSettings (or Hash)" unless @attributes.is_a?(ReadWriteSettings)
     end
 
     # Create the underlying server, with key pair & security groups, unless it is already created
