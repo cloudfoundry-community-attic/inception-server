@@ -25,10 +25,10 @@ describe Inception::InceptionServerCookbook do
     before do
       attributes = '{"disk":{"mounted":true,"device":"/dev/abc"},"git":{"name":"Dr Nic Williams","email":"drnicwilliams@gmail.com"},"user":{"username":"user"},"fog":{"aws_access_key_id":"aws_access_key_id","aws_secret_access_key":"aws_secret_access_key"}}'
       cmd_arguments = "user@host -i path/to/key -j '#{attributes}' -r 'bosh_inception'"
-      subject.stub(:sh).with("knife solo prepare #{cmd_arguments}")
+      subject.should_receive(:sh).with("knife solo prepare #{cmd_arguments}")
       subject.prepare
 
-      subject.stub(:sh).with("knife solo cook #{cmd_arguments}")
+      subject.should_receive(:sh).with("knife solo cook #{cmd_arguments}")
       subject.converge
     end
 
@@ -53,8 +53,9 @@ describe Inception::InceptionServerCookbook do
       attributes = '{"disk":{"mounted":true,"device":"/dev/abc"},"git":{"name":"Dr Nic Williams","email":"drnicwilliams@gmail.com"},"user":{"username":"user"},"fog":{"aws_access_key_id":"aws_access_key_id","aws_secret_access_key":"aws_secret_access_key"}}'
       cmd_arguments = "user@host -i path/to/key -j '#{attributes}' -r 'bosh_inception'"
 
-      subject.stub(:sh).with("knife solo cook #{cmd_arguments}") # just to stub :sh
+      subject.should_receive(:sh).with("knife solo cook #{cmd_arguments}") # just to stub :sh
       subject.prepare
+      subject.converge
     end
   end
 
