@@ -18,3 +18,10 @@ end
 group :vagrant do
   gem 'kitchen-vagrant', '~> 0.10.0'
 end
+
+group :development do
+  gem "awesome_print"
+  gem "rb-fsevent", "~> 0.9.1"
+  gem "guard-rspec"
+end
+
