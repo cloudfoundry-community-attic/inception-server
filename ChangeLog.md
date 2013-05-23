@@ -5,6 +5,11 @@
 * Settings stored in `~/.inception_server` instead of `~/.bosh_inception`
 * Using [readwritesettings](https://github.com/drnic/readwritesettings) instead of settingslogic for access/save settings
 
+Fixes:
+
+* Fixed running `deploy` after `delete` by removing `cookbooks.prepared` setting
+* Do not destroy local ~/.gitconfig when running tests
+
 ## v0.1.0
 
 * Initial release to mailing list
