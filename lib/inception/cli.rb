@@ -120,6 +120,7 @@ module Inception
       ensure
         # after any error handling, still save the current InceptionServer state back into settings.inception
         settings["inception"] = server.export_attributes
+        settings.delete("cookbook")
         save_settings!
       end
 
