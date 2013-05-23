@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "cyoi" # choose your own infrastructure
 
   # for running cookbooks on inception server
-  spec.add_dependency "knife-solo", "~> 0.3.0.pre"
+  spec.add_dependency "knife-solo", "~> 0.3.0.pre4"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
