@@ -39,6 +39,7 @@ module Inception::CliHelpers
       provider_client.delete_key_pair_if_exists(key_pair_name)
       key_pair = provider_client.create_key_pair(key_pair_name)
       settings.set("inception.key_pair.private_key", key_pair.private_key)
+      settings.set("inception.key_pair.public_key", key_pair.public_key) # might be provided
       settings.set("inception.key_pair.fingerprint", key_pair.fingerprint)
       save_settings!
     end

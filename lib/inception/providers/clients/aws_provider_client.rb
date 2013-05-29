@@ -96,7 +96,7 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
   end
 
   # Ubuntu 13.04
-  def raring_image_id(region=nil)
+  def image_id
     region = fog_compute.region
     # http://cloud-images.ubuntu.com/locator/ec2/
     image_id = case region.to_s
@@ -120,43 +120,6 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
     image_id || raise("Please add Ubuntu 13.04 64bit (EBS) AMI image id to aws.rb#raring_image_id method for region '#{region}'")
   end
 
-  def bootstrap(new_attributes = {})
-    new_attributes[:image_id] ||= raring_image_id(fog_compute.region)
-    vpc = new_attributes[:subnet_id]
-
-    server = fog_compute.servers.new(new_attributes)
-
-    unless new_attributes[:key_name]
-      raise "please provide :key_name attribute"
-    end
-    unless private_key_path = new_attributes.delete(:private_key_path)
-      raise "please provide :private_key_path attribute"
-    end
-
-    if vpc
-      # TODO setup security group on new server
-    else
-      # make sure port 22 is open in the first security group
-      security_group = fog_compute.security_groups.get(server.groups.first)
-      authorized = security_group.ip_permissions.detect do |ip_permission|
-        ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
-        ip_permission['fromPort'] == 22 &&
-        ip_permission['ipProtocol'] == 'tcp' &&
-        ip_permission['toPort'] == 22
-      end
-      unless authorized
-        security_group.authorize_port_range(22..22)
-      end
-    end
-
-    server.save
-    unless Fog.mocking?
-      server.wait_for { ready? }
-      server.setup(:keys => [private_key_path])
-    end
-    server
-  end
-
   # Construct a Fog::Compute object
   # Uses +attributes+ which normally originates from +settings.provider+
   def setup_fog_connection
@@ -164,5 +127,18 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
     configuration[:provider] = "AWS"
     configuration[:region] = attributes.region
     @fog_compute = Fog::Compute.new(configuration)
+  end
+
+  def fog_attributes(inception_server)
+    {
+      image_id: inception_server.image_id,
+      groups: inception_server.security_groups,
+      key_name: inception_server.key_name,
+      private_key_path: inception_server.private_key_path,
+      flavor_id: inception_server.flavor,
+      public_ip_address: inception_server.ip_address,
+      bits: 64,
+      username: "ubuntu",
+    }
   end
 end

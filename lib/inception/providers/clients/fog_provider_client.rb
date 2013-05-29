@@ -13,6 +13,12 @@ class Inception::Providers::Clients::FogProviderClient
     setup_fog_connection
   end
 
+  def flavor_id(flavor_name)
+    if flavor = fog_compute.flavors.find { |fl| fl.name == flavor_name }
+      flavor.id
+    end
+  end
+
   def setup_fog_connection
     raise "must implement"
   end
@@ -157,4 +163,23 @@ class Inception::Providers::Clients::FogProviderClient
       address.public_ip
     end
   end
+
+  def bootstrap(new_attributes)
+    server = fog_compute.servers.new(new_attributes)
+
+    unless new_attributes[:key_name]
+      raise "please provide :key_name attribute"
+    end
+    unless private_key_path = new_attributes.delete(:private_key_path)
+      raise "please provide :private_key_path attribute"
+    end
+
+    server.save
+    unless Fog.mocking?
+      server.wait_for { ready? }
+      server.setup(keys: [private_key_path])
+    end
+    server
+  end
+
 end

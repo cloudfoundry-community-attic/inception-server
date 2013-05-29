@@ -143,6 +143,10 @@ module Inception
       @private_key_path ||= File.join(@ssh_dir, key_name)
     end
 
+    def public_key
+      @attributes.exists?("key_pair.public_key")
+    end
+
     # Flavor/instance type of the server to be provisioned
     # TODO: DEFAULT_FLAVOR should become IaaS/provider specific
     def flavor
@@ -159,7 +163,7 @@ module Inception
     end
 
     def image_id
-      @attributes["image_id"] ||= @provider_client.raring_image_id
+      @attributes["image_id"] ||= @provider_client.image_id
     end
 
     # The progresive/final attributes of the provisioned Inception server &
@@ -221,16 +225,7 @@ module Inception
     end
 
     def fog_attributes
-      {
-        :image_id => image_id,
-        :groups => security_groups,
-        :key_name => key_name,
-        :private_key_path => private_key_path,
-        :flavor_id => flavor,
-        :public_ip_address => ip_address,
-        :bits => 64,
-        :username => "ubuntu",
-      }
+      @provider_client.fog_attributes(self)
     end
 
     def validate_attributes_for_bootstrap

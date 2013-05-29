@@ -44,8 +44,8 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
     volume.wait_for { volume.status == 'in-use' }
   end
 
-  def delete_security_group_and_servers(sg_name)
-    raise "not implemented yet"
+  def image_id
+    raise "Not yet implemented"
   end
 
   # Construct a Fog::Compute object
@@ -54,6 +54,28 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
     configuration = Fog.symbolize_credentials(attributes.credentials)
     configuration[:provider] = "OpenStack"
     @fog_compute = Fog::Compute.new(configuration)
+  end
+
+  def fog_attributes(inception_server)
+    # :name => "Inception VM",
+    # :key_name => key_name,
+    # :private_key_path => inception_vm_private_key_path,
+    # :flavor_ref => inception_flavor.id,
+    # :image_ref => inception_image.id,
+    # :security_groups => [settings["inception"]["security_group"]],
+    # :username => username
+    {
+      name: inception_server.server_name,
+      key_name: inception_server.key_name,
+      private_key_path: inception_server.private_key_path,
+      image_ref: inception_server.image_id,
+      flavor_ref: flavor_id(inception_server.flavor),
+      security_groups: inception_server.security_groups,
+      public_key: inception_server.public_key,
+      public_ip_address: inception_server.ip_address,
+      bits: 64,
+      username: "ubuntu",
+    }
   end
 
   def openstack_constants
