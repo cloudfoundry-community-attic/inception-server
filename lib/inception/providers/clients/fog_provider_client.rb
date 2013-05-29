@@ -88,20 +88,19 @@ class Inception::Providers::Clients::FogProviderClient
     unless sg = security_groups.find { |s| s.name == security_group_name }
       sg = fog_compute.security_groups.create(name: security_group_name, description: description)
       puts "Created security group #{security_group_name}"
+      ip_permissions = ip_permissions(sg)
+      ports_opened = 0
+      ports.each do |name, port_defn|
+        (protocol, port_range, ip_range) = extract_port_definition(port_defn)
+        unless port_open?(ip_permissions, port_range, protocol, ip_range)
+          authorize_port_range(sg, port_range, protocol, ip_range)
+          puts " -> opened #{name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
+          ports_opened += 1
+        end
+      end
     else
       puts "Reusing security group #{security_group_name}"
     end
-    ip_permissions = ip_permissions(sg)
-    ports_opened = 0
-    ports.each do |name, port_defn|
-      (protocol, port_range, ip_range) = extract_port_definition(port_defn)
-      unless port_open?(ip_permissions, port_range, protocol, ip_range)
-        authorize_port_range(sg, port_range, protocol, ip_range)
-        puts " -> opened #{name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
-        ports_opened += 1
-      end
-    end
-    puts " -> no additional ports opened" if ports_opened == 0
     true
   end
 
