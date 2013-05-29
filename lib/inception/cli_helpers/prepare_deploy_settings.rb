@@ -71,10 +71,9 @@ module Inception::CliHelpers
 
       begin
         settings.provider.name
-        settings.provider.region
         settings.provider.credentials
       rescue ReadWriteSettings::MissingSetting => e
-        error "Wooh there, we need provider.name, provider.region, provider.credentials in settings.yml to proceed."
+        error "Wooh there, we need provider.name & provider.credentials in settings.yml to proceed."
       end
 
       begin
