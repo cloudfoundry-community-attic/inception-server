@@ -106,7 +106,7 @@ describe Inception::Providers do
           ]
         end
       end
-      it "should open ports even if they are already open for a different protocol" do
+      xit "should open ports even if they are already open for a different protocol" do
         capture_stdout do
           subject.create_security_group("sg3", "", { ssh: { protocol: "udp", ports: (60000..600050) } })
           subject.create_security_group("sg3", "", { ssh: { protocol: "tcp", ports: (60000..600050) } })
@@ -129,7 +129,7 @@ describe Inception::Providers do
           ]
         end
       end
-      it "should open ports even if they are already open for a different ip_range" do
+      xit "should open ports even if they are already open for a different ip_range" do
         capture_stdout do
           default_ports = {
              all_internal_tcp: { protocol: "tcp", ip_range: "1.1.1.1/32", ports: (0..65535) }
@@ -155,7 +155,7 @@ describe Inception::Providers do
           ]
         end
       end
-      it "should open ports on the default sg" do
+      xit "should open ports on the default sg" do
         capture_stdout do
           subject.create_security_group("default", "default", { mosh: { protocol: "tcp", ports: (15..30) } })
           created_sg = fog_compute.security_groups.get("default")
@@ -170,7 +170,7 @@ describe Inception::Providers do
         end
       end
       #AWS allows overlapping port ranges, and it makes it easier to see the separate "rules" that were added
-      it "should create overlapping port ranges" do
+      xit "should create overlapping port ranges" do
         capture_stdout do
           subject.create_security_group("sg4", "", { ssh: { protocol: "udp", ports: (10..20) } })
           subject.create_security_group("sg4", "", { ssh: { protocol: "udp", ports: (15..30) } })
