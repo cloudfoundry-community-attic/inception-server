@@ -4,5 +4,5 @@ cookbook "apt"
 cookbook "user"
 cookbook "sudo"
 cookbook "hub"
-cookbook "rvm", github: "fnichol/chef-rvm"
+cookbook "chruby", github: 'Atalanta/chef-chruby', ref: '1942bf89'
 cookbook "bosh_inception", path: "cookbooks/bosh_inception"

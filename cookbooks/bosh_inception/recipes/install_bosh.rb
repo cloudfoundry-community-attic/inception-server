@@ -13,11 +13,10 @@ directory "/var/vcap/store/microboshes" do
   action :create
 end
 
-rvm_shell "install bosh micro" do
-  code "bundle install"
+bash "install bosh micro" do
   cwd "/var/vcap/store/microboshes"
-  # user node.user.username
-  # environment ({'HOME' => node["user"]["home"]})
+  user node.user.username
+  code "source /etc/profile.d/chruby.sh; bundle install"
   action :run
 end
 
@@ -28,10 +27,9 @@ cookbook_file "/var/vcap/store/systems/Gemfile" do
   mode "0644"
 end
 
-rvm_shell "install bosh cf" do
-  code "bundle install"
+bash "install bosh cf" do
   cwd "/var/vcap/store/systems"
-  # user node.user.username
-  # environment ({'HOME' => node["user"]["home"]})
+  user node.user.username
+  code "source /etc/profile.d/chruby.sh; bundle install"
   action :run
 end

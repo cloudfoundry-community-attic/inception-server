@@ -9,7 +9,7 @@ supports "ubuntu"
 
 depends "apt"
 depends "sudo"
-depends "rvm"
+depends "chruby"
 depends "hub"
 
 attribute "git",

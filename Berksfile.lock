@@ -12,25 +12,19 @@
     "hub": {
       "locked_version": "1.0.4"
     },
-    "rvm": {
-      "locked_version": "0.9.1",
-      "git": "git://github.com/fnichol/chef-rvm.git",
-      "ref": "7038fb8c518d0d7785767de215b1ae463f237973"
+    "chruby": {
+      "locked_version": "0.2.1",
+      "git": "git://github.com/Atalanta/chef-chruby.git",
+      "ref": "1942bf895b30b6173249d2a50f35e8efca1afc08"
     },
     "bosh_inception": {
       "path": "./cookbooks/bosh_inception"
     },
-    "java": {
-      "locked_version": "1.11.4"
+    "ark": {
+      "locked_version": "0.3.2"
     },
-    "windows": {
-      "locked_version": "1.8.10"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.4"
-    },
-    "chef_gem": {
-      "locked_version": "0.1.0"
+    "ruby_build": {
+      "locked_version": "0.8.0"
     }
   }
 }

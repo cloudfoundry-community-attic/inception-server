@@ -8,17 +8,10 @@ default["user"]["username"] = `users | head -n 1`.strip
 default["user"]["home"] = node.user.username == "root" ? "/root" : "/home/#{node["user"]["username"]}"
 default["git"]["name"] = "Nobody"
 default["git"]["email"] = "nobody@in-the-house.com"
-default["rvm"]["default_ruby"] = "ruby-1.9.3"
-default["rvm"]["global_gems"] = [
-  { "name"    => "bundler" },
-  { "name"    => "rake" },
-  { "name"    => "jazor" },
-  { "name"    => "yaml_command" },
-  { "name"    => "chef" },
-  { "name"    => "rubygems-bundler",
-    "action"  => "remove"
-  }
-]
+
+default["chruby"]["rubies"]["1.9.3-p392"] = false
+default["chruby"]["rubies"]["1.9.3-p429"] = true
+default["chruby"]["default"] = "1.9.3-p429"
 
 # Pass in credentials to be dropped into a ~/.fog file
 # They will be automatically converted to symbolized keys
