@@ -1,23 +1,18 @@
+---
 language: ruby
 script: bundle exec rake spec:$SUITE
-bundler_args: "--without=vagrant"
+bundler_args: --without=vagrant
 rvm:
-  - ruby-1.9.3
-  # - rbx-19mode
-  # - ruby-2.0.0 - generates "Cannot find Syck parser for YAML"
+- ruby-1.9.3
 notifications:
   email:
     recipients:
-      - drnicwilliams@gmail.com
+    - drnicwilliams@gmail.com
     on_success: change
     on_failure: always
 env:
   matrix:
-    - SUITE=unit
-    # - SUITE=cookbooks
-    - SUITE=integration:aws:basic
+  - SUITE=unit
+  - SUITE=integration:aws:basic
   global:
-    - secure: "ffIzBURgvWYTtbdZjic6DGxRiKBrd8auIJxiEIdgBhI2a/KUpcgQEKJrnReg\nL9rUEOWDlWOKfTqsUdehQ4q24MKoNVlpAHPyGZlEd6BtypbdQARJD1VFUSD0\nyNybSKjAe3+gaqTBt7LBWeVEBAVI8U9OQwL5+DQPnz53io06Z6I="
-# matrix:
-#   allow_failures:
-#     - env: SUITE=integration:aws:basic
+    secure: "e1M3OQJfiqM7V1IPqwRZNUlw53Kl+6nTo6CbfcGu5+hTtutnh0n0t9DZjYxz\nYwgawuxXKzQfbBi5sYoMPBgKylR3JT7GKjIVRm+bA+jip3wmBjXAmT/DlFNQ\nKmtiMG0kXitHfVnG6imz2wUWikbEdjCzji1+9LV33Y6JGBkD+90="
