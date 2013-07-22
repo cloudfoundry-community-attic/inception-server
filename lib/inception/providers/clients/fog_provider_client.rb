@@ -41,7 +41,7 @@ class Inception::Providers::Clients::FogProviderClient
   end
 
   def delete_servers_with_name(name)
-    fog_compute.servers.select {|s| s.tags["Name"].downcase == name.downcase }.each do |server|
+    fog_compute.servers.select {|s| s.tags["Name"] && (s.tags["Name"].downcase == name.downcase) }.each do |server|
       puts "Destroying server #{server.id}... "
       server.destroy
     end
