@@ -7,6 +7,11 @@ load discover_user
   [ "$status" -eq 0 ]
 }
 
+@test "bosh-bootstrap installed" {
+  run su - $TEST_USER -c "cd /var/vcap/store/systems; bundle exec bosh-bootstrap"
+  [ "$status" -eq 0 ]
+}
+
 @test "bosh-cloudfoundry installed" {
   run su - $TEST_USER -c "cd /var/vcap/store/systems; bundle exec bosh cf"
   [ "$status" -eq 0 ]
