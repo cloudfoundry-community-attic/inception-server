@@ -2,4 +2,4 @@ source 'https://rubygems.org'
 source 'https://s3.amazonaws.com/bosh-jenkins-gems/'
 
 gem "bosh-bootstrap"
-gem "bosh-cloudfoundry", ">= 0.7.0.alpha"
+gem "bosh-cloudfoundry"
