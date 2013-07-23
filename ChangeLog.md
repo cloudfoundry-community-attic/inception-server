@@ -5,6 +5,7 @@
 * Settings stored in `~/.inception_server` instead of `~/.bosh_inception`
 * Using [readwritesettings](https://github.com/drnic/readwritesettings) instead of settingslogic for access/save settings
 * install bosh-bootstrap & latest bosh-cloudfoundry --pre (v0.2.1)
+* using bosh-cloudfoundry 0.7.0 (not --pre releases) (v0.2.2)
 
 Fixes:
 
