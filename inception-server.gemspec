@@ -38,6 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
 
   # gems for the cookbook tests
-  spec.add_development_dependency "test-kitchen", "~> 1.0.0.alpha.6"
+  spec.add_development_dependency "test-kitchen", "~> 1.0.0.beta.2"
   spec.add_development_dependency "berkshelf"
 end
