@@ -9,7 +9,15 @@ Includes a CLI for creating and preparing an inception server for deploying/deve
 
 ## Installation
 
-The tool is distributed as a RubyGem.
+```
+git clone https://github.com/cloudfoundry-community/inception-server.git
+cd inception-server
+bundle
+```
+
+*Wherever you see `inception` below, use `bundle exec bin/inception` until the rubygem is fixed.*
+
+The tool WILL be distributed as a RubyGem, but its currently not working in this form sadly.
 
 ```
 $ gem install inception-server
