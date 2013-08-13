@@ -3,6 +3,8 @@ require "readwritesettings"
 module Inception::CliHelpers
   module Settings
     include FileUtils
+    
+    CONFIG_DIRECTORY = ".inception_server"
 
     # The base directory for holding the manifest settings file
     # and private keys
@@ -10,7 +12,7 @@ module Inception::CliHelpers
     # Defaults to ~/.inception_server; and can be overridden with either:
     # * $SETTINGS - to a folder (supported method)
     def settings_dir
-      @settings_dir ||= File.expand_path(ENV["SETTINGS"] || "~/.inception_server")
+      @settings_dir ||= local_settings || File.expand_path(ENV["SETTINGS"] || "~/#{CONFIG_DIRECTORY}")
     end
 
     def settings_ssh_dir
@@ -47,6 +49,11 @@ module Inception::CliHelpers
 
     def migrate_old_settings
       settings
+    end
+
+    def local_settings
+      path = File.join(Dir.pwd, CONFIG_DIRECTORY)
+      Dir.exists?(path) ? path : nil
     end
 
   end
