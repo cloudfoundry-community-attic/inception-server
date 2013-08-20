@@ -108,9 +108,11 @@ Change the private key to be read-only to you:
   $ chmod 700 ~/.ssh
   $ chmod 600 ~/.ssh/inception
 
-You can now access the inception server running:
+You can now access the inception server running either:
 
   $ ssh inception
+  $ ssh inception -t "tmux attach || tmux new-session"
+
 EOS
         @cmd.share_ssh
       end
@@ -138,9 +140,11 @@ Change the private key to be read-only to you:
   $ chmod 700 ~/.ssh
   $ chmod 600 ~/.ssh/company-xyz
 
-You can now access the inception server running:
+You can now access the inception server running either:
 
   $ ssh company-xyz
+  $ ssh company-xyz -t "tmux attach || tmux new-session"
+
 EOS
         @cmd.share_ssh("company-xyz")
       end
