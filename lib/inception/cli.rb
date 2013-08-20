@@ -63,7 +63,7 @@ module Inception
 
     desc "share-ssh", "Display the SSH config & private key that can be given to others to share access to the inception server"
     def share_ssh(name=settings.inception.name)
-      user = "vcap"
+      user = settings.inception.provisioned.username
       host = settings.inception.provisioned.host
       private_key_path = "~/.ssh/#{name}"
       private_key = settings.inception.key_pair.private_key
