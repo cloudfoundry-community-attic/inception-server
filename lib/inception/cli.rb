@@ -84,9 +84,11 @@ Change the private key to be read-only to you:
   $ chmod 700 ~/.ssh
   $ chmod 600 #{private_key_path}
 
-You can now access the inception server running:
+You can now access the inception server running either:
 
   $ ssh #{name}
+  $ ssh #{name} -t "tmux attach || tmux new-session"
+
 EOS
     end
 
