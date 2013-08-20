@@ -4,6 +4,8 @@ Create an inception server for Bosh-related development.
 
 Includes a CLI for creating and preparing an inception server for deploying/developing a Bosh universe. The created or targeted VM is upgraded into an inception server via a Chef cookbook.
 
+The CLI will explain how to share access to an inception server with others. Also with the power of tmux, make it easy for 2+ people to view the same terminal and to leave long running jobs whilst you are disconnected.
+
 [![Build Status](https://travis-ci.org/drnic/inception-server.png?branch=master)](https://travis-ci.org/drnic/inception-server)
 [![Code Climate](https://codeclimate.com/github/drnic/inception-server.png)](https://codeclimate.com/github/drnic/inception-server)
 
@@ -91,6 +93,13 @@ $ inception deploy
 ... lots of chef output ...
 ```
 
+### SSH access
+
+You have some options for accessing the inception server via SSH:
+
+* `inception ssh` - opens a simple terminal to the inception server
+* `inception tmux` - creates or attaches to a tmux session on the inception server
+* `inception share-ssh` - displays how anyone can setup their own ssh config to connect to the inception server without requiring this project to be installed (nor requiring Ruby installed)
 
 ### Chef cookbook usage - remote VM
 

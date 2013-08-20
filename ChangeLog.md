@@ -1,5 +1,9 @@
 # Change Log for Inception Server
 
+## v0.3.0
+
+* `inception share-ssh` makes it really easy to share access to an inception server. It displays text that can be copied & pasted to any person explaining how to setup local SSH config and a private key.
+
 ## v0.2.0
 
 * Settings stored in `~/.inception_server` instead of `~/.bosh_inception`
