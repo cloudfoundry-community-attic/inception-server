@@ -61,6 +61,35 @@ module Inception
       run_ssh_command_or_open_tunnel(["-t", "tmux attach || tmux new-session"])
     end
 
+    desc "share-ssh", "Display the SSH config & private key that can be given to others to share access to the inception server"
+    def share_ssh(name=settings.inception.name)
+      user = "vcap"
+      host = settings.inception.provisioned.host
+      private_key_path = "~/.ssh/#{name}"
+      private_key = settings.inception.key_pair.private_key
+      say <<-EOS
+To access the inception server, add the following to your ~/.ssh/config
+
+  Host #{name}
+    User #{user}
+    Hostname #{host}
+    IdentityFile #{private_key_path}
+
+Create a file #{private_key_path} with all the lines below:
+
+#{private_key}
+
+Change the private key to be read-only to you:
+
+  $ chmod 700 ~/.ssh
+  $ chmod 600 #{private_key_path}
+
+You can now access the inception server running:
+
+  $ ssh #{name}
+EOS
+    end
+
     no_tasks do
       def configure_provider
         save_settings!

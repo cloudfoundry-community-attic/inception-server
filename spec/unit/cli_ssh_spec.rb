@@ -16,8 +16,15 @@ describe Inception do
     setting "provider.credentials.aws_secret_access_key", "aws_secret_access_key"
     setting "provider.region", "us-west-2"
     setting "inception.key_pair.name", "inception"
-    setting "inception.key_pair.private_key", "PRIVATE"
-    setting "inception.provisioned.host", "5.5.5.5"
+    setting "inception.key_pair.private_key", <<-EOS
+-----BEGIN RSA PRIVATE KEY-----
+xV67ZHvuRdoNDbFXscpF5uK4sEwbsvSJw73qtYAgUWfhXQKBgQDCQaO9Hf6UKd4PyPeLlSGE7akS
+p57tEdMoXIE1BzUbQJL5UWfTsL6PDU7PJbIDWsR4CqESLcU3D/JVl7F5bQ6cgLifP3SuDh4oMLtK
+ToA13XEsLnlLnyyi+i1dDv97Yz5jjULy8wsbiVpneabckol4427947OZwIvsHDF+KXHy3w==
+-----END RSA PRIVATE KEY-----
+EOS
+    setting "inception.name", "inception"
+    setting "inception.provisioned.host", "ec2-1-2-3-4.compute-1.amazonaws.com"
     setting "inception.provisioned.username", "vcap"
   end
 
@@ -28,13 +35,13 @@ describe Inception do
       it "launches ssh session" do
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
-          with("ssh -i #{private_key_path} vcap@5.5.5.5")
+          with("ssh -i #{private_key_path} vcap@ec2-1-2-3-4.compute-1.amazonaws.com")
         @cmd.ssh
       end
       it "runs ssh command" do
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
-          with("ssh -i #{private_key_path} vcap@5.5.5.5 'some command'")
+          with("ssh -i #{private_key_path} vcap@ec2-1-2-3-4.compute-1.amazonaws.com 'some command'")
         @cmd.ssh("some command")
       end
     end
@@ -43,7 +50,7 @@ describe Inception do
       it "launches ssh session" do
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
-          with("ssh -i #{private_key_path} vcap@5.5.5.5 -t 'tmux attach || tmux new-session'")
+          with("ssh -i #{private_key_path} vcap@ec2-1-2-3-4.compute-1.amazonaws.com -t 'tmux attach || tmux new-session'")
         @cmd.tmux
       end
     end
@@ -61,7 +68,7 @@ describe Inception do
         @cmd.stub!(:ensure_mosh_installed).and_return(true)
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
-          with("mosh --ssh 'ssh -i #{@private_key_path}' vcap@5.5.5.5")
+          with("mosh --ssh 'ssh -i #{@private_key_path}' vcap@ec2-1-2-3-4.compute-1.amazonaws.com")
         @cmd.mosh
       end
       xit "should ensure that the mosh ports are opened" do
@@ -74,6 +81,68 @@ describe Inception do
         @cmd.provider.stub!(:create_security_group)
           .with('default','not used', expected_ports)
         @cmd.ensure_security_group_allows_mosh
+      end
+    end
+
+    describe "share-ssh" do
+      it "should display an example .ssh/config & private key" do
+        @cmd.should_receive(:say).with(<<-EOS)
+To access the inception server, add the following to your ~/.ssh/config
+
+  Host inception
+    User vcap
+    Hostname ec2-1-2-3-4.compute-1.amazonaws.com
+    IdentityFile ~/.ssh/inception
+
+Create a file ~/.ssh/inception with all the lines below:
+
+-----BEGIN RSA PRIVATE KEY-----
+xV67ZHvuRdoNDbFXscpF5uK4sEwbsvSJw73qtYAgUWfhXQKBgQDCQaO9Hf6UKd4PyPeLlSGE7akS
+p57tEdMoXIE1BzUbQJL5UWfTsL6PDU7PJbIDWsR4CqESLcU3D/JVl7F5bQ6cgLifP3SuDh4oMLtK
+ToA13XEsLnlLnyyi+i1dDv97Yz5jjULy8wsbiVpneabckol4427947OZwIvsHDF+KXHy3w==
+-----END RSA PRIVATE KEY-----
+
+
+Change the private key to be read-only to you:
+
+  $ chmod 700 ~/.ssh
+  $ chmod 600 ~/.ssh/inception
+
+You can now access the inception server running:
+
+  $ ssh inception
+EOS
+        @cmd.share_ssh
+      end
+
+      it "should display an example .ssh/config & private key with custom name" do
+        @cmd.should_receive(:say).with(<<-EOS)
+To access the inception server, add the following to your ~/.ssh/config
+
+  Host company-xyz
+    User vcap
+    Hostname ec2-1-2-3-4.compute-1.amazonaws.com
+    IdentityFile ~/.ssh/company-xyz
+
+Create a file ~/.ssh/company-xyz with all the lines below:
+
+-----BEGIN RSA PRIVATE KEY-----
+xV67ZHvuRdoNDbFXscpF5uK4sEwbsvSJw73qtYAgUWfhXQKBgQDCQaO9Hf6UKd4PyPeLlSGE7akS
+p57tEdMoXIE1BzUbQJL5UWfTsL6PDU7PJbIDWsR4CqESLcU3D/JVl7F5bQ6cgLifP3SuDh4oMLtK
+ToA13XEsLnlLnyyi+i1dDv97Yz5jjULy8wsbiVpneabckol4427947OZwIvsHDF+KXHy3w==
+-----END RSA PRIVATE KEY-----
+
+
+Change the private key to be read-only to you:
+
+  $ chmod 700 ~/.ssh
+  $ chmod 600 ~/.ssh/company-xyz
+
+You can now access the inception server running:
+
+  $ ssh company-xyz
+EOS
+        @cmd.share_ssh("company-xyz")
       end
     end
   end
