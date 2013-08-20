@@ -25,7 +25,7 @@ ToA13XEsLnlLnyyi+i1dDv97Yz5jjULy8wsbiVpneabckol4427947OZwIvsHDF+KXHy3w==
 EOS
     setting "inception.name", "inception"
     setting "inception.provisioned.host", "ec2-1-2-3-4.compute-1.amazonaws.com"
-    setting "inception.provisioned.username", "vcap"
+    setting "inception.provisioned.username", "ubuntu"
   end
 
   describe "ssh" do
@@ -35,13 +35,13 @@ EOS
       it "launches ssh session" do
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
-          with("ssh -i #{private_key_path} vcap@ec2-1-2-3-4.compute-1.amazonaws.com")
+          with("ssh -i #{private_key_path} ubuntu@ec2-1-2-3-4.compute-1.amazonaws.com")
         @cmd.ssh
       end
       it "runs ssh command" do
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
-          with("ssh -i #{private_key_path} vcap@ec2-1-2-3-4.compute-1.amazonaws.com 'some command'")
+          with("ssh -i #{private_key_path} ubuntu@ec2-1-2-3-4.compute-1.amazonaws.com 'some command'")
         @cmd.ssh("some command")
       end
     end
@@ -50,7 +50,7 @@ EOS
       it "launches ssh session" do
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
-          with("ssh -i #{private_key_path} vcap@ec2-1-2-3-4.compute-1.amazonaws.com -t 'tmux attach || tmux new-session'")
+          with("ssh -i #{private_key_path} ubuntu@ec2-1-2-3-4.compute-1.amazonaws.com -t 'tmux attach || tmux new-session'")
         @cmd.tmux
       end
     end
@@ -68,7 +68,7 @@ EOS
         @cmd.stub!(:ensure_mosh_installed).and_return(true)
         @cmd.should_receive(:exit)
         @cmd.should_receive(:system).
-          with("mosh --ssh 'ssh -i #{@private_key_path}' vcap@ec2-1-2-3-4.compute-1.amazonaws.com")
+          with("mosh --ssh 'ssh -i #{@private_key_path}' ubuntu@ec2-1-2-3-4.compute-1.amazonaws.com")
         @cmd.mosh
       end
       xit "should ensure that the mosh ports are opened" do
@@ -90,7 +90,7 @@ EOS
 To access the inception server, add the following to your ~/.ssh/config
 
   Host inception
-    User vcap
+    User ubuntu
     Hostname ec2-1-2-3-4.compute-1.amazonaws.com
     IdentityFile ~/.ssh/inception
 
@@ -120,7 +120,7 @@ EOS
 To access the inception server, add the following to your ~/.ssh/config
 
   Host company-xyz
-    User vcap
+    User ubuntu
     Hostname ec2-1-2-3-4.compute-1.amazonaws.com
     IdentityFile ~/.ssh/company-xyz
 
