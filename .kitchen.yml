@@ -20,14 +20,6 @@ platforms:
       - default
       - ssh
     require_chef_omnibus: true
-<% elsif `vagrant plugin list | grep vmware-fusion`.strip.size > 0 &&
-   `vagrant box list | grep precise64 | grep vmware_fusion`.strip.size > 0 %>
-- name: precise64_vmware_fusion
-  driver_config:
-    provider: vmware_fusion
-    box: precise64
-    box_url: https://s3.amazonaws.com/gsc-vagrant-boxes/ubuntu-12.04.2-server-amd64.box
-    require_chef_omnibus: true
 <% else %>
 - name: precise64_virtualbox
   driver_config:
