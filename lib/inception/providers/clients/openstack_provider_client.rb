@@ -42,10 +42,15 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
     volume.wait_for { volume.status == 'available' }
     volume.attach(server.id, device)
     volume.wait_for { volume.status == 'in-use' }
+    volume
   end
 
   def image_id
-    raise "Not yet implemented"
+    raise "Not yet implemented: add inception.image_id & inception.initial_user and re-run 'inception deploy'"
+  end
+
+  def default_disk_device
+    { "external" => "/dev/vdc", "internal" => "/dev/vdc" }
   end
 
   # Construct a Fog::Compute object
@@ -74,7 +79,7 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
       public_key: inception_server.public_key,
       public_ip_address: inception_server.ip_address,
       bits: 64,
-      username: "ubuntu",
+      username: inception_server.initial_user,
     }
   end
 

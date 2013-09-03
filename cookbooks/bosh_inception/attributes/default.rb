@@ -1,5 +1,6 @@
 # A String or Array of SSH public keys to populate the user"s .ssh/authorized_keys file.
 
+default["user"]["home"] = node.user.username == "root" ? "/root" : node["user"]["home"]
 default["disk"]["mounted"] = false
 default["disk"]["device"] = "/dev/xvdf"
 default["disk"]["fstype"] = "btrfs"

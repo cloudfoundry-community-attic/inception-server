@@ -14,7 +14,7 @@ execute "git config user.name" do
   user node.user.username
   group node.user.username
   action :run
-  environment ({'HOME' => "/home/#{node.user.username}"})
+  environment ({'HOME' => node["user"]["home"]})
 end
 
 execute "git config user.email" do
@@ -22,7 +22,7 @@ execute "git config user.email" do
   user node.user.username
   group node.user.username
   action :run
-  environment ({'HOME' => "/home/#{node.user.username}"})
+  environment ({'HOME' => node["user"]["home"]})
 end
 
 execute "git config color.ui" do
@@ -30,5 +30,5 @@ execute "git config color.ui" do
   user node.user.username
   group node.user.username
   action :run
-  environment ({'HOME' => "/home/#{node.user.username}"})
+  environment ({'HOME' => node["user"]["home"]})
 end

@@ -31,7 +31,11 @@ class Inception::Providers::Clients::FogProviderClient
   # set_resource_name(volume, "inception-root")
   # set_resource_name(volume, "inception-store")
   def set_resource_name(resource, name)
-    fog_compute.tags.create :key => "Name", :value => name, :resource_id => resource.id
+    # override if supported
+  end
+
+  def default_disk_device
+    raise "must implement"
   end
 
   def delete_key_pair_if_exists(key_pair_name)
@@ -164,7 +168,17 @@ class Inception::Providers::Clients::FogProviderClient
     end
   end
 
+  def attach_public_ip_address(server, public_ip_address)
+    if public_ip_address
+      address = fog_compute.addresses.find { |a| a.ip == public_ip_address }
+      address.server = server
+      server.reload
+    end
+  end
+
   def bootstrap(new_attributes)
+    public_ip_address = new_attributes.delete(:public_ip_address)
+
     server = fog_compute.servers.new(new_attributes)
 
     unless new_attributes[:key_name]
@@ -175,8 +189,12 @@ class Inception::Providers::Clients::FogProviderClient
     end
 
     server.save
+
     unless Fog.mocking?
       server.wait_for { ready? }
+
+      attach_public_ip_address(server, public_ip_address)
+
       server.setup(keys: [private_key_path])
     end
     server

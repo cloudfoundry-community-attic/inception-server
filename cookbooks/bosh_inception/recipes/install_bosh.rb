@@ -17,7 +17,7 @@ rvm_shell "install bosh micro" do
   code "bundle install"
   cwd "/var/vcap/store/microboshes"
   # user node.user.username
-  # environment ({'HOME' => "/home/#{node.user.username}"})
+  # environment ({'HOME' => node["user"]["home"]})
   action :run
 end
 
@@ -32,6 +32,6 @@ rvm_shell "install bosh cf" do
   code "bundle install"
   cwd "/var/vcap/store/systems"
   # user node.user.username
-  # environment ({'HOME' => "/home/#{node.user.username}"})
+  # environment ({'HOME' => node["user"]["home"]})
   action :run
 end

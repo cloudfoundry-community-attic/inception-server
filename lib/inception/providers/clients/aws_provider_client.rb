@@ -93,6 +93,7 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
     #
     # Instead, using:
     volume.server = server
+    volume
   end
 
   # Ubuntu 13.04
@@ -120,6 +121,18 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
     image_id || raise("Please add Ubuntu 13.04 64bit (EBS) AMI image id to aws.rb#raring_image_id method for region '#{region}'")
   end
 
+  def default_disk_device
+    { "external" => "/dev/sdf", "internal" => "/dev/xvdf" }
+  end
+
+  def attach_public_ip_address(server, public_ip_address)
+    if public_ip_address
+      address = fog_compute.addresses.find { |a| a.public_ip == public_ip_address }
+      address.server = server
+      server.reload
+    end
+  end
+
   # Construct a Fog::Compute object
   # Uses +attributes+ which normally originates from +settings.provider+
   def setup_fog_connection
@@ -138,7 +151,15 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
       flavor_id: inception_server.flavor,
       public_ip_address: inception_server.ip_address,
       bits: 64,
-      username: "ubuntu",
+      username: inception_server.initial_user,
     }
   end
+
+  # set_resource_name(fog_server, "inception")
+  # set_resource_name(volume, "inception-root")
+  # set_resource_name(volume, "inception-store")
+  def set_resource_name(resource, name)
+    fog_compute.tags.create :key => "Name", :value => name, :resource_id => resource.id
+  end
+
 end
