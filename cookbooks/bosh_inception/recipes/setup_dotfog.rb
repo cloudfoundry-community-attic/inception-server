@@ -1,5 +1,5 @@
 if node.fog.empty?
-  file "/home/#{node.user.username}/.fog" do
+  file "#{node["user"]["home"]}/.fog" do
     owner "root"
     group "root"
     mode "0755"
@@ -13,14 +13,14 @@ else
         options
       end
       fog_file = { default: credentials }
-      dotfog = File.expand_path("/home/#{node.user.username}/.fog")
+      dotfog = File.expand_path("#{node["user"]["home"]}/.fog")
       File.open(dotfog, "w") do |f|
         f << fog_file.to_yaml
       end
     end
   end
 
-  file "/home/#{node.user.username}/.fog" do
+  file "#{node["user"]["home"]}/.fog" do
     owner node.user.username
     group node.user.username
     mode "0600"
