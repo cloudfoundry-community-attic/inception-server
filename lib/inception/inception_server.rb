@@ -162,6 +162,10 @@ module Inception
       provisioned.ip_address
     end
 
+    def initial_user
+      @attributes["initial_user"] || "ubuntu"
+    end
+
     def image_id
       @attributes["image_id"] ||= @provider_client.image_id
     end
@@ -190,14 +194,7 @@ module Inception
     end
 
     def default_disk_device
-      case @provider_client
-      when Inception::Providers::Clients::AwsProviderClient
-        { "external" => "/dev/sdf", "internal" => "/dev/xvdf" }
-      when Inception::Providers::Clients::OpenStackProviderClient
-        { "external" => "/dev/vdc", "internal" => "/dev/vdc" }
-      else
-        raise "Please implement InceptionServer#default_disk_device for #{@provider_client.class}"
-      end
+      @provider_client.default_disk_device
     end
 
     def user_host
@@ -258,7 +255,7 @@ module Inception
         print "Booting #{flavor} inception server... "
         @fog_server = @provider_client.bootstrap(fog_attributes)
         provisioned["server_id"] = fog_server.id
-        provisioned["host"] = fog_server.dns_name || fog_server.public_ip_address
+        provisioned["host"] = fog_server.public_ip_address
         provisioned["username"] = fog_attributes[:username]
         puts provisioned.server_id
       end
