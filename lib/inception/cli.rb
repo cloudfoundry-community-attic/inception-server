@@ -158,7 +158,7 @@ EOS
       def run_ssh_command_or_open_tunnel(cmd)
         recreate_private_key_file_for_inception
         unless settings.exists?("inception.provisioned.host")
-          exit "inception server has not finished launching; run to complete: inception deploy"
+          error "inception server has not finished launching; run to complete: inception deploy"
         end
 
         server = InceptionServer.new(provider_client, settings.inception, settings_ssh_dir)
