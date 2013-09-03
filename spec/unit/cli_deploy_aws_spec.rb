@@ -51,7 +51,6 @@ describe "AWS deployment" do
       settings.inception.security_groups.should == ["ssh"]
 
       settings.inception.provisioned.username.should == "ubuntu"
-      settings.inception.provisioned.host.should_not be_nil
       settings.inception.provisioned.server_id.should_not be_nil
 
       settings.inception.provisioned.disk_device.volume_id.should_not be_nil
