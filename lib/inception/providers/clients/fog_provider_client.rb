@@ -168,6 +168,14 @@ class Inception::Providers::Clients::FogProviderClient
     end
   end
 
+  def attach_public_ip_address(server, public_ip_address)
+    if public_ip_address
+      address = fog_compute.addresses.find { |a| a.ip == public_ip_address }
+      address.server = server
+      server.reload
+    end
+  end
+
   def bootstrap(new_attributes)
     public_ip_address = new_attributes.delete(:public_ip_address)
 
@@ -185,11 +193,7 @@ class Inception::Providers::Clients::FogProviderClient
     unless Fog.mocking?
       server.wait_for { ready? }
 
-      if public_ip_address
-        address = fog_compute.addresses.find { |a| a.ip == public_ip_address }
-        address.server = server
-        server.reload
-      end
+      attach_public_ip_address(server, public_ip_address)
 
       server.setup(keys: [private_key_path])
     end

@@ -125,6 +125,14 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
     { "external" => "/dev/sdf", "internal" => "/dev/xvdf" }
   end
 
+  def attach_public_ip_address(server, public_ip_address)
+    if public_ip_address
+      address = fog_compute.addresses.find { |a| a.public_ip == public_ip_address }
+      address.server = server
+      server.reload
+    end
+  end
+
   # Construct a Fog::Compute object
   # Uses +attributes+ which normally originates from +settings.provider+
   def setup_fog_connection
