@@ -1,9 +1,36 @@
-cookbook 'bosh_inception', :path => '/Users/drnic/Projects/ruby/gems/inception/cookbooks/bosh_inception'
-cookbook 'apt', :locked_version => '1.9.2'
-cookbook 'user', :locked_version => '0.3.0'
-cookbook 'sudo', :locked_version => '2.1.0'
-cookbook 'rvm', :git => 'git://github.com/fnichol/chef-rvm.git', :ref => '7038fb8c518d0d7785767de215b1ae463f237973'
-cookbook 'java', :locked_version => '1.10.2'
-cookbook 'windows', :locked_version => '1.8.10'
-cookbook 'chef_handler', :locked_version => '1.1.4'
-cookbook 'chef_gem', :locked_version => '0.1.0'
+{
+  "sources": {
+    "apt": {
+      "locked_version": "1.9.2"
+    },
+    "user": {
+      "locked_version": "0.3.0"
+    },
+    "sudo": {
+      "locked_version": "2.1.0"
+    },
+    "hub": {
+      "locked_version": "1.0.4"
+    },
+    "rvm": {
+      "locked_version": "0.9.1",
+      "git": "git://github.com/fnichol/chef-rvm.git",
+      "ref": "7038fb8c518d0d7785767de215b1ae463f237973"
+    },
+    "bosh_inception": {
+      "path": "./cookbooks/bosh_inception"
+    },
+    "java": {
+      "locked_version": "1.11.4"
+    },
+    "windows": {
+      "locked_version": "1.8.10"
+    },
+    "chef_handler": {
+      "locked_version": "1.1.4"
+    },
+    "chef_gem": {
+      "locked_version": "0.1.0"
+    }
+  }
+}

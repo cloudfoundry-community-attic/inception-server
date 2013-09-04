@@ -19,3 +19,4 @@ tmp
 .kitchen.local.yml
 nodes/*.json
 .DS_Store
+.kitchen.yml.*
