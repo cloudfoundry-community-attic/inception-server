@@ -8,3 +8,9 @@
 #
 
 include_recipe "rvm::system"
+
+group "rvm" do
+  members "#{node.user.username}"
+  append true
+  action :modify
+end
