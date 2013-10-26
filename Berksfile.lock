@@ -10,7 +10,9 @@
       "locked_version": "2.1.2"
     },
     "hub": {
-      "locked_version": "1.0.4"
+      "locked_version": "1.0.4",
+      "git": "git://github.com/drnic/chef-hub.git",
+      "ref": "bbfe752f3f12c4c6e1270c0e838098a8155f1385"
     },
     "chruby": {
       "locked_version": "0.2.1",

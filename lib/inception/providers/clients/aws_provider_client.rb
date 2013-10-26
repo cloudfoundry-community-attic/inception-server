@@ -121,7 +121,7 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
     image_id || raise("Please add Ubuntu 13.04 64bit (EBS) AMI image id to aws.rb#raring_image_id method for region '#{region}'")
   end
 
-  def default_disk_device
+  def default_disk_device(server)
     { "external" => "/dev/sdf", "internal" => "/dev/xvdf" }
   end
 

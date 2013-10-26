@@ -194,7 +194,7 @@ module Inception
     end
 
     def default_disk_device
-      @provider_client.default_disk_device
+      @provider_client.default_disk_device(fog_server)
     end
 
     def user_host

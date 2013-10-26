@@ -16,7 +16,7 @@ include_recipe "apt"
   genisoimage
   debootstrap kpartx qemu-kvm
   whois
-  tmux mosh
+  tmux
   vim
 ].each do |pkg|
   package pkg
