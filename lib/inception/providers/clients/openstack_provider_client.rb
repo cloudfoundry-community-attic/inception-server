@@ -34,6 +34,27 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
     va.find { |v| v["device"] == device }
   end
 
+  # returns Fog::Compute::OpenStack::Flavor
+  # <Fog::Compute::OpenStack::Flavor
+  #   id="2",
+  #   name="m1.small",
+  #   ram=2048,
+  #   disk=20,
+  #   vcpus=1,
+  #   swap="",
+  #   rxtx_factor=1.0,
+  #   ephemeral=0,
+  #   is_public=true,
+  #   disabled=false
+  # >
+  def server_flavor(server)
+    fog_compute.flavors.get(server.flavor["id"])
+  end
+
+  def server_ephemeral_disk?(server)
+    server_flavor(server).ephemeral > 0
+  end
+
   def create_and_attach_volume(name, disk_size, server, device)
     volume = fog_compute.volumes.create(:name => name,
                                         :description => "",
@@ -49,9 +70,14 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
     raise "Not yet implemented: add inception.image_id & inception.initial_user and re-run 'inception deploy'"
   end
 
-  def default_disk_device
-    { "external" => "/dev/vdc", "internal" => "/dev/vdc" }
+  def default_disk_device(server)
+    if server_ephemeral_disk?(server)
+      { "external" => "/dev/vdc", "internal" => "/dev/vdc" }
+    else
+      { "external" => "/dev/vdc", "internal" => "/dev/vdb" }
+    end
   end
+
 
   # Construct a Fog::Compute object
   # Uses +attributes+ which normally originates from +settings.provider+

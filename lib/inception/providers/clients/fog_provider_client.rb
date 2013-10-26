@@ -34,7 +34,7 @@ class Inception::Providers::Clients::FogProviderClient
     # override if supported
   end
 
-  def default_disk_device
+  def default_disk_device(server)
     raise "must implement"
   end
 
