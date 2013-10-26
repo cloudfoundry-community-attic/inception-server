@@ -1,5 +1,5 @@
 %w[microboshes microboshes/deployments deployments releases repos stemcells systems tmp bosh_cache].each do |dir|
-  directory "/var/vcap/store/#{dir}" do
+  directory "#{node.disk.dir}/#{dir}" do
     owner node.user.username
     group node.user.username
     mode "0755"
@@ -9,5 +9,5 @@
 end
 
 link "#{node["user"]["home"]}/.bosh_cache" do
-  to "/var/vcap/store/bosh_cache"
+  to "#{node.disk.dir}/bosh_cache"
 end
