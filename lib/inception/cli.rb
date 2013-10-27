@@ -5,6 +5,7 @@ require "json"
 
 # to prompt user for infrastructure choice/credentials
 require "cyoi/cli/provider"
+require "cyoi/cli/image"
 
 # for the #sh helper
 require "rake"
@@ -30,6 +31,7 @@ module Inception
     def deploy
       migrate_old_settings
       configure_provider
+      configure_image
       prepare_deploy_settings
       perform_deploy
       converge_cookbooks
@@ -98,6 +100,16 @@ EOS
         provider_cli = Cyoi::Cli::Provider.new([settings_dir])
         provider_cli.execute!
         reload_settings!
+      end
+
+      def configure_image
+        save_settings!
+        image_cli = Cyoi::Cli::Image.new([settings_dir])
+        image_cli.execute!
+        reload_settings!
+        settings["inception"] ||= {}
+        settings["inception"]["image_id"] = settings.image.image_id
+        save_settings!
       end
 
       # update settings.git.name/git.email from local ~/.gitconfig if available

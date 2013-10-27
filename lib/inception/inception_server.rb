@@ -167,7 +167,7 @@ module Inception
     end
 
     def image_id
-      @attributes["image_id"] ||= @provider_client.image_id
+      @attributes["image_id"]
     end
 
     # The progresive/final attributes of the provisioned Inception server &

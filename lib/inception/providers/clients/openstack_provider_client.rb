@@ -66,10 +66,6 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
     volume
   end
 
-  def image_id
-    raise "Not yet implemented: add inception.image_id & inception.initial_user and re-run 'inception deploy'"
-  end
-
   def default_disk_device(server)
     if server_ephemeral_disk?(server)
       { "external" => "/dev/vdc", "internal" => "/dev/vdc" }
