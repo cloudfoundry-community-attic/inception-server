@@ -80,6 +80,7 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
   def setup_fog_connection
     configuration = Fog.symbolize_credentials(attributes.credentials)
     configuration[:provider] = "OpenStack"
+    configuration.delete(:openstack_region) unless configuration[:openstack_region].strip.size > 0
     @fog_compute = Fog::Compute.new(configuration)
   end
 
