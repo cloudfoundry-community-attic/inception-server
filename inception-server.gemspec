@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "highline"
   spec.add_dependency "escape"
   spec.add_dependency "json"
+  spec.add_dependency "faraday_middleware"
   spec.add_dependency "readwritesettings", "~> 3.0"
 
   # for inception/providers
