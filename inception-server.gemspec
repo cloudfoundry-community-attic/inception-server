@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
 
   # for inception/providers
   spec.add_dependency "fog"
-  spec.add_dependency "cyoi", "~> 0.6.0" # choose your own infrastructure
+  spec.add_dependency "cyoi"
 
   # for running cookbooks on inception server
   spec.add_dependency "knife-solo", "~> 0.3.0"
