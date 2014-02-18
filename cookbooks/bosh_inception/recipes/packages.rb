@@ -12,9 +12,6 @@ include_recipe "apt"
 %w[
   build-essential libsqlite3-dev curl rsync git-core
   libmysqlclient-dev libxml2-dev libxslt-dev libpq-dev libsqlite3-dev libcurl4-gnutls-dev
-  runit
-  genisoimage
-  debootstrap kpartx qemu-kvm
   whois
   tmux
   vim
