@@ -10,7 +10,7 @@
 include_recipe "chruby::system"
 
 bash "Install bundler"  do
-  versioned_bundler = "bundler -v '>= 1.3.5'"
+  versioned_bundler = "bundler -v '>= 1.5.2'"
   code <<-BASH
     source /etc/profile.d/chruby.sh
     unset GEM_HOME
