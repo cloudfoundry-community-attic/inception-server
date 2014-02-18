@@ -2,7 +2,7 @@
 
 default["disk"]["mounted"] = false
 default["disk"]["device"] = "/dev/xvdf"
-default["disk"]["fstype"] = "btrfs"
+default["disk"]["fstype"] = "ext4"
 default["user"]["username"] = `users | head -n 1`.strip
 default["user"]["home"] = node.user.username == "root" ? "/root" : "/home/#{node["user"]["username"]}"
 default["disk"]["dir"] = "#{node.user.home}/bosh-workspace"
