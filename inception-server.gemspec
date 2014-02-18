@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "cyoi"
 
   # for running cookbooks on inception server
-  spec.add_dependency "knife-solo", "~> 0.3.0"
+  spec.add_dependency "knife-solo"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
@@ -39,6 +39,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
 
   # gems for the cookbook tests
-  spec.add_development_dependency "test-kitchen", "~> 1.0.0.beta.2"
+  spec.add_development_dependency "test-kitchen", "~> 1.2.1"
   spec.add_development_dependency "berkshelf"
 end

@@ -16,7 +16,7 @@ group :integration do
 end
 
 group :vagrant do
-  gem 'kitchen-vagrant', '~> 0.10.0'
+  gem 'kitchen-vagrant'
 end
 
 group :development do
