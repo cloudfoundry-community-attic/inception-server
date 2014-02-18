@@ -11,12 +11,14 @@ end
 # gem 'knife-solo', github: 'matschaffer/knife-solo'
 # gem 'knife-solo', github: 'drnic/knife-solo', branch: 'continue_connecting'
 
+gem "unf"
+
 group :integration do
   gem 'kitchen-ec2'
 end
 
 group :vagrant do
-  gem 'kitchen-vagrant', '~> 0.10.0'
+  gem 'kitchen-vagrant'
 end
 
 group :development do
