@@ -37,6 +37,7 @@ Gem::Specification.new do |spec|
 
   # gems for the ruby unit & integration tests
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec-fire"
 
   # gems for the cookbook tests
   spec.add_development_dependency "test-kitchen", "~> 1.2.1"
