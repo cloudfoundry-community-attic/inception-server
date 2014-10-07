@@ -46,5 +46,4 @@ RSpec.configure do |c|
     Fog::Mock.reset
   end
 
-  c.color_enabled = true
 end

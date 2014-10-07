@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in inception.gemspec
 gemspec
 
-cyoi = File.expand_path("../../cyoi", __FILE__)
+cyoi = File.expand_path("/Users/drnic/gems/cyoi")
 if File.directory?(cyoi)
   gem "cyoi", path: cyoi
 end
@@ -27,3 +27,6 @@ group :development do
   gem "guard-rspec"
 end
 
+group :test do
+  gem "activesupport", "~> 3.0"
+end
