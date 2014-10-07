@@ -8,7 +8,7 @@ if File.directory?(cyoi)
   gem "cyoi", path: cyoi
 end
 
-# gem 'knife-solo', github: 'matschaffer/knife-solo'
+gem 'knife-solo', github: 'matschaffer/knife-solo'
 # gem 'knife-solo', github: 'drnic/knife-solo', branch: 'continue_connecting'
 
 gem "unf"
