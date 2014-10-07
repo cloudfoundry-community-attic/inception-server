@@ -1,4 +1,5 @@
-# Inception Server for Bosh development
+Inception Server for Bosh development
+=====================================
 
 Create an inception server for Bosh-related development.
 
@@ -6,10 +7,10 @@ Includes a CLI for creating and preparing an inception server for deploying/deve
 
 The CLI will explain how to share access to an inception server with others. Also with the power of tmux, make it easy for 2+ people to view the same terminal and to leave long running jobs whilst you are disconnected.
 
-[![Build Status](https://travis-ci.org/drnic/inception-server.png?branch=master)](https://travis-ci.org/drnic/inception-server)
-[![Code Climate](https://codeclimate.com/github/drnic/inception-server.png)](https://codeclimate.com/github/drnic/inception-server)
+[![Build Status](https://travis-ci.org/drnic/inception-server.png?branch=master)](https://travis-ci.org/drnic/inception-server)[![Code Climate](https://codeclimate.com/github/drnic/inception-server.png)](https://codeclimate.com/github/drnic/inception-server)
 
-## Installation
+Installation
+------------
 
 ```
 git clone https://github.com/cloudfoundry-community/inception-server.git
@@ -25,7 +26,8 @@ The tool WILL be distributed as a RubyGem, but its currently not working in this
 $ gem install inception-server
 ```
 
-## Usage
+Usage
+-----
 
 This project includes both a standalone CLI to create an inception server or transform an existing VM into an inception server; and the internal Chef cookbooks that can be used outside of the CLI.
 
@@ -73,7 +75,7 @@ Provision inception server
 
 Created security group ssh
  -> opened ssh ports TCP 22..22 from IP range 0.0.0.0/0
-Booting m1.small Inception VM...
+Booting m3.medium Inception VM...
 Provisioning 16Gb persistent disk for inception VM...
 
 Prepare inception VM
@@ -97,15 +99,15 @@ $ inception deploy
 
 You have some options for accessing the inception server via SSH:
 
-* `inception ssh` - opens a simple terminal to the inception server
-* `inception tmux` - creates or attaches to a tmux session on the inception server
-* `inception share-ssh` - displays how anyone can setup their own ssh config to connect to the inception server without requiring this project to be installed (nor requiring Ruby installed)
+-	`inception ssh` - opens a simple terminal to the inception server
+-	`inception tmux` - creates or attaches to a tmux session on the inception server
+-	`inception share-ssh` - displays how anyone can setup their own ssh config to connect to the inception server without requiring this project to be installed (nor requiring Ruby installed)
 
 ### Chef cookbook usage - remote VM
 
 This project includes a `bosh_inception` Chef cookbook.
 
-You can apply the cookbook to a preexisting remote VM using [knife solo](http://matschaffer.github.io/knife-solo/ "knife-solo"):
+You can apply the cookbook to a preexisting remote VM using [knife solo](http://matschaffer.github.io/knife-solo/):
 
 ```
 $ bundle
@@ -124,7 +126,8 @@ You can also apply the cookbooks to the local VM (or a remote VM that you've she
 
 See `cookbooks/bosh_inception/attributes/default.rb` for available JSON overrides.
 
-## Development
+Development
+-----------
 
 One half of the functionality is in a Chef cookbook `bosh_inception`. To load this cookbook into a Vagrant VM and run a series of integration tests (via `test-kitchen`):
 
@@ -134,10 +137,11 @@ $ kitchen test virtualbox
 $ kitchen test vmware # if you have vagrant vmware plugin
 ```
 
-## Contributing
+Contributing
+------------
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1.	Fork it
+2.	Create your feature branch (`git checkout -b my-new-feature`)
+3.	Commit your changes (`git commit -am 'Add some feature'`)
+4.	Push to the branch (`git push origin my-new-feature`)
+5.	Create new Pull Request
