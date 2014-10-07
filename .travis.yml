@@ -3,7 +3,7 @@ language: ruby
 script: bundle exec rake spec:$SUITE
 bundler_args: --without=vagrant
 rvm:
-- ruby-1.9.3
+  - ruby-2.1.3
 notifications:
   email:
     recipients:
