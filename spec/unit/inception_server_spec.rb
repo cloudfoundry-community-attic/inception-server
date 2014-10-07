@@ -44,7 +44,7 @@ describe Inception::InceptionServer do
     end
 
     it "has default flavor" do
-      subject.flavor.should == "m1.small"
+      subject.flavor.should == "m3.medium"
     end
 
     it "has default disk size" do

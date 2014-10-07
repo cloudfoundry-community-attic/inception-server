@@ -4,7 +4,6 @@ module Inception
   class InceptionServer
 
     DEFAULT_SERVER_NAME = "inception"
-    DEFAULT_FLAVOR = "m1.small"
     DEFAULT_DISK_SIZE = 16
     DEFAULT_SECURITY_GROUPS = ["ssh"]
 
@@ -29,7 +28,7 @@ module Inception
     #     "name" => "inception",
     #     "ip_address" => "54.214.15.178",
     #     "security_groups" => ["ssh"],
-    #     "flavor" => "m1.small",
+    #     "flavor" => "m3.medium",
     #     "key_pair" => {
     #       "name" => "inception",
     #       "private_key" => "private_key",
@@ -89,7 +88,7 @@ module Inception
       provisioned.delete("server_id")
       provisioned.delete("username")
     end
-    
+
     def delete_volume
       volume_id = provisioned.exists?("disk_device.volume_id")
       if volume_id && (volume = fog_compute.volumes.get(volume_id)) && volume.ready?
@@ -102,7 +101,7 @@ module Inception
       end
       provisioned.delete("disk_device")
     end
-    
+
     def delete_key_pair
       key_pair_name = attributes.exists?("key_pair.name")
       if key_pair_name && key_pair = fog_compute.key_pairs.get(key_pair_name)
@@ -113,7 +112,7 @@ module Inception
       end
       attributes.delete("key_pair")
     end
-    
+
 
     def release_ip_address
       public_ip = provisioned.exists?("ip_address")
@@ -150,7 +149,7 @@ module Inception
     # Flavor/instance type of the server to be provisioned
     # TODO: DEFAULT_FLAVOR should become IaaS/provider specific
     def flavor
-      @attributes["flavor"] ||= DEFAULT_FLAVOR
+      @attributes["flavor"] ||= @provider_client.default_flavor
     end
 
     # Size of attached persistent disk for the inception server

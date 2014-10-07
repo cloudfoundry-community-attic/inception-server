@@ -45,9 +45,9 @@ describe "AWS deployment" do
     end
 
     it "provisions inception server" do
-      settings.inception.flavor.should == "m1.small"
+      settings.inception.flavor.should == "m3.medium"
       settings.inception.disk_size.should == 16
-      settings.inception.image_id.should == "ami-bf1d8a8f" # us-west-2 13.04 AMI
+      settings.inception.image_id.should == "ami-37501207" # us-west-2 14.04 AMI
       settings.inception.security_groups.should == ["ssh"]
 
       settings.inception.provisioned.username.should == "ubuntu"

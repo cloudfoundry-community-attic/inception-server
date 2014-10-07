@@ -18,7 +18,9 @@ describe Inception::InceptionServerCookbook do
   end
 
   let(:settings_dir) { File.expand_path("~/.inception_server") }
-  let(:inception_server) { mock(user_host: "user@host", private_key_path: "path/to/key") }
+  let(:inception_server) do
+    instance_double("Inception::InceptionServer", user_host: "user@host", private_key_path: "path/to/key")
+  end
   subject { Inception::InceptionServerCookbook.new(inception_server, settings, settings_dir) }
 
   describe "in prepared settings dir" do

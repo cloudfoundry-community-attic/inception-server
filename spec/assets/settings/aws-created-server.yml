@@ -14,7 +14,7 @@ inception:
     private_key: private_key
   extensions:
     - mosh
-  size: m1.small
+  size: m3.medium
   disk_size: 16
   provisioned:
     ip_address: 54.214.15.178

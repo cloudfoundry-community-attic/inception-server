@@ -51,6 +51,10 @@ class Inception::Providers::Clients::OpenStackProviderClient < Inception::Provid
     fog_compute.flavors.get(server.flavor["id"])
   end
 
+  def default_flavor
+    "m1.small"
+  end
+
   def server_ephemeral_disk?(server)
     server_flavor(server).ephemeral > 0
   end

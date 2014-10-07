@@ -31,6 +31,10 @@ class Inception::Providers::Clients::AwsProviderClient < Inception::Providers::C
     Fog::Compute::AWS::FLAVORS
   end
 
+  def default_flavor
+    "m3.medium"
+  end
+
   def aws_compute_flavor_ids
     aws_compute_flavors.map { |fl| fl[:id] }
   end
