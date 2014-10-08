@@ -11,8 +11,3 @@ load discover_user
   run su - $TEST_USER -c "cd /home/vagrant/bosh-workspace/systems; bundle exec bosh-bootstrap"
   [ "$status" -eq 0 ]
 }
-
-@test "bosh-cloudfoundry installed" {
-  run su - $TEST_USER -c "cd /home/vagrant/bosh-workspace/systems; bundle exec bosh cf"
-  [ "$status" -eq 0 ]
-}

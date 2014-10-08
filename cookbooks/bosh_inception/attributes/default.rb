@@ -9,9 +9,8 @@ default["disk"]["dir"] = "#{node.user.home}/bosh-workspace"
 default["git"]["name"] = "Nobody"
 default["git"]["email"] = "nobody@in-the-house.com"
 
-default["chruby"]["rubies"]["1.9.3-p392"] = false
-default["chruby"]["rubies"]["1.9.3-p429"] = true
-default["chruby"]["default"] = "1.9.3-p429"
+default["chruby"]["rubies"]["2.1.3"] = true
+default["chruby"]["default"] = "2.1.3"
 
 # Pass in credentials to be dropped into a ~/.fog file
 # They will be automatically converted to symbolized keys
