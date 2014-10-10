@@ -5,7 +5,7 @@ default["disk"]["device"] = "/dev/xvdf"
 default["disk"]["fstype"] = "ext4"
 default["user"]["username"] = `users | head -n 1`.strip
 default["user"]["home"] = node.user.username == "root" ? "/root" : "/home/#{node["user"]["username"]}"
-default["disk"]["dir"] = "#{node.user.home}/bosh-workspace"
+default["disk"]["dir"] = "#{node.user.home}/workspace"
 default["git"]["name"] = "Nobody"
 default["git"]["email"] = "nobody@in-the-house.com"
 

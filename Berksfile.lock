@@ -1,32 +1,36 @@
-{
-  "sources": {
-    "apt": {
-      "locked_version": "1.9.2"
-    },
-    "user": {
-      "locked_version": "0.3.0"
-    },
-    "sudo": {
-      "locked_version": "2.1.2"
-    },
-    "hub": {
-      "locked_version": "1.0.4",
-      "git": "git://github.com/drnic/chef-hub.git",
-      "ref": "bbfe752f3f12c4c6e1270c0e838098a8155f1385"
-    },
-    "chruby": {
-      "locked_version": "0.2.1",
-      "git": "git://github.com/Atalanta/chef-chruby.git",
-      "ref": "1942bf895b30b6173249d2a50f35e8efca1afc08"
-    },
-    "bosh_inception": {
-      "path": "./cookbooks/bosh_inception"
-    },
-    "ark": {
-      "locked_version": "0.3.2"
-    },
-    "ruby_build": {
-      "locked_version": "0.8.0"
-    }
-  }
-}
+DEPENDENCIES
+  apt
+  bosh_inception
+    path: cookbooks/bosh_inception
+  chruby
+    git: git://github.com/Atalanta/chef-chruby.git
+    revision: 1942bf895b30b6173249d2a50f35e8efca1afc08
+    ref: 1942bf8
+  hub
+    git: git://github.com/drnic/chef-hub.git
+    revision: bbfe752f3f12c4c6e1270c0e838098a8155f1385
+  sudo
+  user
+
+GRAPH
+  7-zip (1.0.2)
+    windows (>= 1.2.2)
+  apt (2.6.0)
+  ark (0.9.0)
+    7-zip (>= 0.0.0)
+    windows (>= 0.0.0)
+  bosh_inception (0.1.0)
+    apt (>= 0.0.0)
+    chruby (>= 0.0.0)
+    hub (>= 0.0.0)
+    sudo (>= 0.0.0)
+  chef_handler (1.1.6)
+  chruby (0.2.1)
+    ark (>= 0.0.0)
+    ruby_build (>= 0.0.0)
+  hub (1.0.4)
+  ruby_build (0.8.0)
+  sudo (2.7.1)
+  user (0.3.0)
+  windows (1.34.6)
+    chef_handler (>= 0.0.0)
